@@ -161,16 +161,10 @@
                 
                 <!-- <div><a href="{% url 'houjin1:logout' %}">ログアウト</a></div> -->
 
-                <div style="width: 400px;">
-                    {{test}}
-                    <form action="{% url 'houjin1:upload' %}" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="class1">
-                        <input class="form-control" type="file" name="excel" value="" required>
-                        <input type="submit" name="btn_upload" value="取込" style="margin-left: 20px;">
-                    </div>
-                    </form>
+                <div>
+                    <a href="/houjin1/csv.html"><button>CSV取込</button></a> 
                 </div>
+                
 
             </div>
         </header>
