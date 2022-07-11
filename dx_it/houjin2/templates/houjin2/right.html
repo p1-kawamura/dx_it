@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>houjin2_right</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        .class1 {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .main{
+            padding: 0.5em 1em;
+            margin: 0 auto;
+            margin-top: 0.5em;
+            /* color: rgb(71, 71, 71); */
+            background: #FFF;
+            border: solid 1px #0b5f1a;
+            border-radius: 10px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.22);
+            width: 380px;
+            box-shadow: 0 0 3px 3px #0e7722;
+            /* box-shadow: 0 0 2px 2px #0e7722, 0 0 1px 1px #0e7722 inset; */
+        }
+        .data{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .name{
+            width: 85px;
+            text-align: right;
+        }
+        .data-code{
+            width: calc(340px - 100px);
+        }
+    </style>
+
+</head>
+<body>
+    <div class="main mb-4">
+
+        <div>
+            <form action="" method="post" target="ifr1">{% csrf_token %}
+                <div class="class1">
+                    <div class="class1" style="width: 50%;" align="left">
+                        <div>担当：</div>
+                        <div>{{form.tantou}}</div>
+                    </div>
+                    <div style="width: 50%;" align="right" >
+                        <button type="submit" class="btn btn-success">更新</button>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <table>
+                        <tr>
+                            <td style="text-align: right;">DM：</td>
+                            <td>{{form.dm_day}}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">TEL：</td>
+                            <td>{{form.tel_day}}</td>
+                        </tr>
+                        <tr>
+                            <td>外商：</td>
+                            <td>{{form.gaisho_day}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="mt-3" >
+                    <div>備考：</div>
+                    <div>{{form.bikou}}</div>
+                </div>
+            </form>       
+        </div>
+        <hr>
+        
+        {% for i in cus %}
+        <form action="{% url 'houjin2:delete' %}" method="post" target="_top">{% csrf_token %}
+            <div class="class1 mt-3">
+                <div style="margin-left: 20px;">
+                    <label for="cus_id">顧客ID：</label>
+                    <input type="text" name="cus_id" id="cus_id" value="{{i.cus_id}}" style="width: 100px;" readonly>
+                </div>               
+                <div style="margin-left: 15px;">
+                    <button type="submit" class="btn btn-secondary btn-sm" onclick="return confirm('本当に削除しますか？')">削除</button> 
+                </div>
+            </div>
+        </form>
+        <hr>
+        <div style="font-size: 0.9em;">
+            <div class="data">
+                <div class="name">会社名：</div>
+                {% if i.com %}
+                    <div class="data-code">{{i.com}}</div>
+                {% endif %}
+            </div>
+            <div class="data">
+                <div class="name">部課名：</div>
+                {% if i.com %}
+                <div class="data-code">{{i.busho}}</div>
+                {% endif %}
+            </div>
+            <div class="data">
+                <div class="name">氏名：</div>
+                {% if i.com %}
+                <div class="data-code">{{i.sei}} {{i.mei}}（{{i.sei_kana}} {{i.mei_kana}}）</div>
+                {% endif %}
+            </div>
+
+            <div class="data mt-3">
+                <div class="name">郵便番号：</div>
+                {% if i.com %}
+                    <div class="data-code">{{i.yubin}}</div>
+                {% endif %}
+            </div>
+            <div class="data">
+                <div class="name">住所：</div>
+                {% if i.com %}
+                    <div class="data-code">{{i.pref}}{{i.city}}{{i.banchi}}{{i.build}}</div>
+                {% endif %}
+            </div>
+
+            <div class="data mt-3">
+                <div class="name">TEL：</div>
+                {% if i.com %}
+                    <div class="data-code">{{i.tel}}</div>
+                {% endif %}
+            </div>
+            <div class="data">
+                <div class="name">携帯：</div>
+                {% if i.com %}
+                    <div class="data-code">{{i.mob}}</div>
+                {% endif %}
+            </div>
+            <div class="data">
+                <div class="name">FAX：</div>
+                {% if i.com %}
+                    <div class="data-code">{{i.fax}}</div>
+                {% endif %}
+            </div>
+
+            <div class="data mt-3">
+                <div class="name">メール1：</div>
+                {% if i.com %}
+                    <div class="data-code">{{i.mail1}}</div>
+                {% endif %}
+            </div>
+            <div class="data">
+                <div class="name">メール2：</div>
+                {% if i.com %}
+                    <div class="data-code">{{i.mail2}}</div>
+                {% endif %}
+            </div>
+            <div class="data">
+                <div class="name">メール3：</div>
+                {% if i.com %}
+                    <div class="data-code">{{i.mail3}}</div>
+                {% endif %}
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

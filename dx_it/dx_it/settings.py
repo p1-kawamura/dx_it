@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'houjin1',
+    'houjin2',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,5 @@ LOGIN_REDIRECT_URL = 'houjin1:index'
 LOGOUT_REDIRECT_URL = 'houjin1:login'
 
 SESSION_SAVE_EVERY_REQUEST = True
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
