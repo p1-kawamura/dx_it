@@ -3,6 +3,7 @@ from .models import Customer,Recieve,Item
 from django.contrib.auth.decorators import login_required
 import io
 import csv
+from .forms import Right_form
 
 
 @login_required
@@ -154,7 +155,72 @@ def upload(request):
 
 
 
- 
+@login_required
+def v2_index(request):
+    return render(request,"houjin1/v2_index.html")
+
+
+def v2_top(request):
+    return render(request,"houjin1/v2_top.html")
+
+
+def v2_left(request):
+    if "hyouji" in request.session:
+        hyouji=request.session["hyouji"]
+    else:
+        request.session["hyouji"]="全て"
+        hyouji="全て"
+
+    if hyouji=="全て":
+        cusms=Customer.objects.all()
+    else:
+        cusms=Customer.objects.filter(tantou=hyouji)
+
+    return render(request,"houjin1/v2_left.html",{"cusms":cusms})
+
+
+def v2_right(request):
+    form=Right_form()
+    return render(request,"houjin1/v2_right.html",{"form":form})
+
+
+def v2_right1(request,pk):
+    if request.method=="POST":
+        ins=Customer.objects.get(pk=pk)
+        form=Right_form(request.POST,instance=ins)
+        form.save()
+        return redirect("houjin1:v2_left")
+    else:
+        ins=Customer.objects.get(pk=pk)
+        cus=Customer.objects.filter(pk=pk)
+        form=Right_form(instance=ins)
+        return render(request,"houjin1/v2_right.html",{"form":form,"cus":cus})
+
+
+def v2_hyouji_all(request):
+    request.session["hyouji"]="全て"
+    return redirect("houjin1:v2_left")
+
+def v2_hyouji_inoue(request):
+    request.session["hyouji"]="井上"
+    return redirect("houjin1:v2_left")
+
+def v2_hyouji_furukawa(request):
+    request.session["hyouji"]="古川"
+    return redirect("houjin1:v2_left")
+
+def v2_hyouji_mashimo(request):
+    request.session["hyouji"]="眞下"
+    return redirect("houjin1:v2_left")
+
+
+def v2_delete(request):
+    if request.method=="POST":
+        cus_id=request.POST["cus_id"]
+        Customer.objects.get(cus_id=cus_id).delete()
+        return redirect("houjin1:v2_index")
+
+
 
 
 # def upload2(request):

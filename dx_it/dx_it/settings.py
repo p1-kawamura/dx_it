@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'houjin1',
-    'houjin2',
 ]
 
 MIDDLEWARE = [

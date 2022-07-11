@@ -1,5 +1,5 @@
 from django import forms
-from houjin1.models import Customer
+from .models import Customer
 
 class Right_form(forms.ModelForm):
     tantou=forms.ChoiceField(
