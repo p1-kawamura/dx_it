@@ -17,41 +17,65 @@
 		display: flex;
         flex-direction: row;
 	}
+	#menu ul{
+        margin: 0; 
+        padding: 0; 
+        list-style: none;
+    }
+
+    #menu li{ 
+        display: inline; 
+        padding: 0; 
+        margin: 0; 
+        float: left;
+    }
+
+    #menu li a{
+        display: block; 
+        border: 1px solid #04992c;
+        background-color: rgb(197, 249, 206);
+        padding: 3px;
+        text-decoration: none;
+        color: #333;
+        width: 100px; 
+        margin: 1px;
+        text-align: center;
+        font-size: 14px;
+    }
+    #menu li a:hover{
+        background-color: #04992c;
+        color: #fff;
+    }
+
     </style>
 
 </head>
-<body>
-        <div class="class1 mt-5">
-			
-			<div>
-				<ul class="nav nav-tabs">
-				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="#">Active</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Link</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Link</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-				</li>
-				</ul>
-			</div>
-			
-			<div style="width: 400px; margin-left: 200px;">
-				{{test}}
-				<form action="{% url 'houjin2:upload' %}" method="POST" enctype="multipart/form-data">
-				{% csrf_token %}
-				<div class="class2">
-					<input class="form-control" type="file" name="excel" value="" required>
-					<input type="submit" name="btn_upload" value="取込" style="margin-left: 20px;">
-				</div>
-				</form>
-			</div>
+<body>		
+	<header>
+		<div class="class1 mt-5 mb-2">
 
-        </div>
+			<div id="menu">
+				<ul>
+				<li><a href="{% url 'houjin2:hyouji_all' %}" target="ifr1">全て表示</a></li>
+				<li><a href="{% url 'houjin2:hyouji_inoue' %}" target="ifr1">井上</a></li>
+				<li><a href="{% url 'houjin2:hyouji_furukawa' %}" target="ifr1">古川</a></li>
+				<li><a href="{% url 'houjin2:hyouji_mashimo' %}" target="ifr1">眞下</a></li>
+				</ul> 
+			</div>
+			
+			<!-- <div><a href="{% url 'houjin1:logout' %}">ログアウト</a></div> -->
+
+			<!-- <div>
+				<a href="{% url 'houjin1:csv_page' %}"><button class="btn btn-secondary">CSV取込</button></a> 
+			</div> -->
+
+			<div style="margin-left: 200px;">
+				<a href="{% url 'houjin1:index' %}" target="_top">バージョン1へ</a>
+			</div>
+			
+
+		</div>
+	</header>
 
 </body>
 </html>

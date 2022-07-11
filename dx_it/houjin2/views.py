@@ -3,9 +3,10 @@ import io
 import csv
 from houjin1.models import Customer,Recieve,Item
 from .forms import Right_form
+from django.contrib.auth.decorators import login_required
 
 
-
+@login_required
 def index(request):
     return render(request,"houjin2/index.html")
 
@@ -15,7 +16,17 @@ def top(request):
 
 
 def left(request):
-    cusms=Customer.objects.all()
+    if "hyouji" in request.session:
+        hyouji=request.session["hyouji"]
+    else:
+        request.session["hyouji"]="全て"
+        hyouji="全て"
+
+    if hyouji=="全て":
+        cusms=Customer.objects.all()
+    else:
+        cusms=Customer.objects.filter(tantou=hyouji)
+
     return render(request,"houjin2/left.html",{"cusms":cusms})
 
 
@@ -35,6 +46,23 @@ def right1(request,pk):
         cus=Customer.objects.filter(pk=pk)
         form=Right_form(instance=ins)
         return render(request,"houjin2/right.html",{"form":form,"cus":cus})
+
+
+def hyouji_all(request):
+    request.session["hyouji"]="全て"
+    return redirect("houjin2:left")
+
+def hyouji_inoue(request):
+    request.session["hyouji"]="井上"
+    return redirect("houjin2:left")
+
+def hyouji_furukawa(request):
+    request.session["hyouji"]="古川"
+    return redirect("houjin2:left")
+
+def hyouji_mashimo(request):
+    request.session["hyouji"]="眞下"
+    return redirect("houjin2:left")
 
 
 def delete(request):
