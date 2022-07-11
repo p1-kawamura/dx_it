@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
 from .models import Customer,Recieve,Item
-# import openpyxl
 from django.contrib.auth.decorators import login_required
 import io
 import csv

@@ -157,4 +157,4 @@ def upload(request):
         h+=1
 
 
-    return redirect("houjin1:index")
+    return redirect("houjin2:index")
