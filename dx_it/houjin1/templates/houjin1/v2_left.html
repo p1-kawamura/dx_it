@@ -153,7 +153,7 @@
                 <div style="display: none;">
                     {% for rec in cus.recieve_set.all %}
                         <hr>
-                        {% if rec.rec_day != "None" %}
+                        {% if rec.rec_day %}
                         <div class="detail3">
                         {% else %}
                         <div class="detail2">
