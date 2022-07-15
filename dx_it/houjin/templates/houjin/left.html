@@ -194,6 +194,7 @@
             {% endfor %}
             
             <!-- ＜bootstrapバージョン＞ -->
+            <div id="page_ichi">
             <nav aria-label="Page navigation example">
                 <ul class="pagination mt-4">
 
@@ -217,7 +218,7 @@
     
                 </ul>
             </nav>
-            
+            </div>
         </div>
 
             
@@ -260,6 +261,12 @@
                 mae=this;
             },false);
         }
+
+        // ページ移動前
+        var page = document.getElementById("page_ichi");
+        page.addEventListener('click',function(){
+            scrollTo(0, 0);
+        })
 
 
         // スクロールの位置
