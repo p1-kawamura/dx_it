@@ -85,6 +85,9 @@
         border: 1px solid #bbb;
         border-radius: 5px; 
     }
+    .pagination{
+        justify-content: center;
+    }
 </style>
 </head>
 <body>
@@ -190,12 +193,9 @@
             </div>
             {% endfor %}
             
-            
-        </div>
-        <div class="mt-4" style="width: 90%; margin: 0 auto;">
             <!-- ＜bootstrapバージョン＞ -->
             <nav aria-label="Page navigation example">
-                <ul class="pagination">
+                <ul class="pagination mt-4">
 
                 {% if data.has_previous %}
                 <li class="page-item"><a class="page-link" href="{% url 'houjin:left' %}">最初へ</a></li>
@@ -217,7 +217,10 @@
     
                 </ul>
             </nav>
+            
         </div>
+
+            
 
     
     <script>
