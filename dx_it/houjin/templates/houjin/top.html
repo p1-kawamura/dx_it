@@ -16,37 +16,14 @@
 	.class2{
 		display: flex;
         flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
 	}
-	#menu ul{
-        margin: 0; 
-        padding: 0; 
-        list-style: none;
+    .class2 .child2{
+        margin-right:0.8em;
+        margin-left: 0.2em;
     }
-
-    #menu li{ 
-        display: inline; 
-        padding: 0; 
-        margin: 0; 
-        float: left;
-    }
-
-    #menu li a{
-        display: block; 
-        border: 1px solid #04992c;
-        background-color: rgb(197, 249, 206);
-        padding: 3px;
-        text-decoration: none;
-        color: #333;
-        width: 100px; 
-        margin: 1px;
-        text-align: center;
-        font-size: 14px;
-    }
-    #menu li a:hover{
-        background-color: #04992c;
-        color: #fff;
-    }
-
+	
     </style>
 
 </head>
@@ -54,19 +31,11 @@
 	<header>
 		<div class="class1 mt-5 mb-2">
 
-			<div id="menu">
-				<ul>
-				<li><a href="{% url 'houjin:hyouji_all' %}" target="ifr1">全て表示</a></li>
-				<li><a href="{% url 'houjin:hyouji_inoue' %}" target="ifr1">井上</a></li>
-				<li><a href="{% url 'houjin:hyouji_furukawa' %}" target="ifr1">古川</a></li>
-				<li><a href="{% url 'houjin:hyouji_mashimo' %}" target="ifr1">眞下</a></li>
-				</ul> 
-			</div>
-
-            <div style="margin-left: 200px;">
-                <form action="{% url 'houjin:hyouji' %}" method="post" target="ifr1">{% csrf_token %}
-                    <label for="tantou">担当者：</label>
-                    <select name="tantou" id="tantou">
+            <form action="{% url 'houjin:hyouji' %}" method="post" target="ifr1">{% csrf_token %}
+                <div class="class2">               
+                    <div>担当者：</div>
+                    <div class="child2">
+                    <select class="form-select" name="tantou">
                         <option>全て表示</option>
                         <option>井上</option>
                         <option>古川</option>
@@ -77,9 +46,10 @@
                         <option>粂川</option>
                         <option>担当無し</option>
                     </select>
-                    <button type="submit">表示</button>
-                </form>
-            </div>
+                    </div>
+                    <div><button class="btn btn-secondary btn-sm" type="submit">表示</button></div>
+                </div>
+            </form>
 			
 			<!-- <div><a href="{% url 'houjin:logout' %}">ログアウト</a></div> -->
 

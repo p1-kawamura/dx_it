@@ -25,6 +25,8 @@ def left(request):
 
     if hyouji=="全て表示":
         cusms=Customer.objects.all()
+    elif hyouji=="担当無し":
+        cusms=Customer.objects.filter(tantou__isnull=True)
     else:
         cusms=Customer.objects.filter(tantou=hyouji)
 
