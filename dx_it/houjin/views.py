@@ -57,22 +57,6 @@ def hyouji(request):
     return redirect("houjin:left")
 
 
-def hyouji_all(request):
-    request.session["hyouji"]="全て"
-    return redirect("houjin:left")
-
-def hyouji_inoue(request):
-    request.session["hyouji"]="井上"
-    return redirect("houjin:left")
-
-def hyouji_furukawa(request):
-    request.session["hyouji"]="古川"
-    return redirect("houjin:left")
-
-def hyouji_mashimo(request):
-    request.session["hyouji"]="眞下"
-    return redirect("houjin:left")
-
 
 def delete(request):
     if request.method=="POST":
