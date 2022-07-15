@@ -6,8 +6,17 @@ import csv
 from .forms import Right_form
 
 
+
 @login_required
 def index(request):
+    return render(request,"houjin/index.html")
+
+
+def top(request):
+    return render(request,"houjin/top.html")
+
+
+def left(request):
     if "hyouji" in request.session:
         hyouji=request.session["hyouji"]
     else:
@@ -19,53 +28,55 @@ def index(request):
     else:
         cusms=Customer.objects.filter(tantou=hyouji)
 
-    return render(request,"houjin1/index.html",{"cusms":cusms})
+    return render(request,"houjin/left.html",{"cusms":cusms})
+
+
+def right(request):
+    form=Right_form()
+    return render(request,"houjin/right.html",{"form":form})
+
+
+def right1(request,pk):
+    if request.method=="POST":
+        ins=Customer.objects.get(pk=pk)
+        form=Right_form(request.POST,instance=ins)
+        form.save()
+        return redirect("houjin:left")
+    else:
+        ins=Customer.objects.get(pk=pk)
+        cus=Customer.objects.filter(pk=pk)
+        form=Right_form(instance=ins)
+        return render(request,"houjin/right.html",{"form":form,"cus":cus})
 
 
 def hyouji_all(request):
     request.session["hyouji"]="全て"
-    return redirect("houjin1:index")
+    return redirect("houjin:left")
 
 def hyouji_inoue(request):
     request.session["hyouji"]="井上"
-    return redirect("houjin1:index")
+    return redirect("houjin:left")
 
 def hyouji_furukawa(request):
     request.session["hyouji"]="古川"
-    return redirect("houjin1:index")
+    return redirect("houjin:left")
 
 def hyouji_mashimo(request):
     request.session["hyouji"]="眞下"
-    return redirect("houjin1:index")
+    return redirect("houjin:left")
 
 
-def koshin(request,pk):
-    tantou=request.POST.get("tantou")
-    dm=request.POST.get("dm")
-    tel=request.POST.get("tel")
-    gaisho=request.POST.get("gaisho")
-    bikou=request.POST.get("bikou")
-
-    result=Customer.objects.get(pk=pk)
-    result.tantou=tantou
-    result.dm_day=dm
-    result.tel_day=tel
-    result.gaisho_day=gaisho
-    result.bikou=bikou
-    result.save()
-
-    return redirect("houjin1:index")
-
-
-def delete(request,pk):
-    Customer.objects.get(pk=pk).delete()
-    return redirect("houjin1:index")
+def delete(request):
+    if request.method=="POST":
+        cus_id=request.POST["cus_id"]
+        Customer.objects.get(cus_id=cus_id).delete()
+        return redirect("houjin:index")
 
 
 def csv_page(request):
-    return render(request,"houjin1/csv.html")
+    return redirect("houjin:csv_page")
 
-
+    
 def upload(request):
     #顧客一覧
     data = io.TextIOWrapper(request.FILES['csv1'].file, encoding="cp932")
@@ -151,77 +162,7 @@ def upload(request):
         h+=1
 
 
-    return redirect("houjin1:index")
-
-
-
-@login_required
-def v2_index(request):
-    return render(request,"houjin1/v2_index.html")
-
-
-def v2_top(request):
-    return render(request,"houjin1/v2_top.html")
-
-
-def v2_left(request):
-    if "hyouji" in request.session:
-        hyouji=request.session["hyouji"]
-    else:
-        request.session["hyouji"]="全て"
-        hyouji="全て"
-
-    if hyouji=="全て":
-        cusms=Customer.objects.all()
-    else:
-        cusms=Customer.objects.filter(tantou=hyouji)
-
-    return render(request,"houjin1/v2_left.html",{"cusms":cusms})
-
-
-def v2_right(request):
-    form=Right_form()
-    return render(request,"houjin1/v2_right.html",{"form":form})
-
-
-def v2_right1(request,pk):
-    if request.method=="POST":
-        ins=Customer.objects.get(pk=pk)
-        form=Right_form(request.POST,instance=ins)
-        form.save()
-        return redirect("houjin1:v2_left")
-    else:
-        ins=Customer.objects.get(pk=pk)
-        cus=Customer.objects.filter(pk=pk)
-        form=Right_form(instance=ins)
-        return render(request,"houjin1/v2_right.html",{"form":form,"cus":cus})
-
-
-def v2_hyouji_all(request):
-    request.session["hyouji"]="全て"
-    return redirect("houjin1:v2_left")
-
-def v2_hyouji_inoue(request):
-    request.session["hyouji"]="井上"
-    return redirect("houjin1:v2_left")
-
-def v2_hyouji_furukawa(request):
-    request.session["hyouji"]="古川"
-    return redirect("houjin1:v2_left")
-
-def v2_hyouji_mashimo(request):
-    request.session["hyouji"]="眞下"
-    return redirect("houjin1:v2_left")
-
-
-def v2_delete(request):
-    if request.method=="POST":
-        cus_id=request.POST["cus_id"]
-        Customer.objects.get(cus_id=cus_id).delete()
-        return redirect("houjin1:v2_index")
-
-
-
+    return redirect("houjin:index")
 
 # def upload2(request):
 
