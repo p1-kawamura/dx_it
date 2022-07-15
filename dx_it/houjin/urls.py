@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index,top,left,right,right1,upload,delete,hyouji_all,hyouji_inoue,hyouji_furukawa,hyouji_mashimo,csv_page
+from .views import index,top,left,right,right1,upload,delete,hyouji,hyouji_all,hyouji_inoue,hyouji_furukawa,hyouji_mashimo,csv_page
 from django.contrib.auth import views as auth_views
 
 
@@ -11,6 +11,7 @@ urlpatterns = [
     path('right/', right, name="right"),
     path('right/<int:pk>/', right1, name="right1"),
     path('delete/', delete, name="delete"),
+    path('hyouji/', hyouji, name="hyouji"),
     path('hyouji_all/', hyouji_all, name="hyouji_all"),
     path('hyouji_inoue/', hyouji_inoue, name="hyouji_inoue"),
     path('hyouji_furukawa/', hyouji_furukawa, name="hyouji_furukawa"),

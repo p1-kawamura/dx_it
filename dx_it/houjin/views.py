@@ -20,10 +20,10 @@ def left(request):
     if "hyouji" in request.session:
         hyouji=request.session["hyouji"]
     else:
-        request.session["hyouji"]="全て"
-        hyouji="全て"
+        request.session["hyouji"]="全て表示"
+        hyouji="全て表示"
 
-    if hyouji=="全て":
+    if hyouji=="全て表示":
         cusms=Customer.objects.all()
     else:
         cusms=Customer.objects.filter(tantou=hyouji)
@@ -47,6 +47,12 @@ def right1(request,pk):
         cus=Customer.objects.filter(pk=pk)
         form=Right_form(instance=ins)
         return render(request,"houjin/right.html",{"form":form,"cus":cus})
+
+
+def hyouji(request):
+    tantou=request.POST["tantou"]
+    request.session["hyouji"]=tantou
+    return redirect("houjin:left")
 
 
 def hyouji_all(request):

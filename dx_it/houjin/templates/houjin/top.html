@@ -62,6 +62,24 @@
 				<li><a href="{% url 'houjin:hyouji_mashimo' %}" target="ifr1">眞下</a></li>
 				</ul> 
 			</div>
+
+            <div style="margin-left: 200px;">
+                <form action="{% url 'houjin:hyouji' %}" method="post" target="ifr1">{% csrf_token %}
+                    <label for="tantou">担当者：</label>
+                    <select name="tantou" id="tantou">
+                        <option>全て表示</option>
+                        <option>井上</option>
+                        <option>古川</option>
+                        <option>眞下</option>
+                        <option>夏八木</option>
+                        <option>藤井</option>
+                        <option>武井</option>
+                        <option>粂川</option>
+                        <option>担当無し</option>
+                    </select>
+                    <button type="submit">表示</button>
+                </form>
+            </div>
 			
 			<!-- <div><a href="{% url 'houjin:logout' %}">ログアウト</a></div> -->
 
