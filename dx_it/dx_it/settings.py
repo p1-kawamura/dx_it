@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'houjin1',
+    'houjin',
 ]
 
 MIDDLEWARE = [
@@ -122,9 +122,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 NUMBER_GROUPING = 3
 
-LOGIN_URL = 'houjin1:login'
-LOGIN_REDIRECT_URL = 'houjin1:index'
-LOGOUT_REDIRECT_URL = 'houjin1:login'
+LOGIN_URL = 'houjin:login'
+LOGIN_REDIRECT_URL = 'houjin:index'
+LOGOUT_REDIRECT_URL = 'houjin:login'
 
 SESSION_SAVE_EVERY_REQUEST = True
 
