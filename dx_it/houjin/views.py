@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 import io
 import csv
 from .forms import Right_form
+from django.core.paginator import Paginator
 
 
 
@@ -16,7 +17,7 @@ def top(request):
     return render(request,"houjin/top.html")
 
 
-def left(request):
+def left(request,num=1):
     if "hyouji" in request.session:
         hyouji=request.session["hyouji"]
     else:
@@ -30,7 +31,10 @@ def left(request):
     else:
         cusms=Customer.objects.filter(tantou=hyouji)
 
-    return render(request,"houjin/left.html",{"cusms":cusms})
+    pages=Paginator(cusms, 30)
+    data=pages.get_page(num)
+
+    return render(request,"houjin/left.html",{"data":data})
 
 
 def right(request):

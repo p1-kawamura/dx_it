@@ -8,6 +8,7 @@ urlpatterns = [
     path('', index, name="index"),  
     path('top/', top, name="top"),
     path('left/', left, name="left"),
+    path('left/<int:num>/', left, name="left"),
     path('right/', right, name="right"),
     path('right/<int:pk>/', right1, name="right1"),
     path('delete/', delete, name="delete"),

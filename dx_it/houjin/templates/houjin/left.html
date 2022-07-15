@@ -90,7 +90,7 @@
 <body>
         <div style="width: 90%; margin: 0 auto;">
 
-            {% for cus in cusms %}
+            {% for cus in data %}
             <div class="main">
                 <form action="{% url 'houjin:right1' cus.pk %}" target="ifr2">{% csrf_token %}</form>
                 <div class="class1">
@@ -189,7 +189,34 @@
 
             </div>
             {% endfor %}
+            
+            
+        </div>
+        <div class="mt-4" style="width: 90%; margin: 0 auto;">
+            <!-- ＜bootstrapバージョン＞ -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
 
+                {% if data.has_previous %}
+                <li class="page-item"><a class="page-link" href="{% url 'houjin:left' %}">最初へ</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'houjin:left' %}{{data.previous_page_number}}">前へ</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" pointer-events: none;>最初へ</a></li>
+                <li class="page-item"><a class="page-link" pointer-events: none;>前へ</a></li>
+                {% endif %}
+
+                <li class="page-item"><a class="page-link" pointer-events: none;>{{data.number}}/{{data.paginator.num_pages}}</a></li>
+                
+                {% if data.has_next %}
+                <li class="page-item"><a class="page-link" href="{% url 'houjin:left' %}{{data.next_page_number}}">次へ</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'houjin:left' %}{{data.paginator.num_pages}}">最後へ</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" pointer-events: none;>次へ</a></li>
+                <li class="page-item"><a class="page-link" pointer-events: none;>最後へ</a></li>
+                {% endif %}
+    
+                </ul>
+            </nav>
         </div>
 
     
