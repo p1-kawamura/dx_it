@@ -74,9 +74,9 @@ def delete(request):
 
 
 def csv_page(request):
-    return redirect("houjin:csv_page")
+    return render(request,"houjin/csv.html")
 
-    
+
 def upload(request):
     #顧客一覧
     data = io.TextIOWrapper(request.FILES['csv1'].file, encoding="cp932")

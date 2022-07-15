@@ -17,6 +17,6 @@ urlpatterns = [
     path('hyouji_mashimo/', hyouji_mashimo, name="hyouji_mashimo"),   
     path('upload/', upload, name="upload"),
     path('csv_page/', csv_page, name="csv_page"),
-    path('login/', auth_views.LoginView.as_view(template_name='houjin1/login.html'), name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='houjin/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
