@@ -14,7 +14,15 @@ def index(request):
 
 
 def top(request):
-    return render(request,"houjin/top.html")
+    if "hyouji" in request.session:
+        hyouji=request.session["hyouji"]
+    else:
+        request.session["hyouji"]="全て表示"
+        hyouji="全て表示"
+
+    list=["全て表示","井上","古川","眞下","夏八木","藤井","武井","粂川","担当なし"]
+    return render(request,"houjin/top.html",{"list":list,"hyouji":hyouji})
+
 
 
 def left(request,num=1):
@@ -58,7 +66,7 @@ def right1(request,pk):
 def hyouji(request):
     tantou=request.POST["tantou"]
     request.session["hyouji"]=tantou
-    return redirect("houjin:left")
+    return redirect("houjin:index")
 
 
 
