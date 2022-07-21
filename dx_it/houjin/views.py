@@ -10,6 +10,10 @@ from django.core.paginator import Paginator
 
 @login_required
 def index(request):
+    if "num" not in request.session:
+        request.session["num"]=1
+    if "all_num" not in request.session:
+        request.session["all_num"]=""
     return render(request,"houjin/index.html")
 
 
@@ -24,8 +28,7 @@ def top(request):
     return render(request,"houjin/top.html",{"list":list,"hyouji":hyouji})
 
 
-
-def left(request,num=1):
+def left(request):
     if "hyouji" in request.session:
         hyouji=request.session["hyouji"]
     else:
@@ -34,15 +37,53 @@ def left(request,num=1):
 
     if hyouji=="全て表示":
         cusms=Customer.objects.all()
-    elif hyouji=="担当無し":
+    elif hyouji=="担当なし":
         cusms=Customer.objects.filter(tantou__isnull=True)
     else:
         cusms=Customer.objects.filter(tantou=hyouji)
 
-    pages=Paginator(cusms, 30)
-    data=pages.get_page(num)
+    if cusms.count() % 30 == 0:
+        all_num=cusms.count() / 30
+    else:
+        all_num=cusms.count() // 30 + 1
+    
+    num=request.session["num"]
+    request.session["all_num"]=all_num
+    data=cusms[(num-1)*30 : num*30]
 
-    return render(request,"houjin/left.html",{"data":data})
+    params={
+        "num":num,
+        "all_num":all_num,
+        "data":data,
+    }
+
+    return render(request,"houjin/left.html",params)
+
+
+def page_prev(request):
+    num=request.session["num"]
+    if num-1 > 0:
+        request.session["num"] = num - 1
+    return redirect("houjin:index")
+
+
+def page_first(request):
+    request.session["num"] = 1
+    return redirect("houjin:index")
+
+
+def page_next(request):
+    num=request.session["num"]
+    all_num=request.session["all_num"]
+    if num+1 <= all_num:
+        request.session["num"] = num + 1
+    return redirect("houjin:index")
+
+
+def page_last(request):
+    all_num=request.session["all_num"]
+    request.session["num"]=all_num
+    return redirect("houjin:index")
 
 
 def right(request):
@@ -66,6 +107,7 @@ def right1(request,pk):
 def hyouji(request):
     tantou=request.POST["tantou"]
     request.session["hyouji"]=tantou
+    request.session["num"]=1
     return redirect("houjin:index")
 
 

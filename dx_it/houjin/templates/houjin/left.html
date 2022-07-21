@@ -197,24 +197,12 @@
             <div id="page_ichi">
             <nav aria-label="Page navigation example">
                 <ul class="pagination mt-4">
-
-                {% if data.has_previous %}
-                <li class="page-item"><a class="page-link" href="{% url 'houjin:left' %}">最初へ</a></li>
-                <li class="page-item"><a class="page-link" href="{% url 'houjin:left' %}{{data.previous_page_number}}">前へ</a></li>
-                {% else %}
-                <li class="page-item"><a class="page-link" pointer-events: none;>最初へ</a></li>
-                <li class="page-item"><a class="page-link" pointer-events: none;>前へ</a></li>
-                {% endif %}
-
-                <li class="page-item"><a class="page-link" pointer-events: none;>{{data.number}}/{{data.paginator.num_pages}}</a></li>
                 
-                {% if data.has_next %}
-                <li class="page-item"><a class="page-link" href="{% url 'houjin:left' %}{{data.next_page_number}}">次へ</a></li>
-                <li class="page-item"><a class="page-link" href="{% url 'houjin:left' %}{{data.paginator.num_pages}}">最後へ</a></li>
-                {% else %}
-                <li class="page-item"><a class="page-link" pointer-events: none;>次へ</a></li>
-                <li class="page-item"><a class="page-link" pointer-events: none;>最後へ</a></li>
-                {% endif %}
+                <li class="page-item"><a class="page-link" href="{% url 'houjin:page_first' %}" target="_top">最初へ</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'houjin:page_prev' %}" target="_top">前へ</a></li>
+                <li class="page-item"><a class="page-link" pointer-events: none;>{{num}}/{{all_num}}</a></li>               
+                <li class="page-item"><a class="page-link" href="{% url 'houjin:page_next' %}" target="_top">次へ</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'houjin:page_last' %}" target="_top">最後へ</a></li>
     
                 </ul>
             </nav>
