@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 import io
 import csv
 from .forms import Right_form
-from django.core.paginator import Paginator
+from django.db.models import Q
+
 
 
 
@@ -38,7 +39,7 @@ def left(request):
     if hyouji=="全て表示":
         cusms=Customer.objects.all()
     elif hyouji=="担当なし":
-        cusms=Customer.objects.filter(tantou__isnull=True)
+        cusms=Customer.objects.filter(Q(tantou__isnull=True)|Q(tantou=""))
     else:
         cusms=Customer.objects.filter(tantou=hyouji)
 

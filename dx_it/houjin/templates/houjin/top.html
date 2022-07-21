@@ -28,37 +28,44 @@
 
 </head>
 <body>		
-	<header>
-		<div class="class1 mt-5 mb-2">
+    <div class="class1 mt-5 mb-2">
 
-            <form action="{% url 'houjin:hyouji' %}" method="post" target="_top">{% csrf_token %}
-                <div class="class2">               
-                    <div>担当者：</div>
-                    <div class="child2">
-                    <select class="form-select" name="tantou">
-                        {% for tantou in list %}
-                            {% if tantou == hyouji %}
-                            <option value={{tantou}} selected>{{tantou}}</option>
-                            {% else %}
-                            <option value={{tantou}}>{{tantou}}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                    </div>
-                    <div><button class="btn btn-secondary btn-sm" type="submit">表示</button></div>
+        <form action="{% url 'houjin:hyouji' %}" method="post" target="_top">{% csrf_token %}
+            <div class="class2">               
+                <div>担当者：</div>
+                <div class="child2">
+                <select class="form-select" name="tantou">
+                    {% for tantou in list %}
+                        {% if tantou == hyouji %}
+                        <option value={{tantou}} selected>{{tantou}}</option>
+                        {% else %}
+                        <option value={{tantou}}>{{tantou}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
                 </div>
-            </form>
-			
-			<!-- <div><a href="{% url 'houjin:logout' %}">ログアウト</a></div> -->
+                <div id="hyouji_btn"><button class="btn btn-secondary btn-sm" type="submit">表示</button></div>
+            </div>
+        </form>
+        
+        <!-- <div><a href="{% url 'houjin:logout' %}">ログアウト</a></div> -->
 
-			<!-- <div>
-				<a href="{% url 'houjin:csv_page' %}" target="_top"><button class="btn btn-secondary">CSV取込</button></a> 
-			</div> -->
+        <!-- <div>
+            <a href="{% url 'houjin:csv_page' %}" target="_top"><button class="btn btn-secondary">CSV取込</button></a> 
+        </div> -->
 
-			
+    </div>
 
-		</div>
-	</header>
+    <script>
+        var hyouji=document.getElementById("hyouji_btn");
+        var positionY;					/* スクロール位置のY座標 */
+        var STORAGE_KEY = "scrollY";
+
+        hyouji.addEventListener("click",function(){
+            positionY = 0;
+            localStorage.setItem(STORAGE_KEY, positionY);
+        })
+    </script>
 
 </body>
 </html>
