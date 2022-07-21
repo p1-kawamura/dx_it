@@ -28,26 +28,54 @@
 
 </head>
 <body>		
-    <div class="class1 mt-5 mb-2">
-
-        <form action="{% url 'houjin:hyouji' %}" method="post" target="_top">{% csrf_token %}
-            <div class="class2">               
-                <div>担当者：</div>
-                <div class="child2">
-                <select class="form-select" name="tantou">
-                    {% for tantou in list %}
-                        {% if tantou == hyouji %}
-                        <option value={{tantou}} selected>{{tantou}}</option>
-                        {% else %}
-                        <option value={{tantou}}>{{tantou}}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
+    <div class="class1 mt-2 mb-2">
+        <div class="mt-4">
+            <form action="{% url 'houjin:hyouji' %}" method="post" target="_top">{% csrf_token %}
+                <div class="class2">               
+                    <div>担当者：</div>
+                    <div class="child2">
+                    <select class="form-select" name="tantou">
+                        {% for tantou in list %}
+                            {% if tantou == hyouji %}
+                            <option value={{tantou}} selected>{{tantou}}</option>
+                            {% else %}
+                            <option value={{tantou}}>{{tantou}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    </div>
+                    <div id="hyouji_btn"><button class="btn btn-secondary btn-sm" type="submit">表示</button></div>
                 </div>
-                <div id="hyouji_btn"><button class="btn btn-secondary btn-sm" type="submit">表示</button></div>
-            </div>
-        </form>
-        
+            </form>
+        </div>
+        <div style="margin-left: 50px;margin-top: 10px;">
+            <form action="" method="post" target="_top">{% csrf_token %}
+                <div class="class2">
+                    <div>   
+                        <div class="class2">
+                            <div>住所：</div>
+                            <div><input class="form-control form-control-sm" type="text" name="find_adress"></div>
+                        </div>
+                        <div class="class2" style="margin-top: 10px;">
+                            <div>備考：</div>
+                            <div><input class="form-control form-control-sm" type="text" name="find_bikou"></div>
+                        </div>
+                    </div>
+                    <div style="margin-left: 30px;">
+                        <div class="class2">
+                            <div>登録日：</div>
+                            <div><input class="form-control form-control-sm" type="date" name="find_toroku_from"></div>
+                            <div style="margin-left: 5px;">～</div>
+                            <div style="margin-left: 5px;"><input class="form-control form-control-sm" type="date" name="find_toroku_to"></div>
+                        </div>
+                        <div style="margin-top: 10px; text-align: right;">
+                            <button class="btn btn-secondary btn-sm" type="submit">検索</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
         <!-- <div><a href="{% url 'houjin:logout' %}">ログアウト</a></div> -->
 
         <!-- <div>
@@ -57,6 +85,7 @@
     </div>
 
     <script>
+
         var hyouji=document.getElementById("hyouji_btn");
         var positionY;					/* スクロール位置のY座標 */
         var STORAGE_KEY = "scrollY";
@@ -65,6 +94,7 @@
             positionY = 0;
             localStorage.setItem(STORAGE_KEY, positionY);
         })
+
     </script>
 
 </body>

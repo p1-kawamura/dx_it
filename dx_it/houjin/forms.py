@@ -8,9 +8,9 @@ class Right_form(forms.ModelForm):
         widget=forms.Select(attrs={"class":"form-select"}),
         required=False
     )
-    dm_day=forms.CharField(label="DM", widget=forms.DateInput(attrs={"type": "date"}),required=False)
-    tel_day=forms.CharField(label="TEL", widget=forms.DateInput(attrs={"type": "date"}),required=False)
-    gaisho_day=forms.CharField(label="外商", widget=forms.DateInput(attrs={"type": "date"}),required=False)
+    dm_day=forms.CharField(label="DM", widget=forms.DateInput(attrs={"type": "date","class":"form-control form-control-sm"}),required=False)
+    tel_day=forms.CharField(label="TEL", widget=forms.DateInput(attrs={"type": "date","class":"form-control form-control-sm"}),required=False)
+    gaisho_day=forms.CharField(label="外商", widget=forms.DateInput(attrs={"type": "date","class":"form-control form-control-sm"}),required=False)
 
     bikou=forms.CharField(label="備考",widget=forms.Textarea(attrs={"class":"form-control","rows":"3"}),required=False)
 
