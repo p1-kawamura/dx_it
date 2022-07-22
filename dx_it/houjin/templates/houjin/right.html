@@ -82,7 +82,7 @@
                             <div>感触：</div>
                             <div>{{form.kanshoku}}</div>
                         </div>
-                        <div class="kanshoku_detail" id="kanshoku_detail" style="font-size: 90%;">
+                        <div class="kanshoku_detail" id="kanshoku_detail" style="font-size: 90%; padding: 0.2em;">
                             {% for i in cus %}
                                 {% if  i.kanshoku == 1 %}
                                     完全にダメ
@@ -195,6 +195,7 @@
         </div>
     </div>
 
+
     <script>
 
         var kanshoku=document.getElementById("kanshoku");
@@ -216,8 +217,7 @@
                 kanshoku_detail.innerText="";
             }
         }
-
-
+       
     </script>
 </body>
 </html>

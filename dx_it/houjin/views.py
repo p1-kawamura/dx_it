@@ -8,42 +8,84 @@ from django.db.models import Q
 
 
 
-
 @login_required
 def index(request):
     if "num" not in request.session:
         request.session["num"]=1
     if "all_num" not in request.session:
         request.session["all_num"]=""
+    if "hyouji" not in request.session:
+        request.session["hyouji"]="全て表示"
+    if "adress" not in request.session:
+        request.session["adress"]=""
+    if "bikou" not in request.session:
+        request.session["bikou"]=""
+    if "toroku_from" not in request.session:
+        request.session["toroku_from"]=""
+    if "toroku_to" not in request.session:
+        request.session["toroku_to"]=""
+    if "kanshoku" not in request.session:
+        request.session["kanshoku"]=""
+
     return render(request,"houjin/index.html")
 
 
 def top(request):
-    if "hyouji" in request.session:
-        hyouji=request.session["hyouji"]
-    else:
-        request.session["hyouji"]="全て表示"
-        hyouji="全て表示"
-
     list=["全て表示","井上","古川","眞下","夏八木","藤井","武井","粂川","担当なし"]
-    return render(request,"houjin/top.html",{"list":list,"hyouji":hyouji})
+    list2={"0":"","5":"★★★★★（5）","4":"★★★★☆（4）","3":"★★★☆☆（3）","2":"★★☆☆☆（2）","1":"★☆☆☆☆（1）"}
+    hyouji=request.session["hyouji"]  
+    adress=request.session["adress"]
+    bikou=request.session["bikou"]
+    toroku_from=request.session["toroku_from"]
+    toroku_to=request.session["toroku_to"]
+    kanshoku=request.session["kanshoku"]
+    params={
+        "list":list,
+        "list2":list2,
+        "hyouji":hyouji,
+        "adress":adress,
+        "bikou":bikou,
+        "toroku_from":toroku_from,
+        "toroku_to":toroku_to,
+        "kanshoku":kanshoku,
+    }
+    return render(request,"houjin/top.html",params)
 
 
 def left(request):
-    if "hyouji" in request.session:
-        hyouji=request.session["hyouji"]
-    else:
-        request.session["hyouji"]="全て表示"
-        hyouji="全て表示"
+    hyouji=request.session["hyouji"]
+    adress=request.session["adress"]
+    bikou=request.session["bikou"]
+    toroku_from=request.session["toroku_from"]
+    toroku_to=request.session["toroku_to"]
+    kanshoku=request.session["kanshoku"]
+
+    str={}
+    if adress != "":
+        str["adress__contains"]=adress
+    if bikou != "":
+        str["bikou__contains"]=bikou
+    
+    print(str)
 
     if hyouji=="全て表示":
-        cusms=Customer.objects.all()
-    elif hyouji=="担当なし":
-        cusms=Customer.objects.filter(Q(tantou__isnull=True)|Q(tantou=""))
-    else:
-        cusms=Customer.objects.filter(tantou=hyouji)
+        if len(str)==0:
+            cusms=Customer.objects.all()
+        else:
+            cusms=Customer.objects.filter(**str)
 
-    if cusms.count() % 30 == 0:
+    elif hyouji=="担当なし":
+        if str=="":
+            cusms=Customer.objects.filter(Q(tantou__isnull=True)|Q(tantou=""))
+        else:
+            cusms=Customer.objects.filter((Q(tantou__isnull=True)|Q(tantou="")),str)
+    else:
+        str["tantou"]=hyouji
+        cusms=Customer.objects.filter(**str)
+
+    if cusms.count()==0:
+        all_num=1
+    elif cusms.count() % 30 == 0:
         all_num=cusms.count() / 30
     else:
         all_num=cusms.count() // 30 + 1
@@ -111,6 +153,23 @@ def hyouji(request):
     request.session["num"]=1
     return redirect("houjin:index")
 
+
+def kensaku(request):
+    adress=request.POST["find_adress"]
+    bikou=request.POST["find_bikou"]
+    toroku_from=request.POST["find_toroku_from"]
+    toroku_to=request.POST["find_toroku_to"]
+    kanshoku=request.POST["find_kanshoku"]
+    tantou2=request.POST["find_tantou2"]
+
+    request.session["adress"]=adress
+    request.session["bikou"]=bikou
+    request.session["toroku_from"]=toroku_from
+    request.session["toroku_to"]=toroku_to
+    request.session["kanshoku"]=kanshoku
+    request.session["hyouji"]=tantou2
+
+    return redirect("houjin:index")
 
 
 def delete(request):

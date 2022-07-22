@@ -34,7 +34,7 @@
                 <div class="class2">               
                     <div>担当者：</div>
                     <div class="child2">
-                    <select class="form-select" name="tantou">
+                    <select class="form-select" name="tantou" id="tantou">
                         {% for tantou in list %}
                             {% if tantou == hyouji %}
                             <option value={{tantou}} selected>{{tantou}}</option>
@@ -48,43 +48,47 @@
                 </div>
             </form>
         </div>
-        
+
         <div style="margin-left: 80px;margin-top: 10px;">
-            <form action="" method="post" target="_top">{% csrf_token %}
+            <form action="{% url 'houjin:kensaku' %}" method="post" target="_top">{% csrf_token %}
                 <div class="class2">
                     <div>   
                         <div class="class2">
                             <div>住所：</div>
-                            <div><input class="form-control form-control-sm" type="text" name="find_adress"></div>
+                            <div><input class="form-control form-control-sm" type="text" name="find_adress" value="{{adress}}"></div>
                         </div>
                         <div class="class2" style="margin-top: 10px;">
                             <div>備考：</div>
-                            <div><input class="form-control form-control-sm" type="text" name="find_bikou"></div>
+                            <div><input class="form-control form-control-sm" type="text" name="find_bikou" value="{{bikou}}"></div>
                         </div>
                     </div>
                     <div style="margin-left: 30px;">
                         <div class="class2">
                             <div>登録日：</div>
-                            <div><input class="form-control form-control-sm" type="date" name="find_toroku_from"></div>
+                            <div><input class="form-control form-control-sm" type="date" name="find_toroku_from" value="{{toroku_from}}"></div>
                             <div style="margin-left: 5px;">～</div>
-                            <div style="margin-left: 5px;"><input class="form-control form-control-sm" type="date" name="find_toroku_to"></div>
+                            <div style="margin-left: 5px;"><input class="form-control form-control-sm" type="date" name="find_toroku_to" value="{{toroku_to}}"></div>
                         </div>
                         <div class="class2" style="margin-top: 10px;">
                             <div class="class2">
                                 <div style="margin-left: 1em;">感触：</div>
                                 <div>
                                     <select class="form-select form-select-sm" name="find_kanshoku">
-                                        <option value=""></option>
-                                        <option value="5">★★★★★（5）</option>
-                                        <option value="4">★★★★☆（4）</option>
-                                        <option value="3">★★★☆☆（3）</option>
-                                        <option value="2">★★☆☆☆（2）</option>
-                                        <option value="1">★☆☆☆☆（1）</option>                                        
+                                    {% for key,value in list2.items %}
+                                        {% if key == kanshoku %}
+                                            <option value="{{key}}" selected>{{value}}</option>
+                                        {% else %}
+                                            <option value="{{key}}">{{value}}</option>
+                                        {% endif %}
+                                    {% endfor %}
                                     </select>
                                 </div>
                             </div>
                             <div style="margin-left: 105px;">
                                 <button class="btn btn-secondary btn-sm" type="submit">検索</button>
+                            </div>
+                            <div style="display: none;">
+                                <input type="text" id="tantou2" name="find_tantou2">
                             </div>
                         </div>
                     </div>
@@ -102,6 +106,7 @@
 
     <script>
 
+        //スクロール位置
         var hyouji=document.getElementById("hyouji_btn");
         var positionY;					/* スクロール位置のY座標 */
         var STORAGE_KEY = "scrollY";
@@ -110,6 +115,15 @@
             positionY = 0;
             localStorage.setItem(STORAGE_KEY, positionY);
         })
+
+
+        // 検索用の担当者
+        var tantou=document.getElementById("tantou")
+        var tantou2=document.getElementById("tantou2")
+
+        tantou.onchange=function(){
+            tantou2.value=this.value;
+        }
 
     </script>
 
