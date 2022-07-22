@@ -60,14 +60,18 @@ def left(request):
     toroku_to=request.session["toroku_to"]
     kanshoku=request.session["kanshoku"]
 
+    #検索条件
     str={}
     if adress != "":
         str["adress__contains"]=adress
     if bikou != "":
         str["bikou__contains"]=bikou
+    if kanshoku != "0":
+        str["kanshoku"]=int(kanshoku)
     
     print(str)
 
+    #検索データ取得
     if hyouji=="全て表示":
         if len(str)==0:
             cusms=Customer.objects.all()
@@ -83,6 +87,7 @@ def left(request):
         str["tantou"]=hyouji
         cusms=Customer.objects.filter(**str)
 
+    #全ページ数
     if cusms.count()==0:
         all_num=1
     elif cusms.count() % 30 == 0:
@@ -90,10 +95,10 @@ def left(request):
     else:
         all_num=cusms.count() // 30 + 1
     
+    #表示ページ情報
     num=request.session["num"]
     request.session["all_num"]=all_num
     data=cusms[(num-1)*30 : num*30]
-
     params={
         "num":num,
         "all_num":all_num,

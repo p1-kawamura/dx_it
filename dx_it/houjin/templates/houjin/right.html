@@ -85,7 +85,7 @@
                         <div class="kanshoku_detail" id="kanshoku_detail" style="font-size: 90%; padding: 0.2em;">
                             {% for i in cus %}
                                 {% if  i.kanshoku == 1 %}
-                                    完全にダメ
+                                    完全にダメやね
                                 {% elif i.kanshoku == 2 %}
                                     期待は薄いかも<br>まだ押すか微妙
                                 {% elif i.kanshoku == 3 %}
@@ -204,7 +204,7 @@
         kanshoku.onchange = function(){
             var atai = this.value;
             if (atai == 1){
-                kanshoku_detail.innerText="完全にダメ";
+                kanshoku_detail.innerText="完全にダメやね";
             } else if (atai == 2){
                 kanshoku_detail.innerText="期待は薄いかも\nまだ押すか微妙";
             } else if (atai == 3){
