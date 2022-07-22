@@ -149,27 +149,22 @@ def right1(request,pk):
 
 def hyouji(request):
     tantou=request.POST["tantou"]
-    request.session["hyouji"]=tantou
-    request.session["num"]=1
-    return redirect("houjin:index")
-
-
-def kensaku(request):
     adress=request.POST["find_adress"]
     bikou=request.POST["find_bikou"]
     toroku_from=request.POST["find_toroku_from"]
     toroku_to=request.POST["find_toroku_to"]
     kanshoku=request.POST["find_kanshoku"]
-    tantou2=request.POST["find_tantou2"]
 
+    request.session["hyouji"]=tantou
+    request.session["num"]=1
     request.session["adress"]=adress
     request.session["bikou"]=bikou
     request.session["toroku_from"]=toroku_from
     request.session["toroku_to"]=toroku_to
     request.session["kanshoku"]=kanshoku
-    request.session["hyouji"]=tantou2
 
     return redirect("houjin:index")
+
 
 
 def delete(request):
