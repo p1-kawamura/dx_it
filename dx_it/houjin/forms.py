@@ -13,7 +13,7 @@ class Right_form(forms.ModelForm):
     gaisho_day=forms.CharField(label="外商", widget=forms.DateInput(attrs={"type": "date","class":"form-control form-control-sm"}),required=False)
 
     kanshoku=forms.ChoiceField(
-        choices=[("",""),(5,"5"),(4,"4"),(3,"3"),(2,"2"),(1,"1")],
+        choices=[(0,""),(5,"5"),(4,"4"),(3,"3"),(2,"2"),(1,"1")],
         label="感触",
         widget=forms.Select(attrs={"class":"form-select form-select-sm","id":"kanshoku"}),
         required=False

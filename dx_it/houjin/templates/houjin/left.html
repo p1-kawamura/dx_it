@@ -8,87 +8,92 @@
     <title>houjin_left</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-<style>
-    .class1 {
-        display: flex;
-        flex-direction: row;
-    }
-    .main{
-        padding: 0.5em 1em;
-        margin: 0.5em 0;
-        background: #FFF;
-        border: solid 0.5px lightslategray;
-        border-bottom: solid 4px lightslategray;
-        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
-        border-radius: 9px;
-        text-align: left;
-    }
-    .detail2{
-        font-size: 0.9em;
-        background-color: rgb(220, 237, 241);
-        border-top:  dotted 2px #87CEFA;
-        border-bottom: dotted 2px #87CEFA;
-    }
-    .detail3{
-        font-size: 0.9em;
-        background-color: rgb(243, 200, 220);
-        border-top:  dotted 2px #f30e80;
-        border-bottom: dotted 2px #f30e80;
-    }
-    .detail4{
-        font-size: 0.9em;
-        padding-top: 5px;
-        margin-bottom: 10px;
-    }
-    .btn-sticky {
-        font-size: 0.9em;
-        display: inline-block;
-        text-decoration: none;
-        background: #fff;
-        border: solid 1px #ff7c5c;
-        border-left: solid 6px #ff7c5c;/*左線*/
-        color: #ff7c5c;/*文字色*/
-        font-weight: bold;
-        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.29);
-    }
-    .btn-sticky:active {
-        box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
-        transform: translateY(2px);
-    }
-    .btn-sticky2 {
-        font-size: 0.9em;
-        display: inline-block;
-        text-decoration: none;
-        background: #fff;
-        border: solid 1px #4dabf8;
-        border-left: solid 6px #4dabf8;/*左線*/
-        color: #4dabf8;/*文字色*/
-        font-weight: bold;
-        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.29);
-    }
-    .btn-sticky2:active {
-        box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
-        transform: translateY(2px);
-    }
-    .status1{
-        margin: 0px 7px;
-        padding: 0px 5px;
-        font-size: 0.9em;
-        color: rgb(225, 225, 225);
-    }
-    .status2 {
-        margin: 0px 7px;
-        padding: 0px 5px;
-        font-size: 0.9em;
-        color: #fff;
-        background-color: #bbb;
-        border: 1px solid #bbb;
-        border-radius: 5px; 
-    }
-    .pagination{
-        justify-content: center;
-    }
-</style>
+    <style>
+        .class1 {
+            display: flex;
+            flex-direction: row;
+        }
+        .main{
+            padding: 0.5em 1em;
+            margin: 0.5em 0;
+            background: #FFF;
+            border: solid 0.5px lightslategray;
+            border-bottom: solid 4px lightslategray;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
+            border-radius: 9px;
+            text-align: left;
+        }
+        .detail2{
+            font-size: 0.9em;
+            background-color: rgb(220, 237, 241);
+            border-top:  dotted 2px #87CEFA;
+            border-bottom: dotted 2px #87CEFA;
+        }
+        .detail3{
+            font-size: 0.9em;
+            background-color: rgb(243, 200, 220);
+            border-top:  dotted 2px #f30e80;
+            border-bottom: dotted 2px #f30e80;
+        }
+        .detail4{
+            font-size: 0.9em;
+            padding-top: 5px;
+            margin-bottom: 10px;
+        }
+        .btn-sticky {
+            font-size: 0.9em;
+            display: inline-block;
+            text-decoration: none;
+            background: #fff;
+            border: solid 1px #ff7c5c;
+            border-left: solid 6px #ff7c5c;/*左線*/
+            color: #ff7c5c;/*文字色*/
+            font-weight: bold;
+            box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.29);
+        }
+        .btn-sticky:active {
+            box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
+            transform: translateY(2px);
+        }
+        .btn-sticky2 {
+            font-size: 0.9em;
+            display: inline-block;
+            text-decoration: none;
+            background: #fff;
+            border: solid 1px #4dabf8;
+            border-left: solid 6px #4dabf8;/*左線*/
+            color: #4dabf8;/*文字色*/
+            font-weight: bold;
+            box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.29);
+        }
+        .btn-sticky2:active {
+            box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
+            transform: translateY(2px);
+        }
+        .status1{
+            margin: 0px 7px;
+            padding: 0px 5px;
+            font-size: 0.9em;
+            color: rgb(225, 225, 225);
+        }
+        .status2 {
+            margin: 0px 7px;
+            padding: 0px 5px;
+            font-size: 0.9em;
+            color: #fff;
+            background-color: #bbb;
+            border: 1px solid #bbb;
+            border-radius: 5px; 
+        }
+        .pagination{
+            justify-content: center;
+        }
+        .kanshoku{
+            color: rgb(240, 158, 7);
+            text-shadow: 1px 1px 1px rgb(69, 68, 68);
+        }
+    </style>
+
 </head>
 <body>
         <div style="width: 90%; margin: 0 auto;">
@@ -97,9 +102,24 @@
             <div class="main">
                 <form action="{% url 'houjin:right1' cus.pk %}" target="ifr2">{% csrf_token %}</form>
                 <div class="class1">
-                    <div style="width: 300px;">
+                    <div style="width: 100px;">
                         {% if cus.tantou %}
                             {{cus.tantou}}
+                        {% endif %}
+                    </div>
+                    <div class="kanshoku" style="width: 200px;">
+                        {% if cus.kanshoku %}
+                            {% if cus.kanshoku == 1 %}
+                                ★
+                            {% elif cus.kanshoku == 2 %}
+                                ★★
+                            {% elif cus.kanshoku == 3 %}
+                                ★★★
+                            {% elif cus.kanshoku == 4 %}
+                                ★★★★
+                            {% elif cus.kanshoku == 5 %}
+                                ★★★★★
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div style="width: 500px;">

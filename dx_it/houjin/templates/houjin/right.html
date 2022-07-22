@@ -82,7 +82,21 @@
                             <div>感触：</div>
                             <div>{{form.kanshoku}}</div>
                         </div>
-                        <div class="kanshoku_detail" id="kanshoku_detail"></div>
+                        <div class="kanshoku_detail" id="kanshoku_detail" style="font-size: 90%;">
+                            {% for i in cus %}
+                                {% if  i.kanshoku == 1 %}
+                                    完全にダメ
+                                {% elif i.kanshoku == 2 %}
+                                    期待は薄いかも<br>まだ押すか微妙
+                                {% elif i.kanshoku == 3 %}
+                                    可もなく不可もなく<br>再度チャレンジか
+                                {% elif i.kanshoku == 4 %}
+                                    もう一押し必要<br>あとちょっと！
+                                {% elif i.kanshoku == 5 %}
+                                    超いい感じ<br>受注の期待大
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
                 <div class="mt-3" >
