@@ -48,7 +48,7 @@
                 </div>
             </form>
         </div>
-        <div style="margin-left: 50px;margin-top: 10px;">
+        <div style="margin-left: 80px;margin-top: 10px;">
             <form action="" method="post" target="_top">{% csrf_token %}
                 <div class="class2">
                     <div>   
@@ -68,8 +68,23 @@
                             <div style="margin-left: 5px;">～</div>
                             <div style="margin-left: 5px;"><input class="form-control form-control-sm" type="date" name="find_toroku_to"></div>
                         </div>
-                        <div style="margin-top: 10px; text-align: right;">
-                            <button class="btn btn-secondary btn-sm" type="submit">検索</button>
+                        <div class="class2" style="margin-top: 10px;">
+                            <div class="class2">
+                                <div style="margin-left: 1em;">感触：</div>
+                                <div>
+                                    <select class="form-select form-select-sm" name="find_kanshoku">
+                                        <option value=""></option>
+                                        <option value="5">★★★★★（5）</option>
+                                        <option value="4">★★★★☆（4）</option>
+                                        <option value="3">★★★☆☆（3）</option>
+                                        <option value="2">★★☆☆☆（2）</option>
+                                        <option value="1">★☆☆☆☆（1）</option>                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-left: 105px;">
+                                <button class="btn btn-secondary btn-sm" type="submit">検索</button>
+                            </div>
                         </div>
                     </div>
                 </div>

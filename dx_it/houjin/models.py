@@ -29,6 +29,7 @@ class Customer(models.Model):
     tel_day=models.CharField("TEL",max_length=10,null=True,blank=True)
     gaisho_day=models.CharField("外商",max_length=10,null=True,blank=True)
     bikou=models.TextField("備考",null=True,blank=True)
+    kanshoku=models.IntegerField("感触",null=True,blank=True)
 
     def __str__(self):
         return self.cus_id

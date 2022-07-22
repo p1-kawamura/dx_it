@@ -37,6 +37,12 @@
         .data-code{
             width: calc(340px - 100px);
         }
+        .kanshoku_detail{
+            border: solid 1px #bbb;
+            margin-top: 0.5em;
+            width: 135px;
+            height: 55px;
+        }
     </style>
 
 </head>
@@ -54,21 +60,30 @@
                         <button type="submit" class="btn btn-success">更新</button>
                     </div>
                 </div>
-                <div class="mt-3">
-                    <table>
-                        <tr>
-                            <td style="text-align: right;">DM：</td>
-                            <td>{{form.dm_day}}</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">TEL：</td>
-                            <td>{{form.tel_day}}</td>
-                        </tr>
-                        <tr>
-                            <td>外商：</td>
-                            <td>{{form.gaisho_day}}</td>
-                        </tr>
-                    </table>
+                <div class="data mt-3">
+                    <div>
+                        <table>
+                            <tr>
+                                <td style="text-align: right;">DM：</td>
+                                <td>{{form.dm_day}}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right;">TEL：</td>
+                                <td>{{form.tel_day}}</td>
+                            </tr>
+                            <tr>
+                                <td>外商：</td>
+                                <td>{{form.gaisho_day}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <div class="class1">
+                            <div>感触：</div>
+                            <div>{{form.kanshoku}}</div>
+                        </div>
+                        <div class="kanshoku_detail" id="kanshoku_detail"></div>
+                    </div>
                 </div>
                 <div class="mt-3" >
                     <div>備考：</div>
@@ -166,5 +181,29 @@
         </div>
     </div>
 
+    <script>
+
+        var kanshoku=document.getElementById("kanshoku");
+        var kanshoku_detail=document.getElementById("kanshoku_detail");
+
+        kanshoku.onchange = function(){
+            var atai = this.value;
+            if (atai == 1){
+                kanshoku_detail.innerText="完全にダメ";
+            } else if (atai == 2){
+                kanshoku_detail.innerText="期待は薄いかも\nまだ押すか微妙";
+            } else if (atai == 3){
+                kanshoku_detail.innerText="可もなく不可もなく\n再度チャレンジか";
+            } else if (atai == 4){
+                kanshoku_detail.innerText="もう一押し必要\nあとちょっと！";
+            } else if (atai == 5){
+                kanshoku_detail.innerText="超いい感じ\n受注の期待大";
+            } else {
+                kanshoku_detail.innerText="";
+            }
+        }
+
+
+    </script>
 </body>
 </html>
