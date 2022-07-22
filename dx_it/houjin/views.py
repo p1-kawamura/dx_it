@@ -31,7 +31,8 @@ def index(request):
 
 
 def top(request):
-    list=["全て表示","井上","古川","眞下","夏八木","藤井","武井","粂川","担当なし"]
+    list={"all":"全て表示","1":"井上","2":"古川","3":"眞下","4":"夏八木","5":"藤井","6":"武井","7":"粂川","0":"担当なし"}
+    # list=["全て表示","井上","古川","眞下","夏八木","藤井","武井","粂川","担当なし"]
     list2={"0":"","5":"★★★★★（5）","4":"★★★★☆（4）","3":"★★★☆☆（3）","2":"★★☆☆☆（2）","1":"★☆☆☆☆（1）"}
     hyouji=request.session["hyouji"]  
     adress=request.session["adress"]
@@ -69,10 +70,10 @@ def left(request):
     if kanshoku != "0":
         str["kanshoku"]=int(kanshoku)
     
-    print(str)
+    print(hyouji)
 
     #検索データ取得
-    if hyouji=="全て表示":
+    if hyouji=="":
         if len(str)==0:
             cusms=Customer.objects.all()
         else:
@@ -153,6 +154,9 @@ def right1(request,pk):
 
 
 def hyouji(request):
+
+    print(tantou)
+    
     tantou=request.POST["tantou"]
     adress=request.POST["find_adress"]
     bikou=request.POST["find_bikou"]

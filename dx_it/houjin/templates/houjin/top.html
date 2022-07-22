@@ -32,13 +32,21 @@
                         <div>担当者：</div>
                         <div>
                             <select class="form-select form-select-sm" name="tantou" id="tantou">
-                                {% for tantou in list %}
+                                {% for key,value in list.items %}
+                                    {% if key == hyouji %}
+                                        <option value="{{key}}" selected>{{value}}</option>
+                                    {% else %}
+                                        <option value="{{key}}">{{value}}</option>
+                                    {% endif %}
+                                {% endfor %}
+
+                                <!-- {% for tantou in list %}
                                     {% if tantou == hyouji %}
                                     <option value={{tantou}} selected>{{tantou}}</option>
                                     {% else %}
                                     <option value={{tantou}}>{{tantou}}</option>
                                     {% endif %}
-                                {% endfor %}
+                                {% endfor %} -->
                             </select>
                         </div>
                     </div>

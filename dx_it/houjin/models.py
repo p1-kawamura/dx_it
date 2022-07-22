@@ -24,7 +24,7 @@ class Customer(models.Model):
     toroku=models.CharField("登録日",max_length=10,null=True,blank=True)
     kensu=models.IntegerField("件数",null=True,blank=True)
     money=models.IntegerField("金額",null=True,blank=True)
-    tantou=models.CharField ("担当",max_length=10, null=True,blank=True)
+    tantou=models.IntegerField("担当",default=0)
     dm_day=models.CharField("DM",max_length=10,null=True,blank=True)
     tel_day=models.CharField("TEL",max_length=10,null=True,blank=True)
     gaisho_day=models.CharField("外商",max_length=10,null=True,blank=True)

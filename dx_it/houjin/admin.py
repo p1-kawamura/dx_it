@@ -4,7 +4,7 @@ from django.contrib.admin import ModelAdmin
 
 class Cus(ModelAdmin):
     model=Customer
-    list_display=["cus_id","sei","mei","tantou"]
+    list_display=["cus_id","sei","mei",]
 
 class Rec(ModelAdmin):
     model=Recieve
