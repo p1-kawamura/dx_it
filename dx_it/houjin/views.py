@@ -14,8 +14,8 @@ def index(request):
         request.session["num"]=1
     if "all_num" not in request.session:
         request.session["all_num"]=""
-    if "hyouji" not in request.session:
-        request.session["hyouji"]="全て表示"
+    if "tantou" not in request.session:
+        request.session["tantou"]=99
     if "adress" not in request.session:
         request.session["adress"]=""
     if "bikou" not in request.session:
@@ -31,10 +31,10 @@ def index(request):
 
 
 def top(request):
-    list={"all":"全て表示","1":"井上","2":"古川","3":"眞下","4":"夏八木","5":"藤井","6":"武井","7":"粂川","0":"担当なし"}
+    list={"99":"全て表示","1":"井上","2":"古川","3":"眞下","4":"夏八木","5":"藤井","6":"武井","7":"粂川","0":"担当なし"}
     # list=["全て表示","井上","古川","眞下","夏八木","藤井","武井","粂川","担当なし"]
     list2={"0":"","5":"★★★★★（5）","4":"★★★★☆（4）","3":"★★★☆☆（3）","2":"★★☆☆☆（2）","1":"★☆☆☆☆（1）"}
-    hyouji=request.session["hyouji"]  
+    tantou=request.session["tantou"]  
     adress=request.session["adress"]
     bikou=request.session["bikou"]
     toroku_from=request.session["toroku_from"]
@@ -43,7 +43,7 @@ def top(request):
     params={
         "list":list,
         "list2":list2,
-        "hyouji":hyouji,
+        "tantou":tantou,
         "adress":adress,
         "bikou":bikou,
         "toroku_from":toroku_from,
@@ -54,7 +54,7 @@ def top(request):
 
 
 def left(request):
-    hyouji=request.session["hyouji"]
+    tantou=request.session["tantou"]
     adress=request.session["adress"]
     bikou=request.session["bikou"]
     toroku_from=request.session["toroku_from"]
@@ -70,22 +70,22 @@ def left(request):
     if kanshoku != "0":
         str["kanshoku"]=int(kanshoku)
     
-    print(hyouji)
+    print(tantou)
 
     #検索データ取得
-    if hyouji=="":
+    if tantou=="99":
         if len(str)==0:
             cusms=Customer.objects.all()
         else:
             cusms=Customer.objects.filter(**str)
 
-    elif hyouji=="担当なし":
+    elif tantou=="担当なし":
         if str=="":
             cusms=Customer.objects.filter(Q(tantou__isnull=True)|Q(tantou=""))
         else:
             cusms=Customer.objects.filter((Q(tantou__isnull=True)|Q(tantou="")),str)
     else:
-        str["tantou"]=hyouji
+        str["tantou"]=tantou
         cusms=Customer.objects.filter(**str)
 
     #全ページ数
@@ -97,6 +97,7 @@ def left(request):
         all_num=cusms.count() // 30 + 1
     
     #表示ページ情報
+    list={1:"井上",2:"古川",3:"眞下",4:"夏八木",5:"藤井",6:"武井",7:"粂川"}
     num=request.session["num"]
     request.session["all_num"]=all_num
     data=cusms[(num-1)*30 : num*30]
@@ -104,6 +105,7 @@ def left(request):
         "num":num,
         "all_num":all_num,
         "data":data,
+        "list":list,
     }
 
     return render(request,"houjin/left.html",params)
@@ -154,9 +156,6 @@ def right1(request,pk):
 
 
 def hyouji(request):
-
-    print(tantou)
-    
     tantou=request.POST["tantou"]
     adress=request.POST["find_adress"]
     bikou=request.POST["find_bikou"]
@@ -164,7 +163,7 @@ def hyouji(request):
     toroku_to=request.POST["find_toroku_to"]
     kanshoku=request.POST["find_kanshoku"]
 
-    request.session["hyouji"]=tantou
+    request.session["tantou"]=tantou
     request.session["num"]=1
     request.session["adress"]=adress
     request.session["bikou"]=bikou

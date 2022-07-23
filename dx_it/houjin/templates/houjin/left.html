@@ -103,8 +103,12 @@
                 <form action="{% url 'houjin:right1' cus.pk %}" target="ifr2">{% csrf_token %}</form>
                 <div class="class1">
                     <div style="width: 100px;">
-                        {% if cus.tantou %}
-                            {{cus.tantou}}
+                        {% if cus.tantou != 0 %}
+                            {% for key,value in list.items %}
+                                {% if key == cus.tantou %}
+                                    {{value}}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     </div>
                     <div class="kanshoku" style="width: 200px;">
