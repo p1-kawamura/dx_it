@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 import io
 import csv
 from .forms import Right_form
-from django.db.models import Q
 
 
 
@@ -32,7 +31,6 @@ def index(request):
 
 def top(request):
     list={"99":"全て表示","1":"井上","2":"古川","3":"眞下","4":"夏八木","5":"藤井","6":"武井","7":"粂川","0":"担当なし"}
-    # list=["全て表示","井上","古川","眞下","夏八木","藤井","武井","粂川","担当なし"]
     list2={"0":"","5":"★★★★★（5）","4":"★★★★☆（4）","3":"★★★☆☆（3）","2":"★★☆☆☆（2）","1":"★☆☆☆☆（1）"}
     tantou=request.session["tantou"]  
     adress=request.session["adress"]
@@ -69,6 +67,10 @@ def left(request):
         str["bikou__contains"]=bikou
     if kanshoku != "0":
         str["kanshoku"]=int(kanshoku)
+    if toroku_from != "":
+        str["toroku__gte"]=toroku_from
+    if toroku_to != "":
+        str["toroku__lte"]=toroku_to
     
     print(tantou)
 
@@ -78,12 +80,6 @@ def left(request):
             cusms=Customer.objects.all()
         else:
             cusms=Customer.objects.filter(**str)
-
-    elif tantou=="担当なし":
-        if str=="":
-            cusms=Customer.objects.filter(Q(tantou__isnull=True)|Q(tantou=""))
-        else:
-            cusms=Customer.objects.filter((Q(tantou__isnull=True)|Q(tantou="")),str)
     else:
         str["tantou"]=tantou
         cusms=Customer.objects.filter(**str)
