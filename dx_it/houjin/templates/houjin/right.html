@@ -39,10 +39,10 @@
             width: calc(340px - 100px);
         }
         .kanshoku_detail{
-            border: solid 1px #bbb;
+            /* border: solid 1px #bbb; */
             margin-top: 0.5em;
             width: 135px;
-            height: 55px;
+            height: 60px;
         }
     </style>
 
@@ -83,18 +83,23 @@
                             <div>感触：</div>
                             <div>{{form.kanshoku}}</div>
                         </div>
-                        <div class="kanshoku_detail" id="kanshoku_detail" style="font-size: 90%; padding: 0.2em;">
+                        <div class="kanshoku_detail class1" id="kanshoku_detail" style="font-size: 90%; padding: 0.2em;">
                             {% for i in cus %}
                                 {% if  i.kanshoku == 1 %}
-                                    完全にダメやね
+                                    <div><img src="{% static '1.jpg' %}"></div>
+                                    <div>完全にダメやね</div>
                                 {% elif i.kanshoku == 2 %}
-                                    期待は薄いかも<br>まだ押すか微妙
+                                    <div><img src="{% static '2.jpg' %}"></div>
+                                    <div>期待はかなり薄いね</div>
                                 {% elif i.kanshoku == 3 %}
-                                    可もなく不可もなく<br>再度チャレンジか
+                                    <div><img src="{% static '3.jpg' %}"></div>
+                                    <div>可もなく<br>不可もなく</div>
                                 {% elif i.kanshoku == 4 %}
-                                    もう一押し必要<br>あとちょっと！
+                                    <div><img src="{% static '4.jpg' %}"></div>
+                                    <div> なかなかの好感触！</div>
                                 {% elif i.kanshoku == 5 %}
-                                    超いい感じ<br>受注の期待大
+                                    <div><img src="{% static '5.jpg' %}"></div>
+                                    <div> これは超いい感じ！</div>
                                 {% endif %}
                             {% endfor %}
                         </div>
@@ -205,17 +210,17 @@
         kanshoku.onchange = function(){
             var atai = this.value;
             if (atai == 1){
-                kanshoku_detail.innerText="完全にダメやね";
+                kanshoku_detail.innerHTML="<div><img src='{% static '1.jpg' %}'></div><div>完全にダメやね</div>";
             } else if (atai == 2){
-                kanshoku_detail.innerText="期待は薄いかも\nまだ押すか微妙";
+                kanshoku_detail.innerHTML="<div><img src='{% static '2.jpg' %}'></div><div>期待はかなり薄いね</div>";
             } else if (atai == 3){
-                kanshoku_detail.innerText="可もなく不可もなく\n再度チャレンジか";
+                kanshoku_detail.innerHTML="<div><img src='{% static '3.jpg' %}'></div><div>可もなく<br>不可もなく</div>";
             } else if (atai == 4){
-                kanshoku_detail.innerText="もう一押し必要\nあとちょっと！";
+                kanshoku_detail.innerHTML="<div><img src='{% static '4.jpg' %}'></div><div> なかなかの好感触！</div>";
             } else if (atai == 5){
-                kanshoku_detail.innerText="超いい感じ\n受注の期待大";
+                kanshoku_detail.innerHTML="<div><img src='{% static '5.jpg' %}'></div><div> これは超いい感じ！</div>";
             } else {
-                kanshoku_detail.innerText="";
+                kanshoku_detail.innerHTML="";
             }
         }
        
