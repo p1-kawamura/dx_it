@@ -25,6 +25,8 @@ def index(request):
         request.session["toroku_to"]=""
     if "kanshoku" not in request.session:
         request.session["kanshoku"]=0
+    if request.session["kanshoku"]=="":
+        request.session["kanshoku"]=0
 
     return render(request,"houjin/index.html")
 
