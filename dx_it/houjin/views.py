@@ -186,13 +186,36 @@ def csv_page(request):
 
 
 def download(request):
-    response = HttpResponse(content_type='text/csv')
+    response = HttpResponse(content_type='text/csv; charset=CP932')
     response['Content-Disposition'] = 'attachment;  filename="customer.csv"'
     writer = csv.writer(response)
 
     cus=Customer.objects.all()
     for i in cus:
-        writer.writerow([i.cus_id])
+        writer.writerow([
+            i.cus_id,
+            i.sei,
+            i.mei,
+            i.sei_kana,
+            i.mei_kana,
+            i.mail1,
+            i.mail2,
+            i.mail3,
+            i.yubin,
+            i.pref,
+            i.city,
+            i.banchi,
+            i.build,
+            i.com,
+            i.busho,
+            i.tel,
+            i.mob,
+            i.fax,
+            i.toroku,
+            i.kensu,
+            i.money,
+            i.adress
+            ])
     return response
 
 
