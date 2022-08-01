@@ -285,5 +285,22 @@ def upload(request):
         h+=1
 
 
+
+    #WEB更新
+    data = io.TextIOWrapper(request.FILES['csv4'].file, encoding="cp932")
+    csv_content = csv.reader(data)
+    
+    csv_list=list(csv_content)
+        
+    for i in csv_list:
+        Customer.objects.update_or_create(
+            cus_id=i[0],
+            defaults={
+                "cus_id":i[0],
+                "kensu":i[1],
+                "money":i[2],
+            }            
+        )  
+
     return redirect("houjin:index")
 
