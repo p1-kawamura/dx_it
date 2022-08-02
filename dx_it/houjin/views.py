@@ -79,12 +79,12 @@ def left(request):
     #検索データ取得
     if tantou=="99":
         if len(str)==0:
-            cusms=Customer.objects.all()
+            cusms=Customer.objects.all().order_by("com")
         else:
-            cusms=Customer.objects.filter(**str)
+            cusms=Customer.objects.filter(**str).order_by("com")
     else:
         str["tantou"]=tantou
-        cusms=Customer.objects.filter(**str)
+        cusms=Customer.objects.filter(**str).order_by("com")
 
     #全ページ数
     if cusms.count()==0:
