@@ -28,6 +28,7 @@ class Customer(models.Model):
     dm_day=models.CharField("DM",max_length=10,null=True,blank=True)
     tel_day=models.CharField("TEL",max_length=10,null=True,blank=True)
     gaisho_day=models.CharField("外商",max_length=10,null=True,blank=True)
+    dm_check=models.BooleanField("DMリスト",default=False)
     bikou=models.TextField("備考",null=True,blank=True)
     kanshoku=models.IntegerField("感触",default=0)
 
