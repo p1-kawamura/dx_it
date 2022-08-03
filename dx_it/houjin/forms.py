@@ -19,7 +19,11 @@ class Right_form(forms.ModelForm):
         required=False
     )
 
-    dm_check=forms.BooleanField(label="DM配信",widget=forms.CheckboxInput(attrs={"type": "checkbox","class":"form-check-input","id":"dm_send"}))
+    dm_check=forms.BooleanField(
+        label="DM配信",
+        widget=forms.CheckboxInput(attrs={"type": "checkbox","class":"form-check-input","id":"dm_send"}),
+        required=False
+        )
     bikou=forms.CharField(label="備考",widget=forms.Textarea(attrs={"class":"form-control","rows":"3"}),required=False)
 
     class Meta:
