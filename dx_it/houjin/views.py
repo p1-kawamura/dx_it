@@ -5,6 +5,7 @@ import io
 import csv
 from .forms import Right_form
 from django.http import HttpResponse
+import datetime
 
 
 
@@ -144,8 +145,6 @@ def right1(request,pk):
     if request.method=="POST":
         ins=Customer.objects.get(pk=pk)
         form=Right_form(request.POST,instance=ins)
-        print("post")
-        print(request.POST.get("dm_check"))
         form.save()
         return redirect("houjin:left")
     else:
@@ -180,6 +179,28 @@ def delete(request):
         cus_id=request.POST["cus_id"]
         Customer.objects.get(cus_id=cus_id).delete()
         return redirect("houjin:index")
+
+
+def dm_send(request):
+    response = HttpResponse(content_type='text/csv; charset=CP932')
+    response['Content-Disposition'] = 'attachment;  filename="dm_send.csv"'
+    writer = csv.writer(response)
+
+    dm_csv=Customer.objects.filter(dm_check=True)
+    for i in dm_csv:
+        writer.writerow([
+            i.com,
+            i.busho,
+            i.sei + i.mei,
+            i.mail1,
+            ])
+    
+    dt=datetime.date.today()
+    dm_csv.update(dm_day=dt,dm_check=False)
+
+    return response
+    
+
 
 
 def csv_page(request):

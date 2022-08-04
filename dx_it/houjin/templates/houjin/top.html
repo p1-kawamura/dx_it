@@ -18,11 +18,17 @@
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: center;
-	}	
+	}
+    .class3{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
     </style>
 
 </head>
-<body>		
+<body>
+    <div class="class3" style="width: 90%;">
     <div class="class1 mt-2 mb-2">
         <form action="{% url 'houjin:hyouji' %}" method="post" target="_top">{% csrf_token %}
         
@@ -80,13 +86,10 @@
                 </div>
             </div>
         </form>
-        
-        <!-- <div><a href="{% url 'houjin:logout' %}">ログアウト</a></div> -->
-
-        <!-- <div>
-            <a href="{% url 'houjin:csv_page' %}" target="_top"><button class="btn btn-secondary">CSV取込</button></a> 
-        </div> -->
-
+    </div>
+    <div class="mt-4">
+        <a href="{% url 'houjin:dm_send' %}"><button class="btn btn-primary">DMリスト</button></a>
+    </div>
     </div>
 
     <script>

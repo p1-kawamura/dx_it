@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index,top,left,right,right1,upload,delete,hyouji,csv_page,page_next,page_last,page_first,page_prev,download
+from .views import index,top,left,right,right1,upload,delete,hyouji,csv_page,page_next,page_last,page_first,page_prev,download,dm_send
 from django.contrib.auth import views as auth_views
 
 
@@ -22,4 +22,5 @@ urlpatterns = [
     path('page_prev/', page_prev, name="page_prev"),
     path('page_next/', page_next, name="page_next"),
     path('page_last/', page_last, name="page_last"),
+    path('dm_send/', dm_send, name="dm_send"),
 ]
