@@ -202,7 +202,6 @@ def dm_send(request):
     
 
 
-
 def csv_page(request):
     return render(request,"houjin/csv.html")
 
