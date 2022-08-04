@@ -1,4 +1,5 @@
 {% load humanize %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -129,7 +130,7 @@
                     <div style="width: 500px;">
                         {{cus.com}}
                     </div>
-                    <div class="class1" style="width: 400px;">
+                    <div class="class1" style="width: 330px;">
                         {% if cus.dm_day %}
                             <div class="status2">DM</div>
                         {% else %}
@@ -146,6 +147,11 @@
                             <div class="status2">外商</div>
                         {% else %}
                             <div class="status1">外商</div>
+                        {% endif %}
+                    </div>
+                    <div style="width: 70px;">
+                        {% if cus.dm_check %}
+                            <img src="{% static 'dm3.jpg' %}" style="margin-top: -1em;">
                         {% endif %}
                     </div>
                 </div>
