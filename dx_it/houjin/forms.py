@@ -1,7 +1,9 @@
 from django import forms
 from .models import Customer
 
+
 class Right_form(forms.ModelForm):
+
     tantou=forms.ChoiceField(
         choices=[(0,""),(1,"井上"),(2,"古川"),(3,"眞下"),(4,"夏八木"),(5,"藤井"),(6,"武井"),(7,"粂川")],
         label="担当者",
@@ -22,12 +24,13 @@ class Right_form(forms.ModelForm):
     dm_check=forms.BooleanField(
         label="DM配信",
         widget=forms.CheckboxInput(attrs={"type": "checkbox","class":"form-check-input","id":"dm_send"}),
-        required=False
+        required=False,
         )
+
     bikou=forms.CharField(label="備考",widget=forms.Textarea(attrs={"class":"form-control","rows":"3"}),required=False)
 
     class Meta:
         model=Customer
-        fields=["tantou","dm_day","tel_day","gaisho_day","kanshoku","bikou"]
+        fields=["tantou","dm_day","tel_day","gaisho_day","kanshoku","dm_check","bikou"]
 
 

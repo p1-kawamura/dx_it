@@ -144,6 +144,8 @@ def right1(request,pk):
     if request.method=="POST":
         ins=Customer.objects.get(pk=pk)
         form=Right_form(request.POST,instance=ins)
+        print("post")
+        print(request.POST.get("dm_check"))
         form.save()
         return redirect("houjin:left")
     else:
