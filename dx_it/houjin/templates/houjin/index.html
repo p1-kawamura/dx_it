@@ -37,6 +37,18 @@
             </div>           
         </div>       
     </div>
-    
+
+
+    <!-- CSVダウンロード -->
+    {% if dm == "OK" %}
+    <script>
+        location.href="{% url 'houjin:dm_send' %}";
+        setTimeout(function(){
+            window.parent.location.reload();
+        },2000);
+    </script>
+    {% endif %}
+
+
 </body>
 </html>

@@ -181,6 +181,10 @@ def delete(request):
         return redirect("houjin:index")
 
 
+def dm_down(request):
+    return render(request,"houjin/index.html",{"dm":"OK"})
+
+
 def dm_send(request):
     response = HttpResponse(content_type='text/csv; charset=CP932')
     response['Content-Disposition'] = 'attachment;  filename="dm_send.csv"'
