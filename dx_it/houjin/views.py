@@ -190,7 +190,12 @@ def dm_send(request):
     response['Content-Disposition'] = 'attachment;  filename="dm_send.csv"'
     writer = csv.writer(response)
 
-    dm_csv=Customer.objects.filter(dm_check=True)
+    tan=request.session["tantou"]
+    if tan == "99":
+        dm_csv=Customer.objects.filter(dm_check=True)
+    else:
+        dm_csv=Customer.objects.filter(dm_check=True,tantou=tan)
+
     for i in dm_csv:
         writer.writerow([
             i.com,
