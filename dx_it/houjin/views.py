@@ -215,6 +215,7 @@ def csv_page(request):
     return render(request,"houjin/csv.html")
 
 
+@login_required
 def download(request):
     response = HttpResponse(content_type='text/csv; charset=CP932')
     response['Content-Disposition'] = 'attachment;  filename="customer.csv"'
