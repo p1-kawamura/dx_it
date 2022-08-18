@@ -94,6 +94,24 @@ def left(request):
         all_num=cusms.count() / 30
     else:
         all_num=cusms.count() // 30 + 1
+
+
+    #件数
+    kensu_all=Customer.objects.all().count()
+    kensu_kensaku=cusms.count()
+    if tantou=="99":
+        kensu_tantou=kensu_all
+    else:
+        kensu_tantou=Customer.objects.filter(tantou=tantou).count()
+    
+    list2={"99":"全て表示","1":"井上","2":"古川","3":"眞下","4":"夏八木","5":"藤井","6":"武井","7":"粂川","0":"担当なし"}
+    tan=list2[tantou]
+
+    print(kensu_all)
+    print(tan)
+    print(kensu_tantou)
+    print(kensu_kensaku)
+
     
     #表示ページ情報
     list={1:"井上",2:"古川",3:"眞下",4:"夏八木",5:"藤井",6:"武井",7:"粂川"}
@@ -105,6 +123,10 @@ def left(request):
         "all_num":all_num,
         "data":data,
         "list":list,
+        "kensu_all":kensu_all,
+        "kensu_tantou":kensu_tantou,
+        "kensu_kensaku":kensu_kensaku,
+        "tan":tan,
     }
 
     return render(request,"houjin/left.html",params)

@@ -55,24 +55,24 @@
                 <div style="margin-left: 30px;">   
                     <div class="class2">
                         <div>住所：</div>
-                        <div><input class="form-control form-control-sm" type="text" name="find_adress" value="{{adress}}"></div>
+                        <div><input class="form-control form-control-sm" type="text" name="find_adress" id="find_adress" value="{{adress}}"></div>
                     </div>
                     <div class="class2" style="margin-top: 10px;">
                         <div>備考：</div>
-                        <div><input class="form-control form-control-sm" type="text" name="find_bikou" value="{{bikou}}"></div>
+                        <div><input class="form-control form-control-sm" type="text" name="find_bikou" id="find_bikou" value="{{bikou}}"></div>
                     </div>
                 </div>
                 <div style="margin-left: 30px;">
                     <div class="class2">
                         <div>登録日：</div>
-                        <div><input class="form-control form-control-sm" type="date" name="find_toroku_from" value="{{toroku_from}}"></div>
+                        <div><input class="form-control form-control-sm" type="date" name="find_toroku_from" id="find_toroku_from" value="{{toroku_from}}"></div>
                         <div style="margin-left: 5px;">～</div>
-                        <div style="margin-left: 5px;"><input class="form-control form-control-sm" type="date" name="find_toroku_to" value="{{toroku_to}}"></div>
+                        <div style="margin-left: 5px;"><input class="form-control form-control-sm" type="date" name="find_toroku_to" id="find_toroku_to" value="{{toroku_to}}"></div>
                     </div>
                     <div class="class2" style="margin-top: 10px;">
                         <div style="margin-left: 1em;">感触：</div>
                         <div>
-                            <select class="form-select form-select-sm" name="find_kanshoku">
+                            <select class="form-select form-select-sm" name="find_kanshoku" id="find_kanshoku">
                             {% for key,value in list2.items %}
                                 {% if key == kanshoku %}
                                     <option value="{{key}}" selected>{{value}}</option>
@@ -81,6 +81,9 @@
                                 {% endif %}
                             {% endfor %}
                             </select>
+                        </div>
+                        <div style="margin-left: 100px;">
+                            <button id="clear_btn" class="btn btn-outline-secondary btn-sm">クリア</button>
                         </div>
                     </div>
                 </div>
@@ -103,6 +106,27 @@
         hyouji.addEventListener("click",function(){
             positionY = 0;
             localStorage.setItem(STORAGE_KEY, positionY);
+        })
+
+
+
+        // フォームクリア
+        var clear_btn = document.getElementById("clear_btn");
+        var find_adress = document.getElementById("find_adress");
+        var find_bikou = document.getElementById("find_bikou");
+        var find_toroku_from = document.getElementById("find_toroku_from");
+        var find_toroku_to = document.getElementById("find_toroku_to");
+        var find_kanshoku = document.getElementById("find_kanshoku");
+
+        clear_btn.addEventListener("click",function(){
+            find_adress.value="";
+            find_bikou.value="";
+            find_toroku_from.value="0000-00-00";
+            find_toroku_to.value="0000-00-00";
+            find_kanshoku.options[0].selected=true;
+
+            event.stopPropagation();
+            event.preventDefault();
         })
 
     </script>
