@@ -75,6 +75,10 @@
                                 <td>外商：</td>
                                 <td>{{form.gaisho_day}}</td>
                             </tr>
+                            <tr>
+                                <td>納品：</td>
+                                <td>{{form.nohin_day}}</td>
+                            </tr>
                         </table>
                     </div>
                     <div style="margin-left: 20px;">
@@ -85,19 +89,19 @@
                         <div class="kanshoku_detail class1" id="kanshoku_detail" style="font-size: 90%; padding: 0.2em;">
                             {% for i in cus %}
                                 {% if  i.kanshoku == 1 %}
-                                    <div><img src="{% static 'ino_1.jpg' %}"></div>
+                                    <div><img src="{% static '1.jpg' %}"></div>
                                     <div style="margin-left: 10px;">ダメや。。</div>
                                 {% elif i.kanshoku == 2 %}
-                                    <div><img src="{% static 'ino_2.jpg' %}"></div>
+                                    <div><img src="{% static '2.jpg' %}"></div>
                                     <div style="margin-left: 10px;">期待はかなり薄いね</div>
                                 {% elif i.kanshoku == 3 %}
-                                    <div><img src="{% static 'ino_3.jpg' %}"></div>
+                                    <div><img src="{% static '3.jpg' %}"></div>
                                     <div style="margin-left: 10px;">可もなく<br>不可もなく</div>
                                 {% elif i.kanshoku == 4 %}
-                                    <div><img src="{% static 'ino_4.jpg' %}"></div>
+                                    <div><img src="{% static '4.jpg' %}"></div>
                                     <div style="margin-left: 10px;"> なかなかの好感触！</div>
                                 {% elif i.kanshoku == 5 %}
-                                    <div><img src="{% static 'ino_5.jpg' %}"></div>
+                                    <div><img src="{% static '5.jpg' %}"></div>
                                     <div style="margin-left: 10px;"> 超いい感じ！</div>
                                 {% endif %}
                             {% endfor %}

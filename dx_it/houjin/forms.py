@@ -13,6 +13,7 @@ class Right_form(forms.ModelForm):
     dm_day=forms.CharField(label="DM", widget=forms.DateInput(attrs={"type": "date","class":"form-control form-control-sm"}),required=False)
     tel_day=forms.CharField(label="TEL", widget=forms.DateInput(attrs={"type": "date","class":"form-control form-control-sm"}),required=False)
     gaisho_day=forms.CharField(label="外商", widget=forms.DateInput(attrs={"type": "date","class":"form-control form-control-sm"}),required=False)
+    nohin_day=forms.CharField(label="納品", widget=forms.DateInput(attrs={"type": "date","class":"form-control form-control-sm"}),required=False)
 
     kanshoku=forms.ChoiceField(
         choices=[(0,""),(5,"5"),(4,"4"),(3,"3"),(2,"2"),(1,"1")],
@@ -31,6 +32,6 @@ class Right_form(forms.ModelForm):
 
     class Meta:
         model=Customer
-        fields=["tantou","dm_day","tel_day","gaisho_day","kanshoku","dm_check","bikou"]
+        fields=["tantou","dm_day","tel_day","gaisho_day","nohin_day","kanshoku","dm_check","bikou"]
 
 

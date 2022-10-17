@@ -130,7 +130,7 @@
                     <div style="width: 500px;">
                         {{cus.com}}
                     </div>
-                    <div class="class1" style="width: 300px;">
+                    <div class="class1" style="width: 350px;">
                         {% if cus.dm_day %}
                             <div class="status2">DM</div>
                         {% else %}
@@ -148,8 +148,14 @@
                         {% else %}
                             <div class="status1">外商</div>
                         {% endif %}
+
+                        {% if cus.nohin_day %}
+                            <div class="status2">納品</div>
+                        {% else %}
+                            <div class="status1">納品</div>
+                        {% endif %}
                     </div>
-                    <div style="width: 100px;text-align: right;">
+                    <div style="width: 50px;text-align: right;">
                         {% if cus.dm_check %}
                             <img src="{% static 'dm3.gif' %}" style="margin-bottom: 0.5em;">
                         {% endif %}
