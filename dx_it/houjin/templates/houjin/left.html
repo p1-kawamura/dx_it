@@ -98,7 +98,7 @@
 </head>
 <body>
         <div style="width: 90%; margin: 0 auto;">
-            <div style="font-size: 90%;color: rgb(100, 100, 100);">検索結果：{{kensu_kensaku}}件　　{{tan}}：{{kensu_tantou}}件 / 全{{kensu_all}}件</div>
+            <div style="font-size: 90%;color: rgb(100, 100, 100);">詳細検索：{{kensu_kensaku}}件　　{{tan}}：{{kensu_tantou}}件 / 全{{kensu_all}}件</div>
             {% for cus in data %}
             <div class="main">
                 <form action="{% url 'houjin:right1' cus.pk %}" target="ifr2">{% csrf_token %}</form>
