@@ -61,3 +61,12 @@ class Item(models.Model):
 
     def __str__(self):
         return self.item_name
+
+
+class Sell(models.Model):
+    sell_cus_id=models.CharField("顧客ID",max_length=10,null=True,blank=True)
+    sell_mon=models.CharField("年月",max_length=10,null=True,blank=True)
+    sell_money=models.IntegerField("金額",null=True,blank=True)
+
+    def __str__(self):
+        return self.sell_mon

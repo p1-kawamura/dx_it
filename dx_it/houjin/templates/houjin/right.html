@@ -1,3 +1,4 @@
+{% load humanize %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="ja">
@@ -118,9 +119,56 @@
                 </div>
             </form>       
         </div>
-        <hr>
+        
         
         {% for i in cus %}
+        <!-- ------------------------------テスト------------------------------ -->
+        <form action="{% url 'houjin:sell' %}" method="post">{% csrf_token %}
+            <div class="class1 mt-3">
+                <div style="margin-left: 20px;">
+                    <label for="sell_mon">売上見込：</label>
+                    <input type="month" name="sell_mon" id="sell_mon" style="width: 120px;">
+                    
+                </div>               
+                <div style="margin-left: 15px;">
+                    <input type="hidden" name="sell_cus_id" id="sell_cus_id" value="{{i.cus_id}}" style="width: 100px;" >
+                </div>
+            </div>
+            <div class="class1 mt-3">
+                <div style="margin-left: 20px;">
+                    <label for="sell_money">見込金額：</label>
+                    <input type="number" name="sell_money" id="sell_money" style="width: 120px;">
+                </div>               
+                <div style="margin-left: 15px;">
+                    <button type="submit" class="btn btn-secondary btn-sm">追加</button> 
+                </div>
+            </div>
+        </form>
+    
+        
+            {% if sell %}
+            
+            <div>
+                <table class="table table-striped table-bordered table-sm mt-3" style="width: 300px;">
+                    {% for h in sell %}
+                    <tr>
+                        <td>{{h.sell_mon}}</td>
+                        <td>{{h.sell_money  | intcomma}}</td>
+                        <td align="center">
+                            <form action="{% url 'houjin:sell_delete' h.pk %}" method="post">{% csrf_token %}
+                                <div><input type="hidden" name="sell_cus_id" value="{{i.cus_id}}"></div>
+                                <button type="submit" style="font-size: 0.8em;">削除</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>            
+            </div>
+            {% endif %}
+        
+        <!-- ------------------------------テスト ここまで------------------------------ -->
+
+        <hr>
         <form action="{% url 'houjin:delete' %}" method="post" target="_top">{% csrf_token %}
             <div class="class1 mt-3">
                 <div style="margin-left: 20px;">

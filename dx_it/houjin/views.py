@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Customer,Recieve,Item
+from .models import Customer,Recieve,Item,Sell
 from django.contrib.auth.decorators import login_required
 import io
 import csv
@@ -168,7 +168,8 @@ def right1(request,pk):
         ins=Customer.objects.get(pk=pk)
         cus=Customer.objects.filter(pk=pk)
         form=Right_form(instance=ins)
-        return render(request,"houjin/right.html",{"form":form,"cus":cus})
+        sell=Sell.objects.filter(sell_cus_id = ins.cus_id).order_by("sell_mon")
+        return render(request,"houjin/right.html",{"form":form,"cus":cus,"sell":sell})
 
 
 def hyouji(request):
@@ -246,6 +247,34 @@ def download(request):
             i.money,
             ])
     return response
+
+
+def sell(request):
+    id=request.POST["sell_cus_id"]
+    mon=request.POST["sell_mon"]
+    money=request.POST["sell_money"]
+    Sell.objects.create(sell_cus_id=id, sell_mon=mon, sell_money=money)
+
+    ins=Customer.objects.get(cus_id=id)
+    cus=Customer.objects.filter(cus_id=id)
+    form=Right_form(instance=ins)
+    sell=Sell.objects.filter(sell_cus_id=id).order_by("sell_mon")
+
+    return render(request,"houjin/right.html",{"form":form,"cus":cus,"sell":sell})
+
+
+def sell_delete(request,pk):
+    print(pk)
+    Sell.objects.get(pk=pk).delete()
+
+    id=request.POST["sell_cus_id"]
+    ins=Customer.objects.get(cus_id=id)
+    cus=Customer.objects.filter(cus_id=id)
+    form=Right_form(instance=ins)
+    sell=Sell.objects.filter(sell_cus_id=id).order_by("sell_mon")
+
+    return render(request,"houjin/right.html",{"form":form,"cus":cus,"sell":sell})
+
 
 
 def upload(request):
