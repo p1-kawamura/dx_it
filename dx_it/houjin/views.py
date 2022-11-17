@@ -6,6 +6,8 @@ import csv
 from .forms import Right_form
 from django.http import HttpResponse
 import datetime
+from django.db import models
+from django.db.models import Q
 
 
 
@@ -264,7 +266,6 @@ def sell(request):
 
 
 def sell_delete(request,pk):
-    print(pk)
     Sell.objects.get(pk=pk).delete()
 
     id=request.POST["sell_cus_id"]
@@ -278,10 +279,24 @@ def sell_delete(request,pk):
 
 
 def index2(request):
+
+    nen="2022"
+    juchu=[]
+    for i in range(1,13):
+        total=Recieve.objects.filter(~Q(rec_cus_id__tantou = "0"),rec_day__contains = nen + "/" + str(i) +"/").aggregate(models.Sum("mitsu_money"))
+        print(nen + "/" + str(i))
+        print(total)
+
+
     if request.method == "POST":
         row=request.POST["row"]
         col=request.POST["col"]
         print(row,col)
+
+
+
+
+
     return render(request,"houjin/index2.html")
 
 
