@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import index,top,left,right,right1,upload,delete,hyouji,csv_page,page_next,page_last,page_first,page_prev,\
-    download,dm_send,dm_down,sell,sell_delete
+    download,dm_send,dm_down,sell,sell_delete,index2
 from django.contrib.auth import views as auth_views
 
 
@@ -27,4 +27,5 @@ urlpatterns = [
     path('dm_down/', dm_down, name="dm_down"),
     path('sell/', sell, name="sell"),
     path('sell_delete/<int:pk>', sell_delete, name="sell_delete"),
+    path('index2/', index2, name="index2"),
 ]

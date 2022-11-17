@@ -277,6 +277,16 @@ def sell_delete(request,pk):
 
 
 
+def index2(request):
+    if request.method == "POST":
+        row=request.POST["row"]
+        col=request.POST["col"]
+        print(row,col)
+    return render(request,"houjin/index2.html")
+
+
+
+
 def upload(request):
     #顧客一覧
     data = io.TextIOWrapper(request.FILES['csv1'].file, encoding="cp932")

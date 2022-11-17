@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>目標金額と進捗状況</title>
+</head>
+<body>
+    <table id="tb" border="1">
+        <tr>
+            <th></th>
+            <th>1月</th>
+            <th>2月</th>
+            <th>3月</th>
+            <th>4月</th>
+            <th>5月</th>
+            <th>6月</th>
+            <th>7月</th>
+            <th>8月</th>
+            <th>9月</th>
+            <th>10月</th>
+            <th>11月</th>
+            <th>12月</th>
+            <th>合計</th>          
+        </tr>
+        <tr>
+            <td>目標</td>
+            <td>100</td>
+            <td>200</td>
+            <td>300</td>
+            <td>400</td>
+            <td>500</td>
+            <td>600</td>
+            <td>700</td>
+            <td>800</td>
+            <td>900</td>
+            <td>1000</td>
+            <td>1100</td>
+            <td>1200</td>
+            <td>7800</td>
+        </tr>
+        <tr>
+            <td>実績</td>
+            <td>100</td>
+            <td>200</td>
+            <td>300</td>
+            <td>400</td>
+            <td>500</td>
+            <td>600</td>
+            <td>700</td>
+            <td>800</td>
+            <td>900</td>
+            <td>1000</td>
+            <td>1100</td>
+            <td>1200</td>
+            <td>7800</td>
+        </tr>
+    </table>
+
+    <div>
+        <form action="{% url 'houjin:index2' %}" id="frm" method="post">{% csrf_token %}
+            <input type="text" id="row" name="row">
+            <input type="text" id="col" name="col">
+        </form>
+    </div>
+
+    <script>
+
+        function getCELL() {
+            var myTbl = document.getElementById('tb');
+                // trをループ。rowsコレクションで,行位置取得。
+            for (var i=0; i<myTbl.rows.length; i++) {
+                // tr内のtdをループ。cellsコレクションで行内セル位置取得。
+                for (var j=0; j<myTbl.rows[i].cells.length; j++) {
+                    var Cells=myTbl.rows[i].cells[j]; //i番行のj番列のセル "td"
+                    // onclickで 'Mclk'を実行。thisはクリックしたセル"td"のオブジェクトを返す。
+                    Cells.onclick =function(){Mclk(this);}
+                }
+            }
+        }
+        function Mclk(Cell) {
+            var row_in = document.getElementById("row") ;
+            var col_in =document.getElementById("col");
+            var frm_in = document.getElementById("frm");
+
+            row_in.value=Cell.parentNode.rowIndex;
+            col_in.value=Cell.cellIndex;
+            frm_in.submit();
+        }
+
+        try{
+            window.addEventListener("load",getCELL,false);
+        }catch(e){
+                window.attachEvent("onload",getCELL);
+                }
+        
+    </script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
