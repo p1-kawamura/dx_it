@@ -307,7 +307,7 @@ def index2(request):
     tsuki_list.append("合計")   
     juchu.append(sum(juchu))
     yotei.append(sum(yotei))
-
+    
     params={
         "nen_list":nen_list,
         "tsuki_list":tsuki_list,
@@ -315,7 +315,6 @@ def index2(request):
         "juchu":juchu,
         "yotei":yotei,
     }   
-
     return render(request,"houjin/index2.html",params)
 
 
@@ -329,7 +328,6 @@ def index2_nen(request):
 
 def index2_click(request):
     if request.method == "POST":
-
         row=request.POST["row"]
         col=request.POST["col"]
         print(row,col)
