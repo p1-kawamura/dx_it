@@ -284,8 +284,10 @@ def index2(request):
     juchu=[]
     for i in range(1,13):
         total=Recieve.objects.filter(~Q(rec_cus_id__tantou = "0"),rec_day__contains = nen + "/" + str(i) +"/").aggregate(models.Sum("mitsu_money"))
+        total2=Sell.objects.filter(sell_mon__contains  = nen + "-" + str(i).zfill(2)).aggregate(models.Sum("sell_money"))
         print(nen + "/" + str(i))
         print(total)
+        print(total2)
 
 
     if request.method == "POST":
