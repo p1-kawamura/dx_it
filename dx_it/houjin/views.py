@@ -287,35 +287,38 @@ def index2(request):
         nen=request.session["nen"]
 
     nen_list=["2022","2023","2024","2025"]
+    tsuki_list=[]
     juchu=[]
     yotei=[]
-    gokei=0
-    gokei2=0
-
+    
     for i in range(1,13):
+        tsuki_list.append(str(i)+"月")
+
         total=Recieve.objects.filter(~Q(rec_cus_id__tantou = "0"),rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
         if total["total"] is None:
             total["total"]=0
-        gokei += total["total"]
+        juchu.append(total["total"])
 
         total2=Sell.objects.filter(sell_mon__contains  = nen + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
         if total2["total2"] is None:
             total2["total2"]=0
-        gokei2 += total2["total2"]
+        yotei.append(total2["total2"])
 
-        juchu.append(total)
-        yotei.append(total2)
+    tsuki_list.append("合計")   
+    juchu.append(sum(juchu))
+    yotei.append(sum(yotei))
 
     params={
         "nen_list":nen_list,
+        "tsuki_list":tsuki_list,
         "nen":nen,
         "juchu":juchu,
         "yotei":yotei,
-        "gokei":gokei,
-        "gokei2":gokei2,
     }   
 
     return render(request,"houjin/index2.html",params)
+
+
 
 def index2_nen(request):
     nen=request.POST["nen"]
@@ -323,8 +326,10 @@ def index2_nen(request):
     return redirect("houjin:index2")
 
 
+
 def index2_click(request):
     if request.method == "POST":
+
         row=request.POST["row"]
         col=request.POST["col"]
         print(row,col)
