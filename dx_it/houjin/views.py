@@ -279,28 +279,57 @@ def sell_delete(request,pk):
 
 
 def index2(request):
+    
+    if "nen" not in request.session:
+        nen="2022"
+        request.session["nen"]="2022"
+    else:
+        nen=request.session["nen"]
 
-    nen="2022"
+    nen_list=["2022","2023","2024","2025"]
     juchu=[]
+    yotei=[]
+    gokei=0
+    gokei2=0
+
     for i in range(1,13):
-        total=Recieve.objects.filter(~Q(rec_cus_id__tantou = "0"),rec_day__contains = nen + "/" + str(i) +"/").aggregate(models.Sum("mitsu_money"))
-        total2=Sell.objects.filter(sell_mon__contains  = nen + "-" + str(i).zfill(2)).aggregate(models.Sum("sell_money"))
-        print(nen + "/" + str(i))
-        print(total)
-        print(total2)
+        total=Recieve.objects.filter(~Q(rec_cus_id__tantou = "0"),rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
+        if total["total"] is None:
+            total["total"]=0
+        gokei += total["total"]
+
+        total2=Sell.objects.filter(sell_mon__contains  = nen + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
+        if total2["total2"] is None:
+            total2["total2"]=0
+        gokei2 += total2["total2"]
+
+        juchu.append(total)
+        yotei.append(total2)
+
+    params={
+        "nen_list":nen_list,
+        "nen":nen,
+        "juchu":juchu,
+        "yotei":yotei,
+        "gokei":gokei,
+        "gokei2":gokei2,
+    }   
+
+    return render(request,"houjin/index2.html",params)
+
+def index2_nen(request):
+    nen=request.POST["nen"]
+    request.session["nen"]=nen
+    return redirect("houjin:index2")
 
 
+def index2_click(request):
     if request.method == "POST":
         row=request.POST["row"]
         col=request.POST["col"]
         print(row,col)
 
-
-
-
-
-    return render(request,"houjin/index2.html")
-
+    return redirect("houjin:index2")
 
 
 
