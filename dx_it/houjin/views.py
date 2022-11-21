@@ -291,10 +291,16 @@ def index2(request):
     juchu=[]
     yotei=[]
     
+    
+    cus=Sell.objects.distinct().values_list("sell_cus_id",flat=True)
+
     for i in range(1,13):
         tsuki_list.append(str(i)+"月")
 
-        total=Recieve.objects.filter(~Q(rec_cus_id__tantou = "0"),rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
+        #担当付きの場合
+        # total=Recieve.objects.filter(~Q(rec_cus_id__tantou = "0"),rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
+        #目標設定ありの場合
+        total=Recieve.objects.filter(rec_cus_id__cus_id__in=cus , rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
         if total["total"] is None:
             total["total"]=0
         juchu.append(total["total"])
