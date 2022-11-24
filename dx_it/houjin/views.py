@@ -432,6 +432,8 @@ def upload(request):
 
 
 def rec_keisan(request):
+    
+    #受注件数と合計金額
     cus=Customer.objects.all()
     for i in cus:
         kensu=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")),rec_cus_id__cus_id=i.cus_id).count()
@@ -443,6 +445,13 @@ def rec_keisan(request):
         i.kensu=kensu
         i.money=money
         i.save()
+
+    #商品詳細の重複削除
+    item=Item.objects.all().order_by("id").reverse()
+    for i in item:
+        cnt=Item.objects.filter(item_rec_id=i.item_rec_id , item_name=i.item_name).count()
+        if cnt>1:
+            i.delete()
 
     return render(request,"houjin/csv.html",{"message2":"計算が完了しました"})    
 
