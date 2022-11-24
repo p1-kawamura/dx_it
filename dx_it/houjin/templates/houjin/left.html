@@ -94,10 +94,10 @@
             text-shadow: 1px 1px 1px rgb(69, 68, 68);
         }
         .tokyo{
-            background-image: linear-gradient(135deg, rgb(245, 102, 102) 10px, transparent 0);
+            background-image: linear-gradient(135deg, rgb(111, 111, 253) 10px, transparent 0);
         }
         .osaka{
-            background-image: linear-gradient(135deg, rgb(111, 111, 253) 10px, transparent 0);
+            background-image: linear-gradient(135deg, rgb(245, 102, 102) 10px, transparent 0);
         }
     </style>
 
@@ -204,7 +204,7 @@
                 <div style="display: none;">
                     {% for rec in cus.recieve_set.all %}
                         <hr>
-                        {% if rec.rec_day %}
+                        {% if rec.status == "発送完了" or rec.status == "終了" %}
                         <div class="detail3">
                         {% else %}
                         <div class="detail2">

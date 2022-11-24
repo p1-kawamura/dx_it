@@ -434,8 +434,8 @@ def upload(request):
 def rec_keisan(request):
     cus=Customer.objects.all()
     for i in cus:
-        kensu=Recieve.objects.filter(~Q(rec_day = ""),rec_cus_id__cus_id=i.cus_id).count()
-        money=Recieve.objects.filter(~Q(rec_day = ""),rec_cus_id__cus_id=i.cus_id).aggregate(total = models.Sum("mitsu_money"))
+        kensu=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")),rec_cus_id__cus_id=i.cus_id).count()
+        money=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")),rec_cus_id__cus_id=i.cus_id).aggregate(total = models.Sum("mitsu_money"))
         money=money["total"]
         if kensu == 0:
             money=0
