@@ -427,23 +427,22 @@ def upload(request):
         h+=1
 
 
+    return render(request,"houjin/csv.html",{"message":"CSVの読み込みが完了しました"}) 
 
-    #WEB更新
-    data = io.TextIOWrapper(request.FILES['csv4'].file, encoding="cp932")
-    csv_content = csv.reader(data)
-    
-    csv_list=list(csv_content)
 
-    if len(csv_list[0])>0:
-        for i in csv_list:
-            Customer.objects.update_or_create(
-                cus_id=i[0],
-                defaults={
-                    "cus_id":i[0],
-                    "kensu":i[1],
-                    "money":i[2],
-                }            
-            )  
 
-    return redirect("houjin:index")
+def rec_keisan(request):
+    cus=Customer.objects.all()
+    for i in cus:
+        kensu=Recieve.objects.filter(~Q(rec_day = ""),rec_cus_id__cus_id=i.cus_id).count()
+        money=Recieve.objects.filter(~Q(rec_day = ""),rec_cus_id__cus_id=i.cus_id).aggregate(total = models.Sum("mitsu_money"))
+        money=money["total"]
+        if kensu == 0:
+            money=0
+
+        i.kensu=kensu
+        i.money=money
+        i.save()
+
+    return render(request,"houjin/csv.html",{"message2":"計算が完了しました"})    
 

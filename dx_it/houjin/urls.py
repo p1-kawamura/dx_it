@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import index,top,left,right,right1,upload,delete,hyouji,csv_page,page_next,page_last,page_first,page_prev,\
-    download,dm_send,dm_down,sell,sell_delete,index2,index2_click,index2_nen
+    download,dm_send,dm_down,sell,sell_delete,index2,index2_click,index2_nen,rec_keisan
 from django.contrib.auth import views as auth_views
 
 
@@ -30,4 +30,5 @@ urlpatterns = [
     path('index2/', index2, name="index2"),
     path('index2_click/', index2_click, name="index2_click"),
     path('index2_nen/', index2_nen, name="index2_nen"),
+    path('rec_keisan', rec_keisan, name="rec_keisan"),
 ]
