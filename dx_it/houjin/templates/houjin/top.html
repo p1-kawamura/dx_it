@@ -28,12 +28,32 @@
 
 </head>
 <body>
-    <div class="class3" style="width: 90%;">
+
+    <div class="mt-2 mb-2" style="width: 95%; margin:0 auto;">
+        <form action="{% url 'houjin:hyouji' %}" method="post" target="_top">{% csrf_token %}
+            <table>
+                <tr>
+                    <td>aaa</td>
+                </tr>
+
+
+
+            </table>
+        </form>
+    </div>
+
+
+
+
+
+
+
+    <div class="class3" style="width: 95%;">
     <div class="class1 mt-2 mb-2">
         <form action="{% url 'houjin:hyouji' %}" method="post" target="_top">{% csrf_token %}
         
-            <div  class="class2" style="margin-left: 80px;margin-top: 10px;">
-                <div>
+            <div  class="class2" style="margin-left: 10px; margin-top: 10px;">
+                <div style="width: 180px;">
                     <div class="class2">
                         <div>担当者：</div>
                         <div>
@@ -48,10 +68,20 @@
                             </select>
                         </div>
                     </div>
-                    <div id="hyouji_btn" style="margin-top: 10px; text-align: right;">
-                        <button class="btn btn-secondary btn-sm" type="submit">表示</button>
+                    <div id="hyouji_btn" style="margin-top: 10px;">
+                        <button class="btn btn-secondary btn-sm" type="submit">検索結果を表示</button>
                     </div>
-                </div>                  
+                </div>
+                <div style="margin-left: 30px;">   
+                    <div class="class2">
+                        <div>会社名：</div>
+                        <div><input class="form-control form-control-sm" type="text" name="find_adress" id="find_adress" value="{{adress}}"></div>
+                    </div>
+                    <div class="class2" style="margin-top: 10px;">
+                        <div>顧客ID：</div>
+                        <div><input class="form-control form-control-sm" type="text" name="find_bikou" id="find_bikou" value="{{bikou}}"></div>
+                    </div>
+                </div>              
                 <div style="margin-left: 30px;">   
                     <div class="class2">
                         <div>住所：</div>
@@ -85,6 +115,14 @@
                         <div style="margin-left: 100px;">
                             <button id="clear_btn" class="btn btn-outline-secondary btn-sm">クリア</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class2" style="margin-left:180px;">
+                    <div class="class2">
+                        <div>備考：</div>
+                        <div><input class="form-control form-control-sm" type="text" name="find_bikou" id="find_bikou" value="{{bikou}}"></div>
                     </div>
                 </div>
             </div>
