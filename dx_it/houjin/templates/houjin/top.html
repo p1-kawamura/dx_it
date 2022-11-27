@@ -25,6 +25,12 @@
         flex-direction: row;
         flex-wrap: nowrap;
     }
+    .class4{
+        margin-right: 0;
+        margin-left: auto;
+        margin-bottom: 0;
+        margin-top: auto;
+    }
     td{
         padding-top: 10px;
         padding-left: 30px;   
@@ -182,7 +188,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div>
+                <div class="class4">
                     <a href="{% url 'houjin:dm_down' %}"><button class="btn btn-primary"><img src="{% static 'dm3.gif' %}"> DM配信リスト</button></a>
                 </div>
             </div>
