@@ -60,7 +60,7 @@
                                 <td>
                                     <div class="class2">
                                         <div>会社名：</div>
-                                        <div><input class="form-control form-control-sm" type="text" name="find_adress" id="find_adress" value="{{adress}}"></div>
+                                        <div><input class="form-control form-control-sm" type="text" name="find_name" id="find_name" value="{{name}}"></div>
                                     </div>
                                 </td>
                                 <td>
@@ -88,7 +88,7 @@
                                 <td>
                                     <div class="class2">
                                         <div>顧客ID：</div>
-                                        <div><input class="form-control form-control-sm" type="text" name="find_bikou" id="find_bikou" value="{{bikou}}"></div>
+                                        <div><input class="form-control form-control-sm" type="text" name="find_cus_id" id="find_cus_id" value="{{cus_id}}"></div>
                                     </div>
                                 </td>
                                 <td>
@@ -123,40 +123,56 @@
                                         <div class="class2">
                                             <div style="margin-left: 1em;">DM：</div>
                                             <div>
-                                                <select class="form-select form-select-sm" name="" id="">
-                                                    <option value="">　</option>
-                                                    <option value="">済</option>
-                                                    <option value="">未</option>
+                                                <select class="form-select form-select-sm" name="find_sta_dm" id="find_sta_dm">
+                                                    {% for i in sta_dm_list %}
+                                                        {% if i == sta_dm %}
+                                                            <option selected>{{i}}</option>
+                                                        {% else %}
+                                                            <option>{{i}}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="class2">
                                             <div style="margin-left: 1em;">TEL：</div>
                                             <div>
-                                                <select class="form-select form-select-sm" name="" id="">
-                                                    <option value="">　</option>
-                                                    <option value="">済</option>
-                                                    <option value="">未</option>
+                                                <select class="form-select form-select-sm" name="find_sta_tel" id="find_sta_tel">
+                                                    {% for i in sta_tel_list %}
+                                                        {% if i == sta_tel %}
+                                                            <option selected>{{i}}</option>
+                                                        {% else %}
+                                                            <option>{{i}}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="class2">
                                             <div style="margin-left: 1em;">外商：</div>
                                             <div>
-                                                <select class="form-select form-select-sm" name="" id="">
-                                                    <option value="">　</option>
-                                                    <option value="">済</option>
-                                                    <option value="">未</option>
+                                                <select class="form-select form-select-sm" name="find_sta_gaisho" id="find_sta_gaisho">
+                                                    {% for i in sta_gaisho_list %}
+                                                        {% if i == sta_gaisho %}
+                                                            <option selected>{{i}}</option>
+                                                        {% else %}
+                                                            <option>{{i}}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="class2">
                                             <div style="margin-left: 1em;">納品：</div>
                                             <div>
-                                                <select class="form-select form-select-sm" name="" id="">
-                                                    <option value="">　</option>
-                                                    <option value="">済</option>
-                                                    <option value="">未</option>
+                                                <select class="form-select form-select-sm" name="find_sta_nouhin" id="find_sta_nouhin">
+                                                    {% for i in sta_nouhin_list %}
+                                                        {% if i == sta_nouhin %}
+                                                            <option selected>{{i}}</option>
+                                                        {% else %}
+                                                            <option>{{i}}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
@@ -173,96 +189,6 @@
         </form>
     </div>
 
-
-
-
-
-<!-- 
-
-    <div class="class3" style="width: 95%;">
-    <div class="class1 mt-2 mb-2">
-        <form action="{% url 'houjin:hyouji' %}" method="post" target="_top">{% csrf_token %}
-        
-            <div  class="class2">
-                <div style="width: 180px;">
-                    <div class="class2">
-                        <div>担当者：</div>
-                        <div>
-                            <select class="form-select form-select-sm" name="tantou" id="tantou">
-                                {% for key,value in list.items %}
-                                    {% if key == tantou %}
-                                        <option value="{{key}}" selected>{{value}}</option>
-                                    {% else %}
-                                        <option value="{{key}}">{{value}}</option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div id="hyouji_btn">
-                        <button class="btn btn-secondary btn-sm" type="submit">検索結果を表示</button>
-                    </div>
-                </div>
-                <div style="margin-left: 30px;">   
-                    <div class="class2">
-                        <div>会社名：</div>
-                        <div><input class="form-control form-control-sm" type="text" name="find_adress" id="find_adress" value="{{adress}}"></div>
-                    </div>
-                    <div class="class2">
-                        <div>顧客ID：</div>
-                        <div><input class="form-control form-control-sm" type="text" name="find_bikou" id="find_bikou" value="{{bikou}}"></div>
-                    </div>
-                </div>              
-                <div style="margin-left: 30px;">   
-                    <div class="class2">
-                        <div>住所：</div>
-                        <div><input class="form-control form-control-sm" type="text" name="find_adress" id="find_adress" value="{{adress}}"></div>
-                    </div>
-                    <div class="class2">
-                        <div>備考：</div>
-                        <div><input class="form-control form-control-sm" type="text" name="find_bikou" id="find_bikou" value="{{bikou}}"></div>
-                    </div>
-                </div>
-                <div style="margin-left: 30px;">
-                    <div class="class2">
-                        <div>登録日：</div>
-                        <div><input class="form-control form-control-sm" type="date" name="find_toroku_from" id="find_toroku_from" value="{{toroku_from}}"></div>
-                        <div style="margin-left: 5px;">～</div>
-                        <div style="margin-left: 5px;"><input class="form-control form-control-sm" type="date" name="find_toroku_to" id="find_toroku_to" value="{{toroku_to}}"></div>
-                    </div>
-                    <div class="class2">
-                        <div style="margin-left: 1em;">感触：</div>
-                        <div>
-                            <select class="form-select form-select-sm" name="find_kanshoku" id="find_kanshoku">
-                            {% for key,value in list2.items %}
-                                {% if key == kanshoku %}
-                                    <option value="{{key}}" selected>{{value}}</option>
-                                {% else %}
-                                    <option value="{{key}}">{{value}}</option>
-                                {% endif %}
-                            {% endfor %}
-                            </select>
-                        </div>
-                        <div style="margin-left: 100px;">
-                            <button id="clear_btn" class="btn btn-outline-secondary btn-sm">クリア</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="class2" style="margin-left:180px;">
-                    <div class="class2">
-                        <div>備考：</div>
-                        <div><input class="form-control form-control-sm" type="text" name="find_bikou" id="find_bikou" value="{{bikou}}"></div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="mt-4">
-        <a href="{% url 'houjin:dm_down' %}"><button class="btn btn-primary">DMリスト</button></a>
-    </div>
-    </div> -->
 
 
     <script>
@@ -286,6 +212,12 @@
         var find_toroku_from = document.getElementById("find_toroku_from");
         var find_toroku_to = document.getElementById("find_toroku_to");
         var find_kanshoku = document.getElementById("find_kanshoku");
+        var find_cus_id = document.getElementById("find_cus_id");
+        var find_name= document.getElementById("find_name");
+        var find_sta_dm= document.getElementById("find_sta_dm");
+        var find_sta_tel= document.getElementById("find_sta_tel");
+        var find_sta_gaisho= document.getElementById("find_sta_gaisho");
+        var find_sta_nouhin= document.getElementById("find_sta_nouhin");
 
         clear_btn.addEventListener("click",function(){
             find_adress.value="";
@@ -293,6 +225,12 @@
             find_toroku_from.value="0000-00-00";
             find_toroku_to.value="0000-00-00";
             find_kanshoku.options[0].selected=true;
+            find_cus_id.value="";
+            find_name.value="";
+            find_sta_dm.options[0].selected=true;
+            find_sta_tel.options[0].selected=true;
+            find_sta_gaisho.options[0].selected=true;
+            find_sta_nouhin.options[0].selected=true;
 
             event.stopPropagation();
             event.preventDefault();

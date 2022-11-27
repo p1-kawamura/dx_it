@@ -31,6 +31,18 @@ def index(request):
         request.session["kanshoku"]=0
     if request.session["kanshoku"]=="":
         request.session["kanshoku"]=0
+    if "cus_id" not in request.session:
+        request.session["cus_id"]=""
+    if "name" not in request.session:
+        request.session["name"]=""
+    if "sta_dm" not in request.session:
+        request.session["sta_dm"]=""
+    if "sta_tel" not in request.session:
+        request.session["sta_tel"]=""
+    if "sta_gaisho" not in request.session:
+        request.session["sta_gaisho"]=""
+    if "sta_nouhin" not in request.session:
+        request.session["sta_nouhin"]=""
 
     return render(request,"houjin/index.html")
 
@@ -44,6 +56,17 @@ def top(request):
     toroku_from=request.session["toroku_from"]
     toroku_to=request.session["toroku_to"]
     kanshoku=request.session["kanshoku"]
+    cus_id=request.session["cus_id"]
+    name=request.session["name"]
+    sta_dm=request.session["sta_dm"]
+    sta_dm_list=["","済","未"]
+    sta_tel=request.session["sta_tel"]
+    sta_tel_list=["","済","未"]
+    sta_gaisho=request.session["sta_gaisho"]
+    sta_gaisho_list=["","済","未"]
+    sta_nouhin=request.session["sta_nouhin"]
+    sta_nouhin_list=["","済","未"]
+
     params={
         "list":list,
         "list2":list2,
@@ -53,6 +76,16 @@ def top(request):
         "toroku_from":toroku_from,
         "toroku_to":toroku_to,
         "kanshoku":kanshoku,
+        "cus_id":cus_id,
+        "name":name,
+        "sta_dm":sta_dm,
+        "sta_dm_list":sta_dm_list,
+        "sta_tel":sta_tel,
+        "sta_tel_list":sta_tel_list,
+        "sta_gaisho":sta_gaisho,
+        "sta_gaisho_list":sta_gaisho_list,
+        "sta_nouhin":sta_nouhin,
+        "sta_nouhin_list":sta_nouhin_list,
     }
     return render(request,"houjin/top.html",params)
 
@@ -64,6 +97,12 @@ def left(request):
     toroku_from=request.session["toroku_from"]
     toroku_to=request.session["toroku_to"]
     kanshoku=request.session["kanshoku"]
+    cus_id=request.session["cus_id"]
+    name=request.session["name"]
+    sta_dm=request.session["sta_dm"]
+    sta_tel=request.session["sta_tel"]
+    sta_gaisho=request.session["sta_gaisho"]
+    sta_nouhin=request.session["sta_nouhin"]
 
     #検索条件
     str={}
@@ -77,6 +116,27 @@ def left(request):
         str["toroku__gte"]=toroku_from
     if toroku_to != "":
         str["toroku__lte"]=toroku_to
+    if cus_id != "":
+        str["cus_id"]=cus_id
+    if name != "":
+        str["com__contains"]=name
+
+    if sta_dm == "済":
+        str["dm_day__contains"]="-"
+    elif sta_dm == "未":
+        str["dm_day"]=""
+    if sta_tel == "済":
+        str["tel_day__contains"]="-"
+    elif sta_tel == "未":
+        str["tel_day"]=""
+    if sta_gaisho == "済":
+        str["gaisho_day__contains"]="-"
+    elif sta_gaisho == "未":
+        str["gaisho_day"]=""
+    if sta_nouhin == "済":
+        str["nouhin_day__contains"]="-"
+    elif sta_nouhin == "未":
+        str["nouhin_day"]=""
     
 
     #検索データ取得
@@ -181,6 +241,12 @@ def hyouji(request):
     toroku_from=request.POST["find_toroku_from"]
     toroku_to=request.POST["find_toroku_to"]
     kanshoku=request.POST["find_kanshoku"]
+    cus_id=request.POST["find_cus_id"]
+    name=request.POST["find_name"]
+    sta_dm=request.POST["find_sta_dm"]
+    sta_tel=request.POST["find_sta_tel"]
+    sta_gaisho=request.POST["find_sta_gaisho"]
+    sta_nouhin=request.POST["find_sta_nouhin"]
 
     request.session["tantou"]=tantou
     request.session["num"]=1
@@ -189,6 +255,12 @@ def hyouji(request):
     request.session["toroku_from"]=toroku_from
     request.session["toroku_to"]=toroku_to
     request.session["kanshoku"]=kanshoku
+    request.session["cus_id"]=cus_id
+    request.session["name"]=name
+    request.session["sta_dm"]=sta_dm
+    request.session["sta_tel"]=sta_tel
+    request.session["sta_gaisho"]=sta_gaisho
+    request.session["sta_nouhin"]=sta_nouhin
 
     return redirect("houjin:index")
 
@@ -432,7 +504,7 @@ def upload(request):
 
 
 def rec_keisan(request):
-    
+
     #受注件数と合計金額
     cus=Customer.objects.all()
     for i in cus:
