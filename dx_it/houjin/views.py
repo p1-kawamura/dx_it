@@ -91,6 +91,8 @@ def top(request):
 
 
 def left(request):
+    if "tantou" not in request.session:
+        request.session["tantou"]=99
     tantou=request.session["tantou"]
     adress=request.session["adress"]
     bikou=request.session["bikou"]
