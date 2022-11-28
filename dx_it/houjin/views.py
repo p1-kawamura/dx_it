@@ -18,7 +18,7 @@ def index(request):
     if "all_num" not in request.session:
         request.session["all_num"]=""
     if "tantou" not in request.session:
-        request.session["tantou"]=99
+        request.session["tantou"]="99"
     if "adress" not in request.session:
         request.session["adress"]=""
     if "bikou" not in request.session:
@@ -91,8 +91,6 @@ def top(request):
 
 
 def left(request):
-    if "tantou" not in request.session:
-        request.session["tantou"]=99
     tantou=request.session["tantou"]
     adress=request.session["adress"]
     bikou=request.session["bikou"]
@@ -326,6 +324,8 @@ def download(request):
 
 
 def sell(request):
+    print("sellへ飛んできた")
+
     id=request.POST["sell_cus_id"]
     mon=request.POST["sell_mon"]
     money=request.POST["sell_money"]
