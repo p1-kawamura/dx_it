@@ -359,12 +359,14 @@ def index2(request):
         request.session["nen"]="2022"
     else:
         nen=request.session["nen"]
+    if "cus_detail" not in request.session:
+        request.session["cus_detail"]=[]
+    
 
     nen_list=["2022","2023","2024","2025"]
     tsuki_list=[]
     juchu=[]
     yotei=[]
-    
     
     cus=Sell.objects.distinct().values_list("sell_cus_id",flat=True)
 
@@ -384,9 +386,11 @@ def index2(request):
             total2["total2"]=0
         yotei.append(total2["total2"])
 
-    tsuki_list.append("合計")   
+    tsuki_list.append("合計")
     juchu.append(sum(juchu))
     yotei.append(sum(yotei))
+
+    cus_detail=request.session["cus_detail"]
     
     params={
         "nen_list":nen_list,
@@ -394,7 +398,10 @@ def index2(request):
         "nen":nen,
         "juchu":juchu,
         "yotei":yotei,
-    }   
+    }
+    if len(cus_detail)!=0:
+        params["cus_detail"]=cus_detail
+
     return render(request,"houjin/index2.html",params)
 
 
@@ -402,16 +409,15 @@ def index2(request):
 def index2_nen(request):
     nen=request.POST["nen"]
     request.session["nen"]=nen
+    request.session["cus_detail"]=[]
     return redirect("houjin:index2")
 
 
 
 def index2_click(request):
-    if request.method == "POST":
-        row=request.POST["row"]
-        col=request.POST["col"]
-        print(row,col)
-
+    col=request.POST["col"]
+    cus_detail=[{"id":1,"moku":[110,100,0,0,0],"jitsu":[0,200,0,10,0]},{"id":2,"moku":[0,0,50,0,100],"jitsu":[0,700,0,0,50]}]
+    request.session["cus_detail"]=cus_detail
     return redirect("houjin:index2")
 
 

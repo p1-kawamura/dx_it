@@ -123,27 +123,28 @@
         
         {% for i in cus %}
         <!-- ------------------------------テスト------------------------------ -->
-        <form action="{% url 'houjin:sell' %}" method="post">{% csrf_token %}
-            <div class="class1 mt-3">
-                <div style="margin-left: 20px;">
-                    <label for="sell_mon">売上見込：</label>
-                    <input type="month" name="sell_mon" id="sell_mon" style="width: 120px;">
-                    
-                </div>               
-                <div>
-                    <input type="hidden" name="sell_cus_id" id="sell_cus_id" value="{{i.cus_id}}" style="width: 100px;" >
+        <div>
+            <form action="{% url 'houjin:sell' %}" method="post">{% csrf_token %}
+                <div class="class1 mt-3">
+                    <div style="margin-left: 20px;">
+                        <label for="sell_mon">売上見込：</label>
+                        <input type="month" name="sell_mon" id="sell_mon" style="width: 120px;" required>
+                    </div>               
+                    <div>
+                        <input type="text" name="sell_cus_id" id="sell_cus_id" value="{{i.cus_id}}" style="width: 100px;" >
+                    </div>
                 </div>
-            </div>
-            <div class="class1 mt-3">
-                <div style="margin-left: 20px;">
-                    <label for="sell_money">見込金額：</label>
-                    <input type="number" name="sell_money" id="sell_money" style="width: 120px;">
-                </div>               
-                <div style="margin-left: 15px;">
-                    <button type="submit" class="btn btn-secondary btn-sm">追加</button> 
+                <div class="class1 mt-3">
+                    <div style="margin-left: 20px;">
+                        <label for="sell_money">見込金額：</label>
+                        <input type="number" name="sell_money" id="sell_money" style="width: 120px;" required>
+                    </div>               
+                    <div style="margin-left: 15px;">
+                        <button type="submit" class="btn btn-secondary btn-sm">追加</button> 
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     
         
         {% if sell %} 
@@ -276,7 +277,8 @@
                 kanshoku_detail.innerHTML="";
             }
         }
-       
+        
+
     </script>
 </body>
 </html>

@@ -14,14 +14,17 @@
             flex-direction: row;
             align-items: center;
         }
-
+        #tb #yue:hover {
+            color: white;
+            background-color: rgb(244, 144, 51);
+        }
 
 
     </style>
 </head>
 <body>
 
-    <div class="mt-4" style="width: 90%; margin: 0 auto;">
+    <div class="mt-4" style="width: 80%; margin: 0 auto;">
 
         
             <form action="{% url 'houjin:index2_nen' %}" method="post">{% csrf_token %}
@@ -49,7 +52,7 @@
             <tr style="text-align: center;">
                 <th></th>
                 {% for i in tsuki_list %}
-                    <th style="width: 90px;">{{i}}</th>
+                    <th id="yue" style="width: 90px;"><a>{{i}}</a></th>
                 {% endfor %}         
             </tr>
             <tr style="text-align: right;">
@@ -68,9 +71,25 @@
 
         <div>
             <form action="{% url 'houjin:index2_click' %}" id="frm" method="post">{% csrf_token %}              
-                <input type="text" id="row" name="row">
                 <input type="text" id="col" name="col">
             </form>
+        </div>
+
+
+        <!-- 個別表示 -->
+        <div>
+            {% for i in cus_detail %}
+                {{i.id}}
+                <br>
+                {% for h in i.moku %}
+                    {{h}}
+                {% endfor %}
+                <br>
+                {% for h in i.jitsu %}
+                    {{h}}
+                {% endfor %}
+                <hr>
+            {% endfor %}
         </div>
         
 
@@ -93,13 +112,12 @@
             }
         }
         function Mclk(Cell) {
-            var row_in = document.getElementById("row") ;
             var col_in =document.getElementById("col");
-            var frm_in = document.getElementById("frm");
-
-            row_in.value=Cell.parentNode.rowIndex;
-            col_in.value=Cell.cellIndex;
-            frm_in.submit();
+            var frm_in = document.getElementById("frm");          
+            if (Cell.parentNode.rowIndex == 0){
+                col_in.value=Cell.cellIndex;
+                frm_in.submit();
+            }
         }
 
         try{
