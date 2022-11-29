@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 import io
 import csv
 from .forms import Right_form
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 import datetime
 from django.db import models
 from django.db.models import Q
@@ -28,8 +28,6 @@ def index(request):
     if "toroku_to" not in request.session:
         request.session["toroku_to"]=""
     if "kanshoku" not in request.session:
-        request.session["kanshoku"]=0
-    if request.session["kanshoku"]=="":
         request.session["kanshoku"]=0
     if "cus_id" not in request.session:
         request.session["cus_id"]=""
@@ -110,7 +108,7 @@ def left(request):
         str["adress__contains"]=adress
     if bikou != "":
         str["bikou__contains"]=bikou
-    if kanshoku != "0":
+    if kanshoku != 0 and kanshoku != "0":
         str["kanshoku"]=kanshoku
     if toroku_from != "":
         str["toroku__gte"]=toroku_from
@@ -148,6 +146,7 @@ def left(request):
     else:
         str["tantou"]=tantou
         cusms=Customer.objects.filter(**str).order_by("com")
+
 
     #全ページ数
     if cusms.count()==0:
@@ -324,31 +323,24 @@ def download(request):
 
 
 def sell(request):
-    print("sellへ飛んできた")
-
     id=request.POST["sell_cus_id"]
     mon=request.POST["sell_mon"]
     money=request.POST["sell_money"]
     Sell.objects.create(sell_cus_id=id, sell_mon=mon, sell_money=money)
 
-    ins=Customer.objects.get(cus_id=id)
-    cus=Customer.objects.filter(cus_id=id)
-    form=Right_form(instance=ins)
-    sell=Sell.objects.filter(sell_cus_id=id).order_by("sell_mon")
+    pk=Customer.objects.get(cus_id=id).pk
 
-    return render(request,"houjin/right.html",{"form":form,"cus":cus,"sell":sell})
+    return redirect("houjin:right1",pk)
+
 
 
 def sell_delete(request,pk):
     Sell.objects.get(pk=pk).delete()
 
     id=request.POST["sell_cus_id"]
-    ins=Customer.objects.get(cus_id=id)
-    cus=Customer.objects.filter(cus_id=id)
-    form=Right_form(instance=ins)
-    sell=Sell.objects.filter(sell_cus_id=id).order_by("sell_mon")
+    pk=Customer.objects.get(cus_id=id).pk
 
-    return render(request,"houjin/right.html",{"form":form,"cus":cus,"sell":sell})
+    return redirect("houjin:right1",pk)
 
 
 
