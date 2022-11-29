@@ -24,7 +24,7 @@
 </head>
 <body>
 
-    <div class="mt-4" style="width: 80%; margin: 0 auto;">
+    <div class="mt-4" style="width: 85%; margin: 0 auto;">
 
         
             <form action="{% url 'houjin:index2_nen' %}" method="post">{% csrf_token %}
@@ -56,7 +56,7 @@
                 {% endfor %}         
             </tr>
             <tr style="text-align: right;">
-                <td style="text-align: center; width: 50px; white-space: nowrap;">目標</td>
+                <td style="text-align: center; width: 80px; white-space: nowrap;">目標</td>
                 {% for i in yotei %}
                     <td>{{i|intcomma}}</td>
                 {% endfor %}
@@ -67,9 +67,15 @@
                     <td>{{i|intcomma}}</td>
                 {% endfor %}
             </tr>
+            <tr style="text-align: right;">
+                <td style="text-align: center;">達成率</td>
+                {% for i in tassei %}
+                    <td>{{i}}</td>
+                {% endfor %}
+            </tr>
         </table>
 
-        <div>
+        <div style="display:none;">
             <form action="{% url 'houjin:index2_click' %}" id="frm" method="post">{% csrf_token %}              
                 <input type="text" id="col" name="col">
             </form>

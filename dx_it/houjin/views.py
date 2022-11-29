@@ -354,11 +354,11 @@ def index2(request):
     if "cus_detail" not in request.session:
         request.session["cus_detail"]=[]
     
-
     nen_list=["2022","2023","2024","2025"]
     tsuki_list=[]
     juchu=[]
     yotei=[]
+    tassei=[]
     
     cus=Sell.objects.distinct().values_list("sell_cus_id",flat=True)
 
@@ -378,10 +378,21 @@ def index2(request):
             total2["total2"]=0
         yotei.append(total2["total2"])
 
+        if juchu[i-1]!=0:
+            h=yotei[i-1]/juchu[i-1]
+        else:
+            h=0
+        tassei.append("{:.1%}".format(h))
+
     tsuki_list.append("合計")
+    if sum(juchu)!=0:
+        h=sum(yotei)/sum(juchu)
+    else:
+        h=0
+    tassei.append("{:.1%}".format(h))
     juchu.append(sum(juchu))
     yotei.append(sum(yotei))
-
+    
     cus_detail=request.session["cus_detail"]
     
     params={
@@ -390,6 +401,7 @@ def index2(request):
         "nen":nen,
         "juchu":juchu,
         "yotei":yotei,
+        "tassei":tassei,
     }
     if len(cus_detail)!=0:
         params["cus_detail"]=cus_detail
@@ -407,7 +419,23 @@ def index2_nen(request):
 
 
 def index2_click(request):
-    col=request.POST["col"]
+    col=int(request.POST["col"])
+    nen=request.session["nen"]
+    cus=Sell.objects.distinct().values_list("sell_cus_id",flat=True)
+
+    if col<=12:
+        cus1=Sell.objects.filter(sell_mon__contains  = nen + "-" + str(col).zfill(2)).values_list("sell_cus_id",flat=True)
+        cus2=Recieve.objects.filter(rec_cus_id__cus_id__in=cus , rec_day__contains = nen + "/" + str(col) +"/").values_list("rec_cus_id__cus_id",flat=True)
+        cus3=set(list(cus1)+list(cus2))
+        print(cus1)
+        print(cus2)
+        print(cus3)
+
+    else:
+        pass
+
+
+
     cus_detail=[{"id":1,"moku":[110,100,0,0,0],"jitsu":[0,200,0,10,0]},{"id":2,"moku":[0,0,50,0,100],"jitsu":[0,700,0,0,50]}]
     request.session["cus_detail"]=cus_detail
     return redirect("houjin:index2")
