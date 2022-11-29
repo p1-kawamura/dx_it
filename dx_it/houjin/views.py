@@ -378,15 +378,15 @@ def index2(request):
             total2["total2"]=0
         yotei.append(total2["total2"])
 
-        if juchu[i-1]!=0:
-            h=yotei[i-1]/juchu[i-1]
+        if yotei[i-1]!=0:
+            h=juchu[i-1]/yotei[i-1]
         else:
             h=0
         tassei.append("{:.1%}".format(h))
 
     tsuki_list.append("合計")
-    if sum(juchu)!=0:
-        h=sum(yotei)/sum(juchu)
+    if sum(yotei)!=0:
+        h=sum(juchu)/sum(yotei)
     else:
         h=0
     tassei.append("{:.1%}".format(h))
