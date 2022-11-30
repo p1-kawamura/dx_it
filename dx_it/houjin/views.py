@@ -468,8 +468,6 @@ def index2_click(request):
         j["yotei"]=yotei
         j["juchu"]=juchu
 
-    print(cus_detail_dic)
-
     request.session["cus_detail"]=cus_detail_dic
 
     return redirect("houjin:index2")
