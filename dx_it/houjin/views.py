@@ -369,7 +369,7 @@ def index2(request):
         #担当付きの場合
         # total=Recieve.objects.filter(~Q(rec_cus_id__tantou = "0"),rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
         #目標設定ありの場合
-        total=Recieve.objects.filter(rec_cus_id__cus_id__in=cus , rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
+        total=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id__in=cus , rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
         if total["total"] is None:
             total["total"]=0
         juchu.append(total["total"])
@@ -431,24 +431,23 @@ def index2_click(request):
         cus3=list(set(list(cus1)+list(cus2)))        
     elif col==13:
         cus3=list(cus)
-    print(cus3)
+    
+    cus_detail=Customer.objects.filter(cus_id__in=cus3)
+    cus_detail_dic=list(cus_detail.values())
 
-    cus3.sort()
-    cus_detail=[]
-    for j in cus3:
+    for j in cus_detail_dic:
 
         juchu=[]
         yotei=[]
-        tassei=[]
 
         for i in range(1,13):
 
-            total=Recieve.objects.filter(rec_cus_id__cus_id=j , rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
+            total=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id=j["cus_id"] , rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
             if total["total"] is None:
                 total["total"]=0
             juchu.append(total["total"])
 
-            total2=Sell.objects.filter(sell_cus_id=j, sell_mon__contains  = nen + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
+            total2=Sell.objects.filter(sell_cus_id=j["cus_id"], sell_mon__contains  = nen + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
             if total2["total2"] is None:
                 total2["total2"]=0
             yotei.append(total2["total2"])
@@ -457,23 +456,21 @@ def index2_click(request):
                 h=juchu[i-1]/yotei[i-1]
             else:
                 h=0
-            tassei.append("{:.1%}".format(h))
 
         if sum(yotei)!=0:
             h=sum(juchu)/sum(yotei)
         else:
             h=0
-        tassei.append("{:.1%}".format(h))
+
         juchu.append(sum(juchu))
         yotei.append(sum(yotei))
 
-        d={}
-        d["id"]=j
-        d["yotei"]=yotei
-        d["juchu"]=juchu
-        cus_detail.append(d)
+        j["yotei"]=yotei
+        j["juchu"]=juchu
 
-    request.session["cus_detail"]=cus_detail
+    print(cus_detail_dic)
+
+    request.session["cus_detail"]=cus_detail_dic
 
     return redirect("houjin:index2")
 
