@@ -361,6 +361,7 @@ def index2(request):
     tassei=[]
     
     cus=Sell.objects.distinct().values_list("sell_cus_id",flat=True)
+    cus_all=Customer.objects.filter(cus_id__in=cus)
 
     for i in range(1,13):
         tsuki_list.append(str(i)+"月")
@@ -402,6 +403,7 @@ def index2(request):
         "juchu":juchu,
         "yotei":yotei,
         "tassei":tassei,
+        "cus_all":cus_all,
     }
     if len(cus_detail)!=0:
         params["cus_detail"]=cus_detail
@@ -421,63 +423,58 @@ def index2_nen(request):
 def index2_click(request):
     col=int(request.POST["col"])
     nen=request.session["nen"]
-    cus=Sell.objects.distinct().values_list("sell_cus_id",flat=True)
+    cus=Sell.objects.filter(sell_mon__startswith=nen).distinct().values_list("sell_cus_id",flat=True)
 
     if col<=12:
         cus1=Sell.objects.filter(sell_mon__contains  = nen + "-" + str(col).zfill(2)).values_list("sell_cus_id",flat=True)
         cus2=Recieve.objects.filter(rec_cus_id__cus_id__in=cus , rec_day__contains = nen + "/" + str(col) +"/").values_list("rec_cus_id__cus_id",flat=True)
-        cus3=list(set(list(cus1)+list(cus2))) 
-        cus_detail=[]
+        cus3=list(set(list(cus1)+list(cus2)))        
+    elif col==13:
+        cus3=list(cus)
+    print(cus3)
 
-        for j in cus3:
+    cus3.sort()
+    cus_detail=[]
+    for j in cus3:
 
-            juchu=[]
-            yotei=[]
-            tassei=[]
+        juchu=[]
+        yotei=[]
+        tassei=[]
 
-            for i in range(1,13):
+        for i in range(1,13):
 
-                total=Recieve.objects.filter(rec_cus_id__cus_id=j , rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
-                if total["total"] is None:
-                    total["total"]=0
-                juchu.append(total["total"])
+            total=Recieve.objects.filter(rec_cus_id__cus_id=j , rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
+            if total["total"] is None:
+                total["total"]=0
+            juchu.append(total["total"])
 
-                total2=Sell.objects.filter(sell_cus_id=j, sell_mon__contains  = nen + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
-                if total2["total2"] is None:
-                    total2["total2"]=0
-                yotei.append(total2["total2"])
+            total2=Sell.objects.filter(sell_cus_id=j, sell_mon__contains  = nen + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
+            if total2["total2"] is None:
+                total2["total2"]=0
+            yotei.append(total2["total2"])
 
-                if yotei[i-1]!=0:
-                    h=juchu[i-1]/yotei[i-1]
-                else:
-                    h=0
-                tassei.append("{:.1%}".format(h))
-
-            if sum(yotei)!=0:
-                h=sum(juchu)/sum(yotei)
+            if yotei[i-1]!=0:
+                h=juchu[i-1]/yotei[i-1]
             else:
                 h=0
             tassei.append("{:.1%}".format(h))
-            juchu.append(sum(juchu))
-            yotei.append(sum(yotei))
 
-            print(tassei)
-            print(yotei)
-            print(juchu)
+        if sum(yotei)!=0:
+            h=sum(juchu)/sum(yotei)
+        else:
+            h=0
+        tassei.append("{:.1%}".format(h))
+        juchu.append(sum(juchu))
+        yotei.append(sum(yotei))
 
-            d={}
-            d["id"]=j
-            d["yotei"]=yotei
-            d["juchu"]=juchu
-            cus_detail.append(d)
+        d={}
+        d["id"]=j
+        d["yotei"]=yotei
+        d["juchu"]=juchu
+        cus_detail.append(d)
 
-    else:
-        pass
-
-
-    print(cus_detail)
-    # cus_detail=[{"id":1,"moku":[110,100,0,0,0],"jitsu":[0,200,0,10,0]},{"id":2,"moku":[0,0,50,0,100],"jitsu":[0,700,0,0,50]}]
     request.session["cus_detail"]=cus_detail
+
     return redirect("houjin:index2")
 
 
