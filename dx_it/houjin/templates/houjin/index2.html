@@ -118,15 +118,18 @@
                     <th>担当</th>
                     <th>会社名</th>
                     {% for i in tsuki_list %}
-                        {% if i != "合計" %}
-                            {% if i == col %}
+                        {% if i == col %}
+                            {% if i != "合計" %}
                                 <th id="yue" style="width: 90px; background-color: blue; color: white;"><a>{{i}}月</a></th>
                             {% else %}
-                                <th id="yue" style="width: 90px;"><a>{{i}}月</a></th>
+                                <th id="yue" style="width: 90px; background-color: blue; color: white;"><a>{{i}}</a></th>
                             {% endif %}
-                        {% endif %}
-                        {% if i == "合計" %}
-                            <th id="yue" style="width: 90px; background-color: blue; color: white;;"><a>{{i}}</a></th>
+                        {% else %}
+                            {% if i != "合計" %}
+                                <th id="yue" style="width: 90px;"><a>{{i}}月</a></th>
+                            {% else %}
+                                <th id="yue" style="width: 90px;"><a>{{i}}</a></th>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
                     <th></th>
