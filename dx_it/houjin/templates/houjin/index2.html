@@ -16,17 +16,39 @@
         }
         #tb #yue:hover {
             color: white;
-            background-color: rgb(244, 144, 51);
+            background-color: red;
         }
-
+        table.st-tbl1 {
+            position: relative;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        table.st-tbl1 th,
+        table.st-tbl1 td{
+            padding: 0.5rem;
+            border: solid 1px #ddd;
+        }
+        table.st-tbl1 th {
+            background: rgb(227, 249, 252);
+            position: sticky;
+            top: 0;
+        }
+        table.st-tbl1 tr:hover {
+            background: #ddd;
+        }
+        .det_title{
+            padding: 0.25em 0.5em;/*上下 左右の余白*/
+            color: #494949;/*文字色*/
+            background: transparent;/*背景透明に*/
+            border-left: solid 5px #7db4e6;/*左線*/
+        }
 
     </style>
 </head>
 <body>
 
-    <div class="mt-4" style="width: 85%; margin: 0 auto;">
-
-        
+    <div class="mt-4 mb-4" style="width: 85%; margin: 0 auto;">
+  
             <form action="{% url 'houjin:index2_nen' %}" method="post">{% csrf_token %}
                 <div class="class1">
                     <div>
@@ -48,27 +70,27 @@
             
         
 
-        <table id="tb" class="mt-3 table table-striped table-bordered" style="font-size: 0.9m;">
-            <tr style="text-align: center;">
+        <table id="tb" class="mt-3 table table-bordered" style="white-space: nowrap;">
+            <tr class="table-danger" style="text-align: center;">
                 <th></th>
                 {% for i in tsuki_list %}
                     <th id="yue" style="width: 90px;"><a>{{i}}</a></th>
                 {% endfor %}         
             </tr>
             <tr style="text-align: right;">
-                <td style="text-align: center; width: 80px; white-space: nowrap;">目標</td>
+                <th style="text-align: center; width: 80px;">目標</th>
                 {% for i in yotei %}
                     <td>{{i|intcomma}}</td>
                 {% endfor %}
             </tr>
             <tr style="text-align: right;">
-                <td style="text-align: center;">実績</td>
+                <th style="text-align: center;">実績</th>
                 {% for i in juchu %}
                     <td>{{i|intcomma}}</td>
                 {% endfor %}
             </tr>
             <tr style="text-align: right;">
-                <td style="text-align: center;">達成率</td>
+                <th style="text-align: center;">達成率</th>
                 {% for i in tassei %}
                     <td>{{i}}</td>
                 {% endfor %}
@@ -83,22 +105,36 @@
 
 
         <!-- 個別表示 -->
-        <div>
-            {% for i in cus_detail %}
-                {{i.cus_id}}　{{i.com}}　{{i.sei}}{{i.mei}}
-                <br>
-                {% for h in i.yotei %}
-                    {{h}}
+        <div class="mt-5">
+            <span class="det_title"><b>目標金額一覧</b>　表示データ：{{taisho}}</span>
+            <table class="st-tbl1 mt-2" style="white-space: nowrap;">
+                <tr style="text-align: center;">
+                    <th>担当</th>
+                    <th>会社名</th>
+                    {% for i in tsuki_list %}
+                        <th style="width: 75px;">{{i}}</th>
+                    {% endfor %}
+                    <th></th>
+                </tr>
+                {% for i in cus_detail %}
+                    <tr>
+                        <td>
+                            {% for key,value in tan_list.items %}
+                                {% if key == i.tantou %}
+                                    {{value}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{i.com}}</td>
+                        {% for h in i.yotei %}
+                            <td style="text-align: right;">{{h | intcomma}}</td>
+                        {% endfor %}
+                        <td>詳細</td>
+                    </tr>
                 {% endfor %}
-                <br>
-                {% for h in i.juchu %}
-                    {{h}}
-                {% endfor %}
-                <hr>
-            {% endfor %}
+            </table>
         </div>
         
-
     </div>
 
 
