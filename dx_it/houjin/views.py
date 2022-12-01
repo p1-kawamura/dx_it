@@ -437,7 +437,7 @@ def index2_click(request):
         cus1=Sell.objects.filter(sell_mon__contains  = nen + "-" + str(col).zfill(2)).values_list("sell_cus_id",flat=True)
         cus2=Recieve.objects.filter(rec_cus_id__cus_id__in=cus , rec_day__contains = nen + "/" + str(col) +"/").values_list("rec_cus_id__cus_id",flat=True)
         cus3=list(set(list(cus1)+list(cus2)))
-        taisho= nen + "年" + str(col) + "月（"+ str(len(cus3)) + "件）"      
+        taisho= nen + "年 " + str(col) + "月（"+ str(len(cus3)) + "件）"      
     elif col==13:
         cus3=list(cus)
         taisho= nen + "年 合計（"+ str(len(cus3)) + "件）"
