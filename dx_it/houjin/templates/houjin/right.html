@@ -118,137 +118,140 @@
                     <div>{{form.bikou}}</div>
                 </div>
             </form>       
-        </div>
+        </div>       
         
-        <hr>
         {% for i in cus %}
-        <div>
-            <form action="{% url 'houjin:sell' %}" method="post">{% csrf_token %}
-                <div class="class1 mt-3" style="font-size: 0.9em;">
-                    <div style="margin-left: 5px;">
-                        <label for="sell_mon">見込：</label>
-                        <input type="month" name="sell_mon" id="sell_mon" style="width: 110px;" required>
+            {% if i.tantou != 0 %}
+            <hr>
+            <div>
+                <form action="{% url 'houjin:sell' %}" method="post">{% csrf_token %}
+                    <div class="class1 mt-3" style="font-size: 0.9em;">
+                        <div style="margin-left: 5px;">
+                            <label for="sell_mon">見込：</label>
+                            <input type="month" name="sell_mon" id="sell_mon" style="width: 110px;" required>
+                        </div>               
+                        <div>
+                            <input type="hidden" name="sell_cus_id" id="sell_cus_id" value="{{i.cus_id}}">
+                        </div>
+                        <div style="margin-left: 10px;">
+                            <input type="number" name="sell_money" id="sell_money" style="width: 90px;" required>
+                        </div>
+                        <div>円</div>
+                        <div style="margin-left: 15px;">
+                            <button type="submit" class="btn btn-secondary btn-sm">追加</button> 
+                        </div>    
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+        
+            
+            {% if sell %} 
+            <div class="mb-4" style="margin-left: 20px;">
+                <table class="table table-striped table-bordered table-sm mt-3" style="width: 300px;">
+                    {% for h in sell %}
+                    <tr>
+                        <td style="text-align:center;width: 100px;">{{h.sell_mon}}</td>
+                        <td style="text-align:right; padding-right: 20px;">{{h.sell_money  | intcomma}}</td>
+                        <td align="center" style="width: 90px;">
+                            <form action="{% url 'houjin:sell_delete' h.pk %}" method="post">{% csrf_token %}
+                                <div><input type="hidden" name="sell_cus_id" value="{{i.cus_id}}"></div>
+                                <button type="submit" style="font-size: 0.8em;">削除</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>            
+            </div>
+            {% endif %}
+
+            <hr>
+            <form action="{% url 'houjin:delete' %}" method="post" target="_top">{% csrf_token %}
+                <div class="class1 mt-3">
+                    <div style="margin-left: 20px;">
+                        <label for="cus_id">顧客ID：</label>
+                        <input type="text" name="cus_id" id="cus_id" value="{{i.cus_id}}" style="width: 100px;" readonly>
                     </div>               
-                    <div>
-                        <input type="hidden" name="sell_cus_id" id="sell_cus_id" value="{{i.cus_id}}">
-                    </div>
-                    <div style="margin-left: 10px;">
-                        <input type="number" name="sell_money" id="sell_money" style="width: 90px;" required>
-                    </div>
-                    <div>円</div>         
                     <div style="margin-left: 15px;">
-                        <button type="submit" class="btn btn-secondary btn-sm">追加</button> 
+                        <button type="submit" class="btn btn-secondary btn-sm" onclick="return confirm('本当に削除しますか？')">削除</button> 
                     </div>
                 </div>
             </form>
-        </div>
-    
-        
-        {% if sell %} 
-        <div class="mb-4" style="margin-left: 20px;">
-            <table class="table table-striped table-bordered table-sm mt-3" style="width: 300px;">
-                {% for h in sell %}
-                <tr>
-                    <td style="text-align:center;width: 100px;">{{h.sell_mon}}</td>
-                    <td style="text-align:right; padding-right: 20px;">{{h.sell_money  | intcomma}}</td>
-                    <td align="center" style="width: 90px;">
-                        <form action="{% url 'houjin:sell_delete' h.pk %}" method="post">{% csrf_token %}
-                            <div><input type="hidden" name="sell_cus_id" value="{{i.cus_id}}"></div>
-                            <button type="submit" style="font-size: 0.8em;">削除</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>            
-        </div>
-        {% endif %}
-
-        <hr>
-        <form action="{% url 'houjin:delete' %}" method="post" target="_top">{% csrf_token %}
-            <div class="class1 mt-3">
-                <div style="margin-left: 20px;">
-                    <label for="cus_id">顧客ID：</label>
-                    <input type="text" name="cus_id" id="cus_id" value="{{i.cus_id}}" style="width: 100px;" readonly>
-                </div>               
-                <div style="margin-left: 15px;">
-                    <button type="submit" class="btn btn-secondary btn-sm" onclick="return confirm('本当に削除しますか？')">削除</button> 
+            <hr>
+            <div style="font-size: 0.9em;">
+                <div class="data">
+                    <div class="name">会社名：</div>
+                    {% if i.com %}
+                        <div class="data-code">{{i.com}}</div>
+                    {% endif %}
                 </div>
-            </div>
-        </form>
-        <hr>
-        <div style="font-size: 0.9em;">
-            <div class="data">
-                <div class="name">会社名：</div>
-                {% if i.com %}
-                    <div class="data-code">{{i.com}}</div>
-                {% endif %}
-            </div>
-            <div class="data">
-                <div class="name">部課名：</div>
-                {% if i.com %}
-                <div class="data-code">{{i.busho}}</div>
-                {% endif %}
-            </div>
-            <div class="data">
-                <div class="name">氏名：</div>
-                {% if i.com %}
-                <div class="data-code">{{i.sei}} {{i.mei}}（{{i.sei_kana}} {{i.mei_kana}}）</div>
-                {% endif %}
-            </div>
+                <div class="data">
+                    <div class="name">部課名：</div>
+                    {% if i.com %}
+                    <div class="data-code">{{i.busho}}</div>
+                    {% endif %}
+                </div>
+                <div class="data">
+                    <div class="name">氏名：</div>
+                    {% if i.com %}
+                    <div class="data-code">{{i.sei}} {{i.mei}}（{{i.sei_kana}} {{i.mei_kana}}）</div>
+                    {% endif %}
+                </div>
 
-            <div class="data mt-3">
-                <div class="name">郵便番号：</div>
-                {% if i.com %}
-                    <div class="data-code">{{i.yubin}}</div>
-                {% endif %}
-            </div>
-            <div class="data">
-                <div class="name">住所：</div>
-                {% if i.com %}
-                    <div class="data-code">{{i.pref}}{{i.city}}{{i.banchi}}{{i.build}}</div>
-                {% endif %}
-            </div>
+                <div class="data mt-3">
+                    <div class="name">郵便番号：</div>
+                    {% if i.com %}
+                        <div class="data-code">{{i.yubin}}</div>
+                    {% endif %}
+                </div>
+                <div class="data">
+                    <div class="name">住所：</div>
+                    {% if i.com %}
+                        <div class="data-code">{{i.pref}}{{i.city}}{{i.banchi}}{{i.build}}</div>
+                    {% endif %}
+                </div>
 
-            <div class="data mt-3">
-                <div class="name">TEL：</div>
-                {% if i.com %}
-                    <div class="data-code">{{i.tel}}</div>
-                {% endif %}
-            </div>
-            <div class="data">
-                <div class="name">携帯：</div>
-                {% if i.com %}
-                    <div class="data-code">{{i.mob}}</div>
-                {% endif %}
-            </div>
-            <div class="data">
-                <div class="name">FAX：</div>
-                {% if i.com %}
-                    <div class="data-code">{{i.fax}}</div>
-                {% endif %}
-            </div>
+                <div class="data mt-3">
+                    <div class="name">TEL：</div>
+                    {% if i.com %}
+                        <div class="data-code">{{i.tel}}</div>
+                    {% endif %}
+                </div>
+                <div class="data">
+                    <div class="name">携帯：</div>
+                    {% if i.com %}
+                        <div class="data-code">{{i.mob}}</div>
+                    {% endif %}
+                </div>
+                <div class="data">
+                    <div class="name">FAX：</div>
+                    {% if i.com %}
+                        <div class="data-code">{{i.fax}}</div>
+                    {% endif %}
+                </div>
 
-            <div class="data mt-3">
-                <div class="name">メール1：</div>
-                {% if i.com %}
-                    <div class="data-code">{{i.mail1}}</div>
-                {% endif %}
-            </div>
-            <div class="data">
-                <div class="name">メール2：</div>
-                {% if i.com %}
-                    <div class="data-code">{{i.mail2}}</div>
-                {% endif %}
-            </div>
-            <div class="data">
-                <div class="name">メール3：</div>
-                {% if i.com %}
-                    <div class="data-code">{{i.mail3}}</div>
-                {% endif %}
+                <div class="data mt-3">
+                    <div class="name">メール1：</div>
+                    {% if i.com %}
+                        <div class="data-code">{{i.mail1}}</div>
+                    {% endif %}
+                </div>
+                <div class="data">
+                    <div class="name">メール2：</div>
+                    {% if i.com %}
+                        <div class="data-code">{{i.mail2}}</div>
+                    {% endif %}
+                </div>
+                <div class="data">
+                    <div class="name">メール3：</div>
+                    {% if i.com %}
+                        <div class="data-code">{{i.mail3}}</div>
+                    {% endif %}
+                </div>
             </div>
 
         {% endfor %}
-        </div>
+        
     </div>
 
 

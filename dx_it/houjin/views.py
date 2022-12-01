@@ -355,6 +355,8 @@ def index2(request):
         request.session["cus_detail"]=[]
     if "taisho" not in request.session:
         request.session["taisho"]=""
+    if "col" not in request.session:
+        request.session["col"]=1
     
     nen_list=["2022","2023","2024","2025"]
     tsuki_list=[]
@@ -366,7 +368,7 @@ def index2(request):
     cus_all=Customer.objects.filter(cus_id__in=cus)
 
     for i in range(1,13):
-        tsuki_list.append(str(i)+"月")
+        tsuki_list.append(i)
 
         #担当付きの場合
         # total=Recieve.objects.filter(~Q(rec_cus_id__tantou = "0"),rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
@@ -396,6 +398,7 @@ def index2(request):
     juchu.append(sum(juchu))
     yotei.append(sum(yotei))
     
+    col=request.session["col"]
     cus_detail=request.session["cus_detail"]
     taisho=request.session["taisho"]
     tan_list={1:"井上",2:"古川",3:"眞下",4:"夏八木",5:"藤井",6:"武井",7:"粂川"}
@@ -405,6 +408,7 @@ def index2(request):
         "nen_list":nen_list,
         "tsuki_list":tsuki_list,
         "nen":nen,
+        "col":col,
         "juchu":juchu,
         "yotei":yotei,
         "tassei":tassei,
@@ -442,8 +446,9 @@ def index2_click(request):
         cus3=list(cus)
         taisho= nen + "年 合計（"+ str(len(cus3)) + "件）"
     
+    request.session["col"]=col
     request.session["taisho"]=taisho
-
+    
     cus_detail=Customer.objects.filter(cus_id__in=cus3)
     cus_detail_dic=list(cus_detail.values())
 
