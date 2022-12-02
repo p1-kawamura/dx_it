@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 import io
 import csv
 from .forms import Right_form
-from django.http import HttpResponse,JsonResponse
-import datetime
+from django.http import HttpResponse
+import datetime as dt
 from django.db import models
 from django.db.models import Q
 
@@ -347,8 +347,8 @@ def sell_delete(request,pk):
 def index2(request):
     
     if "nen" not in request.session:
-        nen="2022"
-        request.session["nen"]="2022"
+        nen=dt.date.today().year
+        request.session["nen"]=nen
     else:
         nen=request.session["nen"]
     if "cus_detail" not in request.session:
@@ -356,7 +356,7 @@ def index2(request):
     if "taisho" not in request.session:
         request.session["taisho"]=""
     if "col" not in request.session:
-        request.session["col"]=1
+        request.session["col"]=""
     
     nen_list=["2022","2023","2024","2025"]
     tsuki_list=[]
@@ -373,12 +373,12 @@ def index2(request):
         #担当付きの場合
         # total=Recieve.objects.filter(~Q(rec_cus_id__tantou = "0"),rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
         #目標設定ありの場合
-        total=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id__in=cus , rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
+        total=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id__in=cus , rec_day__contains = str(nen) + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
         if total["total"] is None:
             total["total"]=0
         juchu.append(total["total"])
 
-        total2=Sell.objects.filter(sell_mon__contains  = nen + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
+        total2=Sell.objects.filter(sell_mon__contains  = str(nen) + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
         if total2["total2"] is None:
             total2["total2"]=0
         yotei.append(total2["total2"])
@@ -389,7 +389,7 @@ def index2(request):
             h=0
         tassei.append("{:.1%}".format(h))
 
-    tsuki_list.append("合計")
+    tsuki_list.append(13)
     if sum(yotei)!=0:
         h=sum(juchu)/sum(yotei)
     else:
@@ -428,6 +428,7 @@ def index2_nen(request):
     request.session["nen"]=nen
     request.session["cus_detail"]=[]
     request.session["taisho"]=""
+    request.session["col"]=""
     return redirect("houjin:index2")
 
 
@@ -438,13 +439,13 @@ def index2_click(request):
     cus=Sell.objects.filter(sell_mon__startswith=nen).distinct().values_list("sell_cus_id",flat=True)
 
     if col<=12:
-        cus1=Sell.objects.filter(sell_mon__contains  = nen + "-" + str(col).zfill(2)).values_list("sell_cus_id",flat=True)
-        cus2=Recieve.objects.filter(rec_cus_id__cus_id__in=cus , rec_day__contains = nen + "/" + str(col) +"/").values_list("rec_cus_id__cus_id",flat=True)
+        cus1=Sell.objects.filter(sell_mon__contains  = str(nen) + "-" + str(col).zfill(2)).values_list("sell_cus_id",flat=True)
+        cus2=Recieve.objects.filter(rec_cus_id__cus_id__in=cus , rec_day__contains = str(nen) + "/" + str(col) +"/").values_list("rec_cus_id__cus_id",flat=True)
         cus3=list(set(list(cus1)+list(cus2)))
-        taisho= nen + "年 " + str(col) + "月（"+ str(len(cus3)) + "件）"      
+        taisho= str(nen) + "年 " + str(col) + "月（"+ str(len(cus3)) + "件）"      
     elif col==13:
         cus3=list(cus)
-        taisho= nen + "年 合計（"+ str(len(cus3)) + "件）"
+        taisho= str(nen) + "年 合計（"+ str(len(cus3)) + "件）"
     
     request.session["col"]=col
     request.session["taisho"]=taisho
@@ -459,12 +460,12 @@ def index2_click(request):
 
         for i in range(1,13):
 
-            total=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id=j["cus_id"] , rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
+            total=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id=j["cus_id"] , rec_day__contains = str(nen) + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
             if total["total"] is None:
                 total["total"]=0
             juchu.append(total["total"])
 
-            total2=Sell.objects.filter(sell_cus_id=j["cus_id"], sell_mon__contains  = nen + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
+            total2=Sell.objects.filter(sell_cus_id=j["cus_id"], sell_mon__contains  = str(nen) + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
             if total2["total2"] is None:
                 total2["total2"]=0
             yotei.append(total2["total2"])
