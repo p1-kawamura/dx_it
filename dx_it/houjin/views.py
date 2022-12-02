@@ -295,8 +295,8 @@ def dm_send(request):
             i.mail1,
             ])
     
-    dt=datetime.date.today()
-    dm_csv.update(dm_day=dt,dm_check=False)
+    dtm=dt.date.today()
+    dm_csv.update(dm_day=dtm,dm_check=False)
 
     return response
     

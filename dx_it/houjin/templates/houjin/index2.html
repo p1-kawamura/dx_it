@@ -147,40 +147,36 @@
                         {% for h in i.yotei %}
                             <td style="text-align: right;">{{h | intcomma}}</td>
                         {% endfor %}
-                        <td><button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#testModal">詳細</button></td>
+                        <td>
+                            <button class="btn btn-outline-primary btn-sm" data-sample="{{i}}" data-toggle="modal" data-target="#testModal">詳細</button>
+                        </td>
                     </tr>                   
                 {% endfor %}
             </table>
         </div>
-        
-        
-        <!-- モーダルで詳細表示 -->
-        <div class="mt-5">
-            <!-- モーダルを開くボタン・リンク -->
-            <div class="col-2">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#testModal">ボタンで開く</button>
-            </div>
 
-            <!-- ボタン・リンククリック後に表示される画面の内容 -->
-            <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4><div class="modal-title" id="myModalLabel">削除確認画面</div></h4>
-                        </div>
-                        <div class="modal-body">
-                            <label>データを削除しますか？</label>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
-                            <button type="button" class="btn btn-danger">削除</button>
-                        </div>
-                    </div>
+
+        <!-- モーダル -->
+        <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="testModalLabel">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 id="modal-title"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+                        <span aria-hidden="true">×</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <p>確認メッセージ</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                </div>
                 </div>
             </div>
-
-            
         </div>
+
     </div>
 
 
@@ -218,7 +214,53 @@
         }catch(e){
                 window.attachEvent("onload",getCELL);
                 }
+        
 
+        //---------------------------------
+        // モーダルにパラメータ渡し
+        //---------------------------------
+        $("#testModal").on("show.bs.modal", function (event) {
+            var button = $(event.relatedTarget);
+            var sampledata = button.data("sample");
+            var modal = $(this);
+            
+            // yoteiのリスト
+            var st = sampledata.indexOf("'yotei'");
+            var ed = sampledata.indexOf("'juchu'");
+            var str = sampledata.slice(st,ed-2);
+            var str2 = str.replaceAll(",","@");
+            sampledata = sampledata.replace(str,str2);
+            
+            // juchuのリスト
+            st = sampledata.indexOf("'juchu'");
+            ed = sampledata.indexOf("}");
+            str = sampledata.slice(st,ed);
+            str2 = str.replaceAll(",","@");
+            sampledata = sampledata.replace(str,str2);
+
+            // オブジェクトに修正
+            var smobj = {};
+            var smp1 = sampledata.split(",");
+
+            for (var i=0; i<smp1.length; i++){
+                smp2 = smp1[i].split(":");
+                var m1=smp2[0].replaceAll("'","");
+                m1=m1.replaceAll(" ","");
+                var m2=smp2[1].replaceAll("'","");;
+                m2=m2.replaceAll(" ","");
+                if (m1=="yotei" || m1=="juchu"){
+                    m2=m2.replaceAll("@",",");
+                    m2=m2.replaceAll("}","");
+                }
+                smobj[m1]=m2;
+            }
+            console.log(smobj);
+
+            // モーダルへ書き込み
+
+
+            modal.find('#modal-title').text(smobj.com);
+        })
     </script>
 
 
