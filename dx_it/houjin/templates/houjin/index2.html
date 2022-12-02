@@ -208,6 +208,20 @@
                                     </div>
                                 </div>
                             </div>
+                            <div style="margin-top: 20px;">
+                                目標リスト
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td>aaa</td>
+                                        <td>bbb</td>
+                                    </tr>
+                                    <tr>
+                                        <div id="m-list"></div>
+                                    </tr>
+                                </table>
+                                
+                                
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="" class="btn btn-primary">保存する</button>
@@ -269,20 +283,37 @@
 
             // モーダルへ書き込み
             modal.find('#m-cus_id').val(smobj.cus_id);
+
             modal.find('#m-company').text(smobj.com);
             if (smobj.busho == ""){
                 modal.find('#m-name').text(smobj.sei + smobj.mei);
             } else{
                 modal.find('#m-name').text(smobj.busho + "　" + smobj.sei + smobj.mei);
             }
+
             var tan_list={1:"井上",2:"古川",3:"眞下",4:"夏八木",5:"藤井",6:"武井",7:"粂川"}
             var kan_list={"0":"","5":"★★★★★（5）","4":"★★★★☆（4）","3":"★★★☆☆（3）","2":"★★☆☆☆（2）","1":"★☆☆☆☆（1）"}
             modal.find('#m-tantou').text(tan_list[smobj.tantou])
             modal.find('#m-kanshoku').text(kan_list[smobj.kanshoku]);
+
             modal.find('#m-adress').text("住所：" + smobj.adress);
             modal.find('#m-tel').text("TEL：" + smobj.tel);
             modal.find('#m-mob').text("携帯：" + smobj.mob);
 
+            str=""
+            sp=smobj.yotei.split(",");
+            console.log(typeof(sp));
+
+            console.log("長さ" + sp.length);
+
+            for (i=0; i<sp.length; i++){
+                console.log(sp[i]);
+                // sp[i]=sp[i].replace("[","")
+                // sp[i]=sp[i].replace("]","")
+                // str = str + "<td>" + sp[i] + "</td>";
+            }
+            // console.log(str);
+            // modal.find('#m-list').html(str);
 
 
         })
