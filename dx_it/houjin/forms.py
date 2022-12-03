@@ -29,8 +29,8 @@ class Right_form(forms.ModelForm):
         )
 
     bikou=forms.CharField(label="備考",widget=forms.Textarea(attrs={"class":"form-control","rows":"3"}),required=False)
-    bikou2=forms.CharField(label="備考2",widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}),required=False)
-    bikou3=forms.CharField(label="備考3",widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}),required=False)
+    bikou2=forms.CharField(label="備考2",widget=forms.Textarea(attrs={"class":"form-control","rows":"3"}),required=False)
+    bikou3=forms.CharField(label="備考3",widget=forms.Textarea(attrs={"class":"form-control","rows":"3"}),required=False)
 
     class Meta:
         model=Customer

@@ -129,8 +129,8 @@
         </div>       
         
         {% for i in cus %}
+        
             {% if i.tantou != 0 %}
-            <hr>
             <div>
                 <form action="{% url 'houjin:sell' %}" method="post">{% csrf_token %}
                     <div class="class1 mt-3" style="font-size: 0.9em;">
@@ -181,7 +181,7 @@
                         <input type="text" name="cus_id" id="cus_id" value="{{i.cus_id}}" style="width: 100px;" readonly>
                     </div>               
                     <div style="margin-left: 15px;">
-                        <button type="submit" class="btn btn-secondary btn-sm" onclick="return confirm('本当に削除しますか？')">削除</button> 
+                        <button type="submit" class="btn btn-outline-secondary btn-sm" onclick="return confirm('本当に削除しますか？')">削除</button> 
                     </div>
                 </div>
             </form>

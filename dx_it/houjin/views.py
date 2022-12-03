@@ -370,9 +370,6 @@ def index2(request):
     for i in range(1,13):
         tsuki_list.append(i)
 
-        #担当付きの場合
-        # total=Recieve.objects.filter(~Q(rec_cus_id__tantou = "0"),rec_day__contains = nen + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
-        #目標設定ありの場合
         total=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id__in=cus , rec_day__contains = str(nen) + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
         if total["total"] is None:
             total["total"]=0
@@ -434,7 +431,11 @@ def index2_nen(request):
 
 
 def index2_click(request):
-    col=int(request.POST["col"])
+    try:
+        col=int(request.POST["col"])
+    except:
+        col=request.session["col"]
+        
     nen=request.session["nen"]
     cus=Sell.objects.filter(sell_mon__startswith=nen).distinct().values_list("sell_cus_id",flat=True)
 
@@ -479,6 +480,22 @@ def index2_click(request):
     request.session["cus_detail"]=cus_detail_dic
 
     return redirect("houjin:index2")
+
+
+
+def index2_save(request):
+    m_cus_id=request.POST["m-cus_id"]
+    m_bikou1=request.POST["m-bikou1"]
+    m_bikou2=request.POST["m-bikou2"]
+    m_bikou3=request.POST["m-bikou3"]
+
+    cus=Customer.objects.get(cus_id=m_cus_id)
+    cus.bikou=m_bikou1
+    cus.bikou2=m_bikou2
+    cus.bikou3=m_bikou3
+    cus.save()
+
+    return redirect("houjin:index2_click")
 
 
 

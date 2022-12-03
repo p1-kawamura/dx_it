@@ -22,6 +22,7 @@
         #tb #yue:hover {
             color: white;
             background-color: red;
+            cursor : pointer;
         }
         table.st-tbl1 {
             position: relative;
@@ -55,7 +56,7 @@
 </head>
 <body>
 
-    <div class="mt-4 mb-4" style="width: 85%; margin: 0 auto;">
+    <div class="mt-4 mb-5" style="width: 85%; margin: 0 auto;">
         
         <!-- 対象「年」を指定 -->
         <form action="{% url 'houjin:index2_nen' %}" method="post">{% csrf_token %}
@@ -176,7 +177,7 @@
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
 
-                    <form action="">
+                    <form action="{% url 'houjin:index2_save' %}" method="post">{% csrf_token %}
                         <div class="modal-header">
                             <div>
                                 <label for="m-cus_id">顧客ID：</label>
@@ -211,26 +212,26 @@
                             <div style="margin-top: 30px;">
                                 <div id="m-list"></div>
                             </div>
-                            <div class="class2 mt-4">
+                            <div class="class2" style="margin-top: 30px;">
                                 <div>
                                     <div id="m-status"></div>
                                 </div>
                                 <div style="margin-left: 70px;">
                                     <div>備考：</div>
-                                    <textarea id="m-bikou1" class="form-control" rows="3" style="width: 260px;"></textarea>
+                                    <textarea id="m-bikou1" name="m-bikou1" class="form-control" rows="3" style="width: 270px;"></textarea>
                                 </div>
-                                <div style="margin-left: 50px;">
+                                <div style="margin-left: 40px;">
                                     <div>行動計画：</div>
-                                    <textarea id="m-bikou2" class="form-control" rows="3" style="width: 260px;"></textarea>
+                                    <textarea id="m-bikou2" name="m-bikou2" class="form-control" rows="3" style="width: 270px;"></textarea>
                                 </div>
-                                <div style="margin-left: 50px;">
+                                <div style="margin-left: 40px;">
                                     <div>計画備考：</div>
-                                    <textarea id="m-bikou3" class="form-control" rows="3" style="width: 260px;"></textarea>
+                                    <textarea id="m-bikou3" name="m-bikou3" class="form-control" rows="3" style="width: 270px;"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="" class="btn btn-primary">保存する</button>
+                            <button type="submit" class="btn btn-danger">保存する</button>
                         </div>
                     </form>
 
@@ -297,7 +298,7 @@
             }
 
             var tan_list={1:"井上",2:"古川",3:"眞下",4:"夏八木",5:"藤井",6:"武井",7:"粂川"}
-            var kan_list={"0":"","5":"★★★★★（5）","4":"★★★★☆（4）","3":"★★★☆☆（3）","2":"★★☆☆☆（2）","1":"★☆☆☆☆（1）"}
+            var kan_list={"0":"","5":"★★★★★（5）","4":"★★★★（4）","3":"★★★（3）","2":"★★（2）","1":"★（1）"}
             modal.find('#m-tantou').text(tan_list[smobj.tantou])
             modal.find('#m-kanshoku').text(kan_list[smobj.kanshoku]);
 
@@ -325,7 +326,8 @@
                 str2 = str2 + "<td style='text-align:right;'>" + Number(sp[i]).toLocaleString() + "</td>";
                 str3 = str3 + "<td style='text-align:right;'>" + Number(sp2[i]).toLocaleString() + "</td>";
             }
-            str4="<table class='table table-bordered' style='table-layout:fixed;'><tr>" + str + "</tr><tr>" + str2 + "</tr><tr>" + str3 + "</tr></table>";
+            str4="<table class='table table-bordered' style='table-layout:fixed;'><tr class='table-secondary'>" 
+                + str + "</tr><tr>" + str2 + "</tr><tr>" + str3 + "</tr></table>";
             modal.find('#m-list').html(str4);
 
             str="<table style='white-space: nowrap;'><tr><td style='text-align:right;'>DM：<td><td>" + smobj.dm_day + "</td></tr>" 

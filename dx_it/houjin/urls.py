@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import index,top,left,right,right1,upload,delete,hyouji,csv_page,page_next,page_last,page_first,page_prev,\
-    download,dm_send,dm_down,sell,sell_delete,index2,index2_click,index2_nen,rec_keisan
+    download,dm_send,dm_down,sell,sell_delete,index2,index2_nen,index2_click,index2_save,rec_keisan
 from django.contrib.auth import views as auth_views
 
 
@@ -17,6 +17,7 @@ urlpatterns = [
     path('upload/', upload, name="upload"),
     path('download/', download, name="download"),
     path('csv_page/', csv_page, name="csv_page"),
+    path('rec_keisan', rec_keisan, name="rec_keisan"),
     path('login/', auth_views.LoginView.as_view(template_name='houjin/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('page_first/', page_first, name="page_first"),
@@ -28,7 +29,7 @@ urlpatterns = [
     path('sell/', sell, name="sell"),
     path('sell_delete/<int:pk>', sell_delete, name="sell_delete"),
     path('index2/', index2, name="index2"),
-    path('index2_click/', index2_click, name="index2_click"),
     path('index2_nen/', index2_nen, name="index2_nen"),
-    path('rec_keisan', rec_keisan, name="rec_keisan"),
+    path('index2_click/', index2_click, name="index2_click"),
+    path('index2_save/', index2_save, name="index2_save"),
 ]
