@@ -30,8 +30,10 @@ class Customer(models.Model):
     gaisho_day=models.CharField("外商",max_length=10,blank=True,default="")
     nouhin_day=models.CharField("納品",max_length=10,blank=True,default="")
     dm_check=models.BooleanField("DMリスト",default=False)
-    bikou=models.TextField("備考",null=True,blank=True)
     kanshoku=models.IntegerField("感触",default=0)
+    bikou=models.TextField("備考",blank=True,default="")
+    bikou2=models.TextField("備考2",blank=True,default="")
+    bikou3=models.TextField("備考3",blank=True,default="")
 
     def __str__(self):
         return self.cus_id
