@@ -41,9 +41,10 @@
 <body>
 
     <div class="mt-2 mb-2" style="width: 95%; margin:0 auto;">
-        <form action="{% url 'houjin:hyouji' %}" method="post" target="_top">{% csrf_token %}
-            <div class="class3">
-                <div>
+        
+        <div class="class3">
+            <div>
+                <form action="{% url 'houjin:hyouji' %}" method="post" target="_top">{% csrf_token %}
                     <table>
                         <tbody>
                             <tr>
@@ -187,17 +188,18 @@
                             </tr>
                         </tbody>
                     </table>
+                </form>
+            </div>
+            <div class="class4">
+                <div>
+                    <a href="{% url 'houjin:index2' %}" target="_blank"><button class="btn btn-warning"><img src="{% static 'money1.gif' %}"> 目標設定リスト</button></a>
                 </div>
-                <div class="class4">
-                    <div>
-                        <a href="{% url 'houjin:index2' %}" target="_blank"><button class="btn btn-warning"><img src="{% static 'money1.gif' %}"> 目標設定リスト</button></a>
-                    </div>
-                    <div style="margin-top: 20px;">
-                        <a href="{% url 'houjin:dm_down' %}"><button class="btn btn-primary"><img src="{% static 'dm3.gif' %}"> DM配信リスト</button></a>
-                    </div>
+                <div style="margin-top: 20px;">
+                    <a href="{% url 'houjin:dm_down' %}"><button class="btn btn-primary"><img src="{% static 'dm3.gif' %}"> DM配信リスト</button></a>
                 </div>
             </div>
-        </form>
+        </div>
+        
     </div>
 
 

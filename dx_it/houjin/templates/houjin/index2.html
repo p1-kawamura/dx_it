@@ -208,19 +208,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="margin-top: 20px;">
-                                目標リスト
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <td>aaa</td>
-                                        <td>bbb</td>
-                                    </tr>
-                                    <tr>
-                                        <div id="m-list"></div>
-                                    </tr>
-                                </table>
-                                
-                                
+                            <div style="margin-top: 30px;">
+                                <div id="m-list"></div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -300,20 +289,31 @@
             modal.find('#m-tel').text("TEL：" + smobj.tel);
             modal.find('#m-mob').text("携帯：" + smobj.mob);
 
-            str=""
-            sp=smobj.yotei.split(",");
-            console.log(typeof(sp));
-
-            console.log("長さ" + sp.length);
+            console.log(smobj);
+            str="<th></th>";
+            str2="<td style='text-align:center;'>目標</td>";
+            str3="<td style='text-align:center;'>実績</td>";
+            sp=smobj.yotei.replace("[","");
+            sp=sp.replace("]","");
+            sp=sp.split(",");
+            sp2=smobj.juchu.replace("[","");
+            sp2=sp2.replace("]","");
+            sp2=sp2.split(",");
 
             for (i=0; i<sp.length; i++){
-                console.log(sp[i]);
-                // sp[i]=sp[i].replace("[","")
-                // sp[i]=sp[i].replace("]","")
-                // str = str + "<td>" + sp[i] + "</td>";
+                if (i==12){
+                    str = str + "<th style='text-align:center;'>合計</th>";
+                } else{
+                    str = str + "<th style='text-align:center;'>" + (i+1) + "月</th>";
+                }
+                str2 = str2 + "<td style='text-align:right;'>" + Number(sp[i]).toLocaleString() + "</td>";
+                str3 = str3 + "<td style='text-align:right;'>" + Number(sp2[i]).toLocaleString() + "</td>";
             }
-            // console.log(str);
-            // modal.find('#m-list').html(str);
+
+
+
+            str4="<table class='table table-bordered' style='table-layout:fixed;'><tr>" + str + "</tr><tr>" + str2 + "</tr><tr>" + str3 + "</tr></table>"
+            modal.find('#m-list').html(str4);
 
 
         })
