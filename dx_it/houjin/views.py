@@ -348,9 +348,9 @@ def index2(request):
     
     if "nen" not in request.session:
         nen=dt.date.today().year
-        request.session["nen"]=nen
-    else:
-        nen=request.session["nen"]
+        request.session["nen"]=nen        
+    if "tantou2" not in request.session:
+        request.session["tantou2"]="99"
     if "cus_detail" not in request.session:
         request.session["cus_detail"]=[]
     if "taisho" not in request.session:
@@ -358,14 +358,19 @@ def index2(request):
     if "col" not in request.session:
         request.session["col"]=""
     
-    nen_list=["2022","2023","2024","2025"]
+    nen=request.session["nen"]
+    tantou2=request.session["tantou2"] 
     tsuki_list=[]
     juchu=[]
     yotei=[]
     tassei=[]
     
-    cus=Sell.objects.distinct().values_list("sell_cus_id",flat=True)
-    cus_all=Customer.objects.filter(cus_id__in=cus)
+    if tantou2 == "99":
+        cus=Sell.objects.distinct().values_list("sell_cus_id",flat=True)
+    else:
+        cus_tan=Customer.objects.filter(tantou=int(tantou2)).distinct().values_list("cus_id",flat=True)
+        cus=Sell.objects.filter(sell_cus_id__in=cus_tan).distinct().values_list("sell_cus_id",flat=True)
+
 
     for i in range(1,13):
         tsuki_list.append(i)
@@ -375,7 +380,7 @@ def index2(request):
             total["total"]=0
         juchu.append(total["total"])
 
-        total2=Sell.objects.filter(sell_mon__contains  = str(nen) + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
+        total2=Sell.objects.filter(sell_cus_id__in=cus, sell_mon__contains  = str(nen) + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
         if total2["total2"] is None:
             total2["total2"]=0
         yotei.append(total2["total2"])
@@ -398,8 +403,9 @@ def index2(request):
     col=request.session["col"]
     cus_detail=request.session["cus_detail"]
     taisho=request.session["taisho"]
+    nen_list=["2022","2023","2024","2025"] 
     tan_list={1:"井上",2:"古川",3:"眞下",4:"夏八木",5:"藤井",6:"武井",7:"粂川"}
-    
+    tan_list2={"99":"全て表示","1":"井上","2":"古川","3":"眞下","4":"夏八木","5":"藤井","6":"武井","7":"粂川"}
     
     params={
         "nen_list":nen_list,
@@ -409,9 +415,10 @@ def index2(request):
         "juchu":juchu,
         "yotei":yotei,
         "tassei":tassei,
-        "cus_all":cus_all,
         "tan_list":tan_list,
+        "tan_list2":tan_list2,
         "taisho":taisho,
+        "tantou2":tantou2,
     }
     if len(cus_detail)!=0:
         params["cus_detail"]=cus_detail
@@ -422,7 +429,10 @@ def index2(request):
 
 def index2_nen(request):
     nen=request.POST["nen"]
+    tantou2=request.POST["tantou2"]
+
     request.session["nen"]=nen
+    request.session["tantou2"]=tantou2
     request.session["cus_detail"]=[]
     request.session["taisho"]=""
     request.session["col"]=""
@@ -437,10 +447,16 @@ def index2_click(request):
         col=request.session["col"]
         
     nen=request.session["nen"]
-    cus=Sell.objects.filter(sell_mon__startswith=nen).distinct().values_list("sell_cus_id",flat=True)
+    tantou2=request.session["tantou2"]
+
+    if tantou2 == "99":
+        cus=Sell.objects.filter(sell_mon__startswith=nen).distinct().values_list("sell_cus_id",flat=True)
+    else:
+        cus_tan=Customer.objects.filter(tantou=int(tantou2)).distinct().values_list("cus_id",flat=True)
+        cus=Sell.objects.filter(sell_cus_id__in=cus_tan, sell_mon__startswith=nen).distinct().values_list("sell_cus_id",flat=True)
 
     if col<=12:
-        cus1=Sell.objects.filter(sell_mon__contains  = str(nen) + "-" + str(col).zfill(2)).values_list("sell_cus_id",flat=True)
+        cus1=Sell.objects.filter(sell_cus_id__in=cus, sell_mon__contains  = str(nen) + "-" + str(col).zfill(2)).values_list("sell_cus_id",flat=True)
         cus2=Recieve.objects.filter(rec_cus_id__cus_id__in=cus , rec_day__contains = str(nen) + "/" + str(col) +"/").values_list("rec_cus_id__cus_id",flat=True)
         cus3=list(set(list(cus1)+list(cus2)))
         taisho= str(nen) + "年 " + str(col) + "月（"+ str(len(cus3)) + "件）"      
