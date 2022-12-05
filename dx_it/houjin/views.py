@@ -344,6 +344,7 @@ def sell_delete(request,pk):
 
 
 
+@login_required
 def index2(request):
     
     if "nen" not in request.session:
