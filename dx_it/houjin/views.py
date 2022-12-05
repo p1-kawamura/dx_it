@@ -440,10 +440,9 @@ def index2(request):
     plt.grid(True)
     plt.ticklabel_format(style='plain',axis='y')
     plt.legend(loc = 'upper right' ,prop={"family":"MS Gothic"})
-    # plt.figure(figsize=(20,4))
-    # plt.rcParams["figure.figsize"] = (20, 6)
 
     graph = get_image()
+    #------------------------------------
 
     params={
         "nen_list":nen_list,

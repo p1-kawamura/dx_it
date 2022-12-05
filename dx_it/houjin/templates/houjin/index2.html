@@ -57,49 +57,54 @@
 
     <div class="mt-4 mb-5" style="width: 85%; margin: 0 auto;">
         
-        <!-- 対象「年」を指定 -->
-        <form action="{% url 'houjin:index2_nen' %}" method="post">{% csrf_token %}
-            <div class="class1">
-                <div  class="class1">
-                    <div>対象：</div>
-                    <div>
-                        <select class="form-select" name="nen" style="width: 100px;">
-                            {% for i in nen_list %}
-                                {% if i == nen %}
-                                    <option value="{{i}}" selected>{{i}}年</option>
-                                {% else %}
-                                    <option value="{{i}}">{{i}}年</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div class="class1" style="margin-left: 20px;">
-                    <div>担当者：</div>
-                    <div>
-                        <select class="form-select form-select" name="tantou2">
-                            {% for key,value in tan_list2.items %}
-                                {% if key == tantou2 %}
-                                    <option value="{{key}}" selected>{{value}}</option>
-                                {% else %}
-                                    <option value="{{key}}">{{value}}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div style="margin-left: 20px;">
-                    <button class="btn btn-secondary" type="submit">表示</button>
-                </div>
+        <div class="class2">
+
+            <!-- 対象「年」を指定 -->
+            <div>               
+                <form action="{% url 'houjin:index2_nen' %}" method="post">{% csrf_token %}
+                    <table>
+                        <tr>
+                            <td style="text-align: right; padding-top:10px;">対象：</td>
+                            <td style="padding-top:10px;">
+                                <select class="form-select" name="nen" style="width: 100px;">
+                                {% for i in nen_list %}
+                                    {% if i == nen %}
+                                        <option value="{{i}}" selected>{{i}}年</option>
+                                    {% else %}
+                                        <option value="{{i}}">{{i}}年</option>
+                                    {% endif %}
+                                {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top:10px;">担当者：</td>
+                            <td style="padding-top:10px;">
+                                <select class="form-select form-select" name="tantou2">
+                                    {% for key,value in tan_list2.items %}
+                                        {% if key == tantou2 %}
+                                            <option value="{{key}}" selected>{{value}}</option>
+                                        {% else %}
+                                            <option value="{{key}}">{{value}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top:20px;"></td>
+                            <td style="padding-top:20px;">
+                                <button class="btn btn-danger" type="submit">結果を表示</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
-        </form>
-
-
-        <!-- グラフ -->
-        <div>
-            <img src="data:image/png;base64, {{ graph | safe }}">
+            <!-- グラフ -->
+            <div style="margin-top: -30px; margin-left:60px;">
+                <img src="data:image/png;base64, {{ graph | safe }}" height="350px">
+            </div>
         </div>
-        
 
         <!-- 指定「年」の一覧表示 -->
         <table id="tb" class="mt-4 table table-bordered" style="white-space: nowrap;">
