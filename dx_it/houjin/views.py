@@ -8,6 +8,11 @@ from django.http import HttpResponse
 import datetime as dt
 from django.db import models
 from django.db.models import Q
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import base64
+
 
 
 
@@ -344,6 +349,16 @@ def sell_delete(request,pk):
 
 
 
+def get_image():
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    image_png = buffer.getvalue()
+    graph = base64.b64encode(image_png)
+    graph = graph.decode('utf-8')
+    buffer.close()
+    return graph
+
+
 @login_required
 def index2(request):
     
@@ -408,6 +423,28 @@ def index2(request):
     tan_list={1:"井上",2:"古川",3:"眞下",4:"夏八木",5:"藤井",6:"武井",7:"粂川"}
     tan_list2={"99":"全て表示","1":"井上","2":"古川","3":"眞下","4":"夏八木","5":"藤井","6":"武井","7":"粂川"}
     
+    # -------------グラフ--------------
+    yotei_list = yotei[:12]
+    juchu_list = juchu[:12]
+    x_list = range(1,13)
+    mon=[]
+    for i in x_list:
+        mon.append(str(i)+"月")   
+    gra_max=max(max(yotei_list),max(juchu_list))
+
+    plt.cla()
+    plt.plot(x_list, yotei_list, marker='o' ,label='目標')
+    plt.plot(x_list, juchu_list,  "--", marker='o',label='実績')   
+    plt.ylim(0, gra_max)
+    plt.xticks(x_list, mon ,fontname="MS Gothic")
+    plt.grid(True)
+    plt.ticklabel_format(style='plain',axis='y')
+    plt.legend(loc = 'upper right' ,prop={"family":"MS Gothic"})
+    # plt.figure(figsize=(20,4))
+    # plt.rcParams["figure.figsize"] = (20, 6)
+
+    graph = get_image()
+
     params={
         "nen_list":nen_list,
         "tsuki_list":tsuki_list,
@@ -420,6 +457,7 @@ def index2(request):
         "tan_list2":tan_list2,
         "taisho":taisho,
         "tantou2":tantou2,
+        "graph":graph,
     }
     if len(cus_detail)!=0:
         params["cus_detail"]=cus_detail

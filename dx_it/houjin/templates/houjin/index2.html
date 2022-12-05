@@ -93,8 +93,14 @@
                 </div>
             </div>
         </form>
-            
+
+
+        <!-- グラフ -->
+        <div>
+            <img src="data:image/png;base64, {{ graph | safe }}">
+        </div>
         
+
         <!-- 指定「年」の一覧表示 -->
         <table id="tb" class="mt-4 table table-bordered" style="white-space: nowrap;">
             <tr class="table-danger" style="text-align: center;">
@@ -141,7 +147,7 @@
             </form>
         </div>
 
-        
+
         <!-- 個別表示 -->
         <div class="mt-5">
             <span class="det_title"><b>目標金額一覧</b>　表示データ：{{taisho}}</span>
