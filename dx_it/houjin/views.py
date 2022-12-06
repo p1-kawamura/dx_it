@@ -455,19 +455,17 @@ def index2(request):
     yotei_list = yotei[:12]
     juchu_list = juchu[:12]
     x_list = range(1,13)
-    mon=[]
-    for i in x_list:
-        mon.append(str(i)+"月")   
+    mon=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Des"]
     gra_max=max(max(yotei_list),max(juchu_list))
 
     plt.cla()
-    plt.plot(x_list, yotei_list, marker='o' ,label='目標')
-    plt.plot(x_list, juchu_list,  "--", marker='o',label='実績')   
+    plt.plot(x_list, yotei_list, marker='o' ,label='Target')
+    plt.plot(x_list, juchu_list,  "--", marker='o',label='Result')   
     plt.ylim(0, gra_max)
-    plt.xticks(x_list, mon ,fontname="MS Gothic")
     plt.grid(True)
     plt.ticklabel_format(style='plain',axis='y')
-    plt.legend(loc = 'upper right' ,prop={"family":"MS Gothic"})
+    plt.xticks(x_list, mon ,fontname="MS Gothic")
+    plt.legend(loc = 'upper right')
 
     graph = get_image()
     #------------------------------------
