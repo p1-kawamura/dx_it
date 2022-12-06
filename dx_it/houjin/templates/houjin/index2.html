@@ -104,7 +104,27 @@
             <div style="margin-top: -30px; margin-left:60px;">
                 <img src="data:image/png;base64, {{ graph | safe }}" height="350px">
             </div>
+            <!-- 担当別一覧 -->
+            <div style="margin-top:10px; margin-left:50px;">
+                <table class="table table-striped table-bordered" style="font-size:0.9em; width:350px;">
+                    <tr style="text-align: center;">
+                        <th>担当</th>
+                        <th>目標</th>
+                        <th>実績</th>
+                        <th>達成率</th>
+                    </tr>
+                    {% for i in tan_betsu %}
+                    <tr>
+                        <td>{{i.tantou_b}}</td>
+                        <td style="text-align:right;">{{i.yotei_b | intcomma}}</td>
+                        <td style="text-align:right;">{{i.juchu_b | intcomma}}</td>
+                        <td style="text-align:right;">{{i.tassei_b}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
+
 
         <!-- 指定「年」の一覧表示 -->
         <table id="tb" class="mt-4 table table-bordered" style="white-space: nowrap;">

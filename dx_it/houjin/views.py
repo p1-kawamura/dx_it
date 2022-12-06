@@ -422,6 +422,34 @@ def index2(request):
     nen_list=["2022","2023","2024","2025"] 
     tan_list={1:"井上",2:"古川",3:"眞下",4:"夏八木",5:"藤井",6:"武井",7:"粂川"}
     tan_list2={"99":"全て表示","1":"井上","2":"古川","3":"眞下","4":"夏八木","5":"藤井","6":"武井","7":"粂川"}
+
+    #-------------担当者別一覧-------------
+    tan_betsu=[]
+    for key,value in tan_list.items():
+        d={}
+        cus_tan_b=Customer.objects.filter(tantou=key).distinct().values_list("cus_id",flat=True)
+        cus_b=Sell.objects.filter(sell_cus_id__in=cus_tan_b).distinct().values_list("sell_cus_id",flat=True)
+
+        yotei_b=Sell.objects.filter(sell_cus_id__in=cus_b, sell_mon__startswith=nen).aggregate(yotei_bt = models.Sum("sell_money"))
+        if yotei_b["yotei_bt"] is None:
+            yotei_b["yotei_bt"]=0
+        yotei_ans=yotei_b["yotei_bt"]
+
+        juchu_b=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id__in=cus_b , rec_day__startswith=nen).aggregate(juchu_bt = models.Sum("mitsu_money"))
+        if juchu_b["juchu_bt"] is None:
+            juchu_b["juchu_bt"]=0
+        juchu_ans=juchu_b["juchu_bt"]
+
+        if yotei_ans!=0:
+            tassei_ans=juchu_ans / yotei_ans
+        else:
+            tassei_ans=0
+        tassei_ans=("{:.1%}".format(tassei_ans))
+
+        if yotei_ans!=0 or juchu_ans!=0:
+            d={"tantou_b":value,"yotei_b":yotei_ans,"juchu_b":juchu_ans,"tassei_b":tassei_ans}
+            tan_betsu.append(d)
+ 
     
     # -------------グラフ--------------
     yotei_list = yotei[:12]
@@ -457,6 +485,7 @@ def index2(request):
         "taisho":taisho,
         "tantou2":tantou2,
         "graph":graph,
+        "tan_betsu":tan_betsu,
     }
     if len(cus_detail)!=0:
         params["cus_detail"]=cus_detail
