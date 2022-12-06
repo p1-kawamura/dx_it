@@ -455,7 +455,7 @@ def index2(request):
     yotei_list = yotei[:12]
     juchu_list = juchu[:12]
     x_list = range(1,13)
-    mon=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Des"]
+    mon=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
     gra_max=max(max(yotei_list),max(juchu_list))
 
     plt.cla()
