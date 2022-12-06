@@ -164,7 +164,7 @@
                         <td align="center" style="width: 90px;">
                             <form action="{% url 'houjin:sell_delete' h.pk %}" method="post">{% csrf_token %}
                                 <div><input type="hidden" name="sell_cus_id" value="{{i.cus_id}}"></div>
-                                <button type="submit" style="font-size: 0.8em;">削除</button>
+                                <button class="btn btn-outline-dark btn-sm" type="submit" style="font-size: 0.8em;">削除</button>
                             </form>
                         </td>
                     </tr>
@@ -181,7 +181,7 @@
                         <input type="text" name="cus_id" id="cus_id" value="{{i.cus_id}}" style="width: 100px;" readonly>
                     </div>               
                     <div style="margin-left: 15px;">
-                        <button type="submit" class="btn btn-outline-secondary btn-sm" onclick="return confirm('本当に削除しますか？')">削除</button> 
+                        <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('本当に削除しますか？')">アプリから削除</button> 
                     </div>
                 </div>
             </form>
