@@ -369,6 +369,8 @@ def index2(request):
         request.session["nen_bf"]=""  
     if "tantou2" not in request.session:
         request.session["tantou2"]="99"
+    if "tantou2_bf" not in request.session:
+        request.session["tantou2_bf"]=""
     if "cus_detail" not in request.session:
         request.session["cus_detail"]=[]
     if "taisho" not in request.session:
@@ -377,48 +379,66 @@ def index2(request):
         request.session["col"]=""
     if "tan_betsu_bf" not in request.session:
         request.session["tan_betsu_bf"]=""
+    if "list_bf" not in request.session:
+        request.session["list_bf"]=""
     
     nen=request.session["nen"]
-    tantou2=request.session["tantou2"] 
+    nen_bf=request.session["nen_bf"]
+    tantou2=request.session["tantou2"]
+    tantou2_bf=request.session["tantou2_bf"]
     tsuki_list=[]
-    juchu=[]
-    yotei=[]
-    tassei=[]
-    
-    if tantou2 == "99":
-        cus=Sell.objects.distinct().values_list("sell_cus_id",flat=True)
+
+    if nen==nen_bf and tantou2==tantou2_bf:
+        list_bf=request.session["list_bf"]
+        yotei=list_bf["yotei"]
+        juchu=list_bf["juchu"]
+        tassei=list_bf["tassei"]
+
     else:
-        cus_tan=Customer.objects.filter(tantou=int(tantou2)).distinct().values_list("cus_id",flat=True)
-        cus=Sell.objects.filter(sell_cus_id__in=cus_tan).distinct().values_list("sell_cus_id",flat=True)
+        juchu=[]
+        yotei=[]
+        tassei=[]
+        
+        if tantou2 == "99":
+            cus=Sell.objects.distinct().values_list("sell_cus_id",flat=True)
+        else:
+            cus_tan=Customer.objects.filter(tantou=int(tantou2)).distinct().values_list("cus_id",flat=True)
+            cus=Sell.objects.filter(sell_cus_id__in=cus_tan).distinct().values_list("sell_cus_id",flat=True)
 
+        for i in range(1,13):
+            total=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id__in=cus , rec_day__contains = str(nen) + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
+            if total["total"] is None:
+                total["total"]=0
+            juchu.append(total["total"])
 
-    for i in range(1,13):
-        tsuki_list.append(i)
+            total2=Sell.objects.filter(sell_cus_id__in=cus, sell_mon__contains  = str(nen) + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
+            if total2["total2"] is None:
+                total2["total2"]=0
+            yotei.append(total2["total2"])
 
-        total=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id__in=cus , rec_day__contains = str(nen) + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
-        if total["total"] is None:
-            total["total"]=0
-        juchu.append(total["total"])
+            if yotei[i-1]!=0:
+                h=juchu[i-1]/yotei[i-1]
+            else:
+                h=0
+            tassei.append("{:.1%}".format(h))
 
-        total2=Sell.objects.filter(sell_cus_id__in=cus, sell_mon__contains  = str(nen) + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
-        if total2["total2"] is None:
-            total2["total2"]=0
-        yotei.append(total2["total2"])
-
-        if yotei[i-1]!=0:
-            h=juchu[i-1]/yotei[i-1]
+        if sum(yotei)!=0:
+            h=sum(juchu)/sum(yotei)
         else:
             h=0
         tassei.append("{:.1%}".format(h))
+        juchu.append(sum(juchu))
+        yotei.append(sum(yotei))
 
-    tsuki_list.append(13)
-    if sum(yotei)!=0:
-        h=sum(juchu)/sum(yotei)
-    else:
-        h=0
-    tassei.append("{:.1%}".format(h))
-    juchu.append(sum(juchu))
-    yotei.append(sum(yotei))
+        list_bf={"yotei":yotei,"juchu":juchu,"tassei":tassei}
+        request.session["list_bf"]=list_bf
+        request.session["nen_bf"]=nen
+        request.session["tantou2_bf"]=tantou2
+
+
+    #------------その他送信データ-------------
+    for i in range(1,14):
+        tsuki_list.append(i)
     
     col=request.session["col"]
     cus_detail=request.session["cus_detail"]
@@ -427,10 +447,11 @@ def index2(request):
     tan_list={1:"井上",2:"古川",3:"眞下",4:"夏八木",5:"藤井",6:"武井",7:"粂川"}
     tan_list2={"99":"全て表示","1":"井上","2":"古川","3":"眞下","4":"夏八木","5":"藤井","6":"武井","7":"粂川"}
     
-    #-------------担当者別一覧-------------
-    nen_bf=request.session["nen_bf"]
 
-    if nen != nen_bf:
+    #-------------担当者別一覧-------------
+    if nen == nen_bf:
+        tan_betsu=request.session["tan_betsu_bf"]
+    else:
         tan_betsu=[]
         for key,value in tan_list.items():
             d={}
@@ -457,12 +478,9 @@ def index2(request):
                 d={"tantou_b":value,"yotei_b":yotei_ans,"juchu_b":juchu_ans,"tassei_b":tassei_ans}
                 tan_betsu.append(d) 
 
-        request.session["nen_bf"]=nen
         request.session["tan_betsu_bf"]=tan_betsu
 
-    else:
-        tan_betsu=request.session["tan_betsu_bf"]
-    
+
     # -------------グラフ--------------
     yotei_list = yotei[:12]
     juchu_list = juchu[:12]
