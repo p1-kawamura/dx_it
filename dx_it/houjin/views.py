@@ -430,9 +430,9 @@ def index2(request):
     for key,value in tan_list.items():
         d={}
         cus_tan_b=Customer.objects.filter(tantou=key).distinct().values_list("cus_id",flat=True)
-        cus_b=Sell.objects.filter(sell_cus_id__in=cus_tan_b).distinct().values_list("sell_cus_id",flat=True)
+        cus_b=Sell.objects.filter(sell_cus_id__in=cus_tan_b, sell_mon__startswith=nen).distinct().values_list("sell_cus_id",flat=True)
 
-        yotei_b=Sell.objects.filter(sell_cus_id__in=cus_b, sell_mon__startswith=nen).aggregate(yotei_bt = models.Sum("sell_money"))
+        yotei_b=Sell.objects.filter(sell_cus_id__in=cus_b).aggregate(yotei_bt = models.Sum("sell_money"))
         if yotei_b["yotei_bt"] is None:
             yotei_b["yotei_bt"]=0
         yotei_ans=yotei_b["yotei_bt"]
