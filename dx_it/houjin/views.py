@@ -381,10 +381,10 @@ def index2(request):
     tassei=[]
     
     if tantou2 == "99":
-        cus=Sell.objects.distinct().values_list("sell_cus_id",flat=True)
+        cus=Sell.objects.filter(sell_mon__startswith=nen).distinct().values_list("sell_cus_id",flat=True)
     else:
         cus_tan=Customer.objects.filter(tantou=int(tantou2)).distinct().values_list("cus_id",flat=True)
-        cus=Sell.objects.filter(sell_cus_id__in=cus_tan).distinct().values_list("sell_cus_id",flat=True)
+        cus=Sell.objects.filter(sell_cus_id__in=cus_tan, sell_mon__startswith=nen).distinct().values_list("sell_cus_id",flat=True)
 
     for i in range(1,13):
         total=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id__in=cus , rec_day__contains = str(nen) + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
