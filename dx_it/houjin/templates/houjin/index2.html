@@ -176,9 +176,9 @@
         <!-- 個別表示 -->
         <div class="mt-5">
             <span class="det_title"><b>目標金額一覧</b>　表示データ：{{taisho}}</span>
-            <table class="st-tbl1 mt-2" style="white-space: nowrap;">
+            <table class="st-tbl1 mt-2">
                 <tr style="text-align: center;">
-                    <th>担当</th>
+                    <th >担当</th>
                     <th>会社名</th>
                     {% for i in tsuki_list %}
                         {% if i == col %}
@@ -199,18 +199,18 @@
                 </tr>
                 {% for i in cus_detail %}
                     <tr>
-                        <td>
+                        <td  style="white-space: nowrap;">
                             {% for key,value in tan_list.items %}
                                 {% if key == i.tantou %}
                                     {{value}}
                                 {% endif %}
                             {% endfor %}
                         </td>
-                        <td>{{i.com}}</td>
+                        <td style="width: 20%;">{{i.com}}</td>
                         {% for h in i.yotei %}
                             <td style="text-align: right;">{{h | intcomma}}</td>
                         {% endfor %}
-                        <td>
+                        <td style="white-space: nowrap;">
                             <button class="btn btn-outline-primary btn-sm" data-sample="{{i}}" data-toggle="modal" data-target="#testModal">詳細</button>
                         </td>
                     </tr>                   
