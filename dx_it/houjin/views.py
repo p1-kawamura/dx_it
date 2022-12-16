@@ -534,7 +534,7 @@ def index2_click(request):
     request.session["col"]=col
     request.session["taisho"]=taisho
     
-    cus_detail=Customer.objects.filter(cus_id__in=cus3)
+    cus_detail=Customer.objects.filter(cus_id__in=cus3).order_by("com")
     cus_detail_dic=list(cus_detail.values())
 
     for j in cus_detail_dic:
