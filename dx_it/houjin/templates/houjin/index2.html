@@ -337,11 +337,12 @@
             // モーダルへ書き込み
             modal.find('#m-cus_id').val(smobj.cus_id);
 
+            smobj["com"]=smobj["com"].replaceAll("\\u3000"," ");
             modal.find('#m-company').text(smobj.com);
             if (smobj.busho == ""){
                 modal.find('#m-name').text(smobj.sei + smobj.mei);
             } else{
-                modal.find('#m-name').text(smobj.busho + "　" + smobj.sei + smobj.mei);
+                modal.find('#m-name').text(smobj.busho + " " + smobj.sei + smobj.mei);
             }
 
             var tan_list={1:"井上",2:"古川",3:"眞下",4:"夏八木",5:"藤井",6:"武井",7:"粂川"}
@@ -353,7 +354,6 @@
             modal.find('#m-tel').text("TEL：" + smobj.tel);
             modal.find('#m-mob').text("携帯：" + smobj.mob);
 
-            console.log(smobj);
             str="<th></th>";
             str2="<th style='text-align:center;'>目標</th>";
             str3="<th style='text-align:center;'>実績</th>";
