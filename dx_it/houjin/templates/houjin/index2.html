@@ -382,6 +382,13 @@
                 + "<tr><td style='text-align:right;'>外商：<td><td>" + smobj.gaisho_day + "</td></tr>"
                 + "<tr><td style='text-align:right;'>納品：<td><td>" + smobj.nouhin_day + "</td></tr></table>";
             modal.find('#m-status').html(str);
+            
+            smobj["bikou"]=smobj["bikou"].replaceAll("\\u3000"," ");
+            smobj["bikou"]=smobj["bikou"].replaceAll("\\r\\n","\n");
+            smobj["bikou2"]=smobj["bikou2"].replaceAll("\\u3000"," ");
+            smobj["bikou2"]=smobj["bikou2"].replaceAll("\\r\\n","\n");
+            smobj["bikou3"]=smobj["bikou3"].replaceAll("\\u3000"," ");
+            smobj["bikou3"]=smobj["bikou3"].replaceAll("\\r\\n","\n");
 
             modal.find('#m-bikou1').val(smobj.bikou);
             modal.find('#m-bikou2').val(smobj.bikou2);
