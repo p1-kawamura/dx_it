@@ -5,7 +5,7 @@ from .models import Customer
 class Right_form(forms.ModelForm):
 
     tantou=forms.ChoiceField(
-        choices=[(0,""),(1,"井上"),(2,"古川"),(3,"眞下"),(4,"夏八木"),(5,"藤井"),(6,"武井"),(7,"粂川")],
+        choices=[(0,""),(1,"井上"),(2,"古川"),(3,"眞下"),(4,"夏八木"),(5,"武藤"),(6,"小山田"),(7,"粂川")],
         label="担当者",
         widget=forms.Select(attrs={"class":"form-select"}),
         required=False
