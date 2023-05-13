@@ -207,8 +207,11 @@
                             {% endfor %}
                         </td>
                         <td  style="width: 20%;">{{i.com}}</td>
-                        {% for h in i.yotei %}
-                            <td style="text-align: right;">{{h | intcomma}}</td>
+                        {% for h in i.tougou %}
+                            <td style="text-align: right;">
+                                {{h.yotei2 | intcomma}}<br>
+                                <span style="color: #ff01018e;">{{h.juchu2 | intcomma}}</span>
+                            </td>
                         {% endfor %}
                         <td>
                             <button class="btn btn-outline-primary btn-sm" data-sample="{{i}}" data-toggle="modal" data-target="#testModal">詳細</button>

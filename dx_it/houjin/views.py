@@ -541,24 +541,34 @@ def index2_click(request):
 
         juchu=[]
         yotei=[]
+        tougou=[]
 
         for i in range(1,13):
+
+            tougou2={}
 
             total=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id=j["cus_id"] , rec_day__contains = str(nen) + "/" + str(i) +"/").aggregate(total = models.Sum("mitsu_money"))
             if total["total"] is None:
                 total["total"]=0
             juchu.append(total["total"])
+            tougou2["juchu2"]=total["total"]
 
             total2=Sell.objects.filter(sell_cus_id=j["cus_id"], sell_mon__contains  = str(nen) + "-" + str(i).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
             if total2["total2"] is None:
                 total2["total2"]=0
             yotei.append(total2["total2"])
+            tougou2["yotei2"]=total2["total2"]
 
+            tougou.append(tougou2)
+
+        tougou2={"juchu2":sum(juchu),"yotei2":sum(yotei)}
+        tougou.append(tougou2)
         juchu.append(sum(juchu))
         yotei.append(sum(yotei))
-
+        
         j["yotei"]=yotei
         j["juchu"]=juchu
+        j["tougou"]=tougou
 
     request.session["cus_detail"]=cus_detail_dic
 
