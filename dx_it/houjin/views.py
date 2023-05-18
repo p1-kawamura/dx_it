@@ -526,7 +526,20 @@ def index2_click(request):
         cus1=Sell.objects.filter(sell_cus_id__in=cus, sell_mon__contains  = str(nen) + "-" + str(col).zfill(2)).values_list("sell_cus_id",flat=True)
         cus2=Recieve.objects.filter(rec_cus_id__cus_id__in=cus , rec_day__contains = str(nen) + "/" + str(col) +"/").values_list("rec_cus_id__cus_id",flat=True)
         cus3=list(set(list(cus1)+list(cus2)))
-        taisho= str(nen) + "年 " + str(col) + "月（"+ str(len(cus3)) + "件）"      
+        cus3_del=[]
+        for i in cus3:
+            total=Recieve.objects.filter((Q(status="発送完了") | Q(status="終了")), rec_cus_id__cus_id=i , rec_day__contains = str(nen) + "/" + str(col) +"/").aggregate(total = models.Sum("mitsu_money"))
+            if total["total"] is None:
+                total["total"]=0
+            total2=Sell.objects.filter(sell_cus_id=i, sell_mon__contains  = str(nen) + "-" + str(col).zfill(2)).aggregate(total2 = models.Sum("sell_money"))
+            if total2["total2"] is None:
+                total2["total2"]=0
+            if total["total"]==0 and total2["total2"]==0:
+                cus3_del.append(i)
+        for i in cus3_del:
+            cus3.remove(i)
+        taisho= str(nen) + "年 " + str(col) + "月（"+ str(len(cus3)) + "件）"
+
     elif col==13:
         cus3=list(cus)
         taisho= str(nen) + "年 合計（"+ str(len(cus3)) + "件）"
