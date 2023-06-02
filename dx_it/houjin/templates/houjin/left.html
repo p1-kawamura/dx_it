@@ -207,7 +207,7 @@
 
                 {% if cus.recieve_set.all %}
                 <div style="display: none;">
-                    {% for rec in cus.recieve_set.all %}
+                    {% for rec in cus.recieve_set.all reversed %}
                         <hr>
                         {% if rec.status == "発送完了" or rec.status == "終了" %}
                         <div class="detail3">
