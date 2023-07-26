@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import index,top,left,right,right1,upload,delete,hyouji,csv_page,page_next,page_last,page_first,page_prev,\
-    download,dm_send,dm_down,sell,sell_delete,index2,index2_nen,index2_click,index2_save,rec_keisan
+    dm_send,dm_down,sell,sell_delete,index2,index2_nen,index2_click,index2_save,rec_keisan,\
+    download_customer,download_item,download_recieve,download_sell
 from django.contrib.auth import views as auth_views
 
 
@@ -15,7 +16,6 @@ urlpatterns = [
     path('delete/', delete, name="delete"),
     path('hyouji/', hyouji, name="hyouji"),
     path('upload/', upload, name="upload"),
-    path('download/', download, name="download"),
     path('csv_page/', csv_page, name="csv_page"),
     path('rec_keisan', rec_keisan, name="rec_keisan"),
     path('login/', auth_views.LoginView.as_view(template_name='houjin/login.html'), name='login'),
@@ -32,4 +32,8 @@ urlpatterns = [
     path('index2_nen/', index2_nen, name="index2_nen"),
     path('index2_click/', index2_click, name="index2_click"),
     path('index2_save/', index2_save, name="index2_save"),
+    path('download_customer/', download_customer, name="download_customer"),
+    path('download_item/', download_item, name="download_item"),
+    path('download_recieve/', download_recieve, name="download_recieve"),
+    path('download_sell/', download_sell, name="download_sell"),
 ]

@@ -312,19 +312,119 @@ def csv_page(request):
 
 
 @login_required
-def download(request):
+def download_customer(request):
     response = HttpResponse(content_type='text/csv; charset=CP932')
     response['Content-Disposition'] = 'attachment;  filename="customer.csv"'
     writer = csv.writer(response)
 
     cus=Customer.objects.all()
+    writer.writerow([
+        "顧客ID","姓","名","姓かな","名かな","メール1","メール2","メール3","郵便番号",
+        "住所","都道府県","市区町村","番地","建物","会社","部署","電話","携帯","FAX",
+        "登録日","件数","金額","担当","DM","TEL","外商","納品","DMリスト","感触",
+        "備考","備考2","備考3"
+    ])
     for i in cus:
         writer.writerow([
             i.cus_id,
+            i.sei,
+            i.mei,
+            i.sei_kana,
+            i.mei_kana,
+            i.mail1,
+            i.mail2,
+            i.mail3,
+            i.yubin,
+            i.adress,
+            i.pref,
+            i.city,
+            i.banchi,
+            i.build,
+            i.com,
+            i.busho,
+            i.tel,
+            i.mob,
+            i.fax,
+            i.toroku,
             i.kensu,
             i.money,
+            i.tantou,
+            i.dm_day,
+            i.tel_day,
+            i.gaisho_day,
+            i.nouhin_day,
+            i.dm_check,
+            i.kanshoku,
+            i.bikou,
+            i.bikou2,
+            i.bikou3,
             ])
     return response
+
+
+def download_item(request):
+    response = HttpResponse(content_type='text/csv; charset=CP932')
+    response['Content-Disposition'] = 'attachment;  filename="item.csv"'
+    writer = csv.writer(response)
+
+    cus=Item.objects.all()
+    writer.writerow([
+        "見積ID","品名",
+    ])
+    for i in cus:
+        writer.writerow([
+            i.item_rec_id,
+            i.item_name,
+            ])
+    return response
+
+
+def download_recieve(request):
+    response = HttpResponse(content_type='text/csv; charset=CP932')
+    response['Content-Disposition'] = 'attachment;  filename="recieve.csv"'
+    writer = csv.writer(response)
+
+    cus=Recieve.objects.all()
+    writer.writerow([
+        "見積ID","見積番号","バージョン","ステータス","見積日","受注日","担当_姓",
+        "担当_名","営業部署","顧客ID","流入経路","見積金額",
+    ])
+    for i in cus:
+        writer.writerow([
+            i.rec_id,
+            i.rec_no,
+            i.rec_ver,
+            i.status,
+            i.mitsu_day,
+            i.rec_day,
+            i.eigyou_sei,
+            i.eigyou_mei,
+            i.eigyou_busho,
+            i.rec_cus_id,
+            i.keiro,
+            i.mitsu_money
+            ])
+    return response
+
+
+def download_sell(request):
+    response = HttpResponse(content_type='text/csv; charset=CP932')
+    response['Content-Disposition'] = 'attachment;  filename="sell.csv"'
+    writer = csv.writer(response)
+
+    cus=Sell.objects.all()
+    writer.writerow([
+        "顧客ID","年月","金額",
+    ])
+    for i in cus:
+        writer.writerow([
+            i.sell_cus_id,
+            i.sell_mon,
+            i.sell_money,
+            ])
+    return response
+
+
 
 
 def sell(request):
