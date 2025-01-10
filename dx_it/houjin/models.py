@@ -72,3 +72,12 @@ class Sell(models.Model):
 
     def __str__(self):
         return self.sell_mon
+
+
+class Image(models.Model):
+    title=models.CharField("タイトル",max_length=200)
+    image = models.ImageField("イメージ図",upload_to="image",blank=True,null=True)
+    create_day=models.DateTimeField("作成日",auto_now=True)
+
+    def __str__(self):
+        return self.title

@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import index,top,left,right,right1,upload,delete,hyouji,csv_page,page_next,page_last,page_first,page_prev,\
     dm_send,dm_down,sell,sell_delete,index2,index2_nen,index2_click,index2_save,rec_keisan,\
-    download_customer,download_item,download_recieve,download_sell
+    download_customer,download_item,download_recieve,download_sell,test
 from django.contrib.auth import views as auth_views
 
 
@@ -36,4 +36,5 @@ urlpatterns = [
     path('download_item/', download_item, name="download_item"),
     path('download_recieve/', download_recieve, name="download_recieve"),
     path('download_sell/', download_sell, name="download_sell"),
+    path('test/', test, name="test"),
 ]

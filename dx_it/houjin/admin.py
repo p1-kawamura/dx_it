@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer,Recieve,Item,Sell
+from .models import Customer,Recieve,Item,Sell,Image
 from django.contrib.admin import ModelAdmin
 
 class Cus(ModelAdmin):
@@ -18,7 +18,12 @@ class Se(ModelAdmin):
     model=Sell
     list_display=["sell_cus_id","sell_mon","sell_money"]
 
+class A_image(ModelAdmin):
+    model=Image
+    list_display = ["id","title"]
+
 admin.site.register(Customer,Cus) 
 admin.site.register(Recieve,Rec)
 admin.site.register(Item,It)
 admin.site.register(Sell,Se)
+admin.site.register(Image, A_image)

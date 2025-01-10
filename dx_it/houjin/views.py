@@ -1,9 +1,9 @@
 from django.shortcuts import render,redirect
-from .models import Customer,Recieve,Item,Sell
+from .models import Customer,Recieve,Item,Sell,Image
 from django.contrib.auth.decorators import login_required
 import io
 import csv
-from .forms import Right_form
+from .forms import Right_form,Image_form
 from django.http import HttpResponse
 import datetime as dt
 from django.db import models
@@ -14,7 +14,21 @@ import matplotlib.pyplot as plt
 import base64
 
 
+# 他アプリのテスト用 ####################################
+def test(request):
+    if request.method=="POST":
+        form=Image_form(request.POST, request.FILES)
+        form.save()
 
+    image_all=Image.objects.all()
+    image_form=Image_form()
+    params={
+        "image_all":image_all,
+        "image_form":image_form
+    }
+    return render(request,"houjin/test.html",params)
+
+#######################################################
 
 @login_required
 def index(request):

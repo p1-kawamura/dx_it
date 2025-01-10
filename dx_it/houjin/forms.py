@@ -1,5 +1,5 @@
 from django import forms
-from .models import Customer
+from .models import Customer,Image
 
 
 class Right_form(forms.ModelForm):
@@ -37,3 +37,7 @@ class Right_form(forms.ModelForm):
         fields=["tantou","dm_day","tel_day","gaisho_day","nouhin_day","kanshoku","dm_check","bikou","bikou2","bikou3"]
 
 
+class Image_form(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = ['title','image']
